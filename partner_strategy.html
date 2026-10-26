@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><script src="./assets/demo/demo-data.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Maris · 策略介绍</title>
+<style>
+:root{
+  --tx:#eef2f7;--dim:#b0c0d4;--faint:#8b9cb2;
+  --acc:#5eead4;--acc2:#7dd3fc;--warn:#fda4af;--ok:#6ee7b7;--gold:#fcd34d;
+  --glass1:rgba(20,30,52,.42);--glass2:rgba(12,18,32,.32);
+  --bd:rgba(126,176,238,.22);--bd-hi:rgba(126,176,238,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,#05070d 0%,#081019 55%,#04121a 100%);color:var(--tx);font:15px/1.75 -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC",sans-serif;min-height:100vh;overflow-x:hidden}
+#water{display:none} 
+.scrim{position:fixed;top:-12%;left:0;right:0;bottom:-12%;z-index:-2;background:linear-gradient(180deg,rgba(7,11,18,.46) 0%,rgba(7,11,18,.34) 40%,rgba(7,11,18,.56) 100%)}
+.wrap{max-width:600px;margin:0 auto;padding:44px 20px 80px}
+.crest{display:flex;align-items:center;gap:14px;margin-bottom:34px}
+.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#5eead4,#2c8fa3 60%,#1e5a8a);box-shadow:0 8px 24px rgba(94,234,212,.25),inset 0 1px 0 rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:800;color:#04211d;font-size:23px}
+.crest .t1{font-size:17px;font-weight:700;letter-spacing:3px}
+.crest .t2{font-size:12px;color:var(--faint);letter-spacing:1.5px}
+h1{font-size:32px;line-height:1.3;font-weight:800;letter-spacing:-.5px;margin-bottom:10px;background:linear-gradient(92deg,#f2f7ff 30%,#8fe8d8 70%,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--dim);font-size:15px;margin-bottom:30px;max-width:94%}
+.lead b{color:var(--tx);font-weight:600}
+.card{position:relative;background:linear-gradient(165deg,var(--glass1),var(--glass2));backdrop-filter:blur(26px) saturate(1.5);-webkit-backdrop-filter:blur(26px) saturate(1.5);border:1px solid var(--bd);border-radius:22px;padding:24px 24px 26px;margin-bottom:20px;box-shadow:0 18px 50px rgba(2,6,14,.5),inset 0 1px 0 rgba(255,255,255,.07)}
+.ct{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:.5px;margin-bottom:14px}
+.ct .dot{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px var(--acc)}
+.p{font-size:14px;color:var(--dim);margin:10px 0}
+.p b{color:var(--tx);font-weight:600}
+.leg{margin:14px 0;padding:15px 17px;border-radius:15px;background:rgba(9,14,24,.45);border:1px solid var(--bd)}
+.leg .lt{font-size:13.5px;font-weight:700;color:var(--acc2);letter-spacing:.5px;margin-bottom:6px}
+.leg .lp{font-size:13.5px;color:var(--dim)}
+.leg .lp b{color:var(--tx);font-weight:600}
+.nums{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+.num{flex:1;min-width:150px;text-align:center;padding:16px 10px;border-radius:15px;background:rgba(9,14,24,.45);border:1px solid var(--bd)}
+.num .v{font-size:24px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+.num .k{font-size:11.5px;color:var(--faint);margin-top:4px;letter-spacing:.5px;line-height:1.5}
+.num.hero{flex-basis:100%;border-color:rgba(252,211,77,.5);background:rgba(252,211,77,.07)}
+.num.hero .v{font-size:38px;text-shadow:0 0 26px rgba(252,211,77,.35)}
+.num.hero .k{font-size:12.5px;color:var(--dim)}
+.note{font-size:12px;color:var(--faint);margin-top:10px;line-height:1.8}
+.rule{display:flex;gap:12px;margin:11px 0;font-size:14px;color:var(--dim);align-items:flex-start}
+.rule .ic{flex:0 0 22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;margin-top:2px;background:rgba(110,231,183,.12);color:var(--ok)}
+.rule b{color:var(--tx);font-weight:600}
+.btn{display:block;text-align:center;text-decoration:none;width:100%;margin-top:8px;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,#5eead4,#38b2a4 65%,#2c8fa3);color:#03211d;font-size:16px;font-weight:700;letter-spacing:1px;cursor:pointer;box-shadow:0 10px 30px rgba(94,234,212,.28),inset 0 1px 0 rgba(255,255,255,.4)}
+.risk{font-size:13px;color:#e9dcb8;line-height:1.95;margin-top:26px;padding:15px 17px;border-radius:13px;border:1px solid rgba(252,211,77,.45);background:rgba(252,211,77,.08);font-weight:500}
+@media(max-width:430px){h1{font-size:27px}.card{padding:20px 17px 22px}}
+.waterfx{position:fixed;top:0;left:0;right:0;bottom:0;z-index:-2;pointer-events:none;display:none;overflow:hidden}
+.waterfx.on{display:none}
+.waterfx i{position:absolute;display:block;border-radius:50%;border:1px solid rgba(150,210,255,.32);box-shadow:inset 0 0 18px rgba(120,200,255,.16);opacity:0;animation:wfx 4.6s linear infinite}
+.waterfx i:nth-child(1){left:16%;top:24%;width:30vmin;height:30vmin}
+.waterfx i:nth-child(2){left:58%;top:50%;width:38vmin;height:38vmin;animation-delay:1.5s}
+.waterfx i:nth-child(3){left:32%;top:70%;width:24vmin;height:24vmin;animation-delay:3s}
+@keyframes wfx{0%{transform:scale(.12);opacity:0}12%{opacity:.5}100%{transform:scale(1);opacity:0}}
+@media (orientation: portrait) and (max-width: 820px){body{background-image:linear-gradient(180deg,#05070d 0%,#081019 55%,#04121a 100%)}}
+.xbtn{position:fixed;top:16px;right:16px;z-index:40;width:38px;height:38px;border-radius:50%;background:rgba(12,18,32,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--bd);color:var(--dim);display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;font-weight:600}
+.xbtn:active{background:rgba(94,234,212,.15);color:var(--acc)}
+
+
+#bgGlow{position:fixed;inset:0;z-index:-4;pointer-events:none;background:radial-gradient(70% 22% at 50% 62%,rgba(46,229,220,.18),transparent 72%)}
+#bgHorizon{position:fixed;left:-30%;right:-30%;bottom:-12%;height:52%;z-index:-3;pointer-events:none;background-image:linear-gradient(rgba(46,229,220,.16) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(46,229,220,.16) 1.5px,transparent 1.5px);background-size:64px 44px;transform:perspective(560px) rotateX(62deg);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 42%,rgba(0,0,0,.5) 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 42%,rgba(0,0,0,.5) 100%)}
+.bgStar{position:fixed;z-index:-3;border-radius:50%;background:#fff;pointer-events:none;box-shadow:0 0 10px rgba(255,255,255,1),0 0 26px rgba(160,230,255,.55);animation:bgTwinkle 2.4s ease-in-out infinite,bgDrift 9s ease-in-out infinite alternate}
+@keyframes bgTwinkle{0%,100%{opacity:.04;transform:scale(.45)}45%,55%{opacity:1;transform:scale(1.35)}}
+@keyframes bgDrift{0%{translate:0 0}100%{translate:0 14px}}
+.bgComet{position:fixed;z-index:-3;width:120px;height:2px;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85));border-radius:2px;opacity:0;transform:rotate(-32deg);animation:bgComet 14s linear infinite}
+.bgComet.c2{animation-delay:7.3s;animation-duration:17s}
+@keyframes bgComet{0%,86%{opacity:0;transform:rotate(-32deg) translateX(0)}88%{opacity:.95}100%{opacity:0;transform:rotate(-32deg) translateX(52vw)}}
+@media (prefers-reduced-motion:reduce){.bgStar,.bgComet{animation:none;opacity:.3}}
+
+
+.glass{background:linear-gradient(165deg,rgba(15,22,34,.44),rgba(10,16,26,.36))!important}
+.st{background:rgba(11,17,29,.42)!important}
+.navcard{background:linear-gradient(165deg,rgba(15,22,34,.5),rgba(10,16,26,.4))!important}
+.urow,.card{background:rgba(12,18,28,.38)!important}
+</style>
+<style>
+#csFab{position:fixed;right:16px;bottom:20px;z-index:60;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#5eead4,#2c8fa3 60%,#1e5a8a);box-shadow:0 12px 30px rgba(94,234,212,.35),inset 0 1px 0 rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;border:0}
+#csPanel{position:fixed;right:12px;bottom:84px;z-index:61;width:min(340px,92vw);max-height:64vh;display:none;flex-direction:column;border-radius:18px;background:linear-gradient(165deg,rgba(20,30,52,.92),rgba(12,18,32,.9));backdrop-filter:blur(26px) saturate(1.5);-webkit-backdrop-filter:blur(26px) saturate(1.5);border:1px solid var(--bd-hi);box-shadow:0 24px 70px rgba(2,6,14,.7)}
+#csPanel.on{display:flex}
+.csHd{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--bd)}
+.csHd b{font-size:14.5px;letter-spacing:.5px}.csHd span{font-size:11px;color:var(--faint)}
+.csHd .x{cursor:pointer;color:var(--faint);font-size:15px;padding:2px 6px}
+#csMsgs{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:9px;min-height:140px}
+.csB{max-width:86%;padding:9px 13px;border-radius:13px;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.csB.ai{align-self:flex-start;background:rgba(126,176,238,.12);border:1px solid rgba(126,176,238,.22);color:var(--tx)}
+.csB.me{align-self:flex-end;background:rgba(94,234,212,.14);border:1px solid rgba(94,234,212,.3);color:#d9fff6}
+.csChips{display:flex;gap:7px;flex-wrap:wrap;padding:4px 14px 10px}
+.csChips span{font-size:11.5px;color:var(--acc);border:1px solid rgba(94,234,212,.35);border-radius:999px;padding:5px 11px;cursor:pointer;background:rgba(94,234,212,.06)}
+.csIn{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--bd)}
+.csIn input{flex:1;background:rgba(7,11,18,.5);border:1px solid var(--bd);border-radius:11px;color:var(--tx);font-size:13px;padding:10px 12px;outline:none}
+.csIn button{border:0;border-radius:11px;background:rgba(94,234,212,.16);color:var(--acc);font-size:13px;font-weight:700;padding:0 16px;cursor:pointer}
+</style>
+<link rel="icon" href="./assets/strategy-release-119/favicon.svg"><link rel="stylesheet" href="./assets/strategy-release-119/family.css"><link rel="stylesheet" href="./assets/strategy-release-119/harbor.css"><link rel="stylesheet" href="./assets/strategy-release-119/orbit-icons.css"><link rel="preload" as="image" href="./assets/strategy-release-119/orbit-arrow.webp"><link rel="stylesheet" href="./assets/strategy-release-119/panel-ambient.css"><link rel="stylesheet" href="./assets/strategy-release-119/strategy-story.css"><link rel="stylesheet" href="./assets/strategy-release-119/agent-art.css"><link rel="stylesheet" href="./assets/input-release-132/suite-polish.css" data-suite-polish><link rel="stylesheet" href="./assets/strategy-release-119/scrollbars.css" data-maris-scrollbars><link rel="stylesheet" href="./assets/strategy-release-119/strategy-return.css"><link rel="stylesheet" href="./assets/input-release-132/input-compat.css" data-input-compat></head>
+<body class="family-page family-strategy story-layout">
+<div id="bgGlow"></div><div id="bgHorizon"></div><div id="marketBackdrop" aria-hidden="true"><picture><source media="(orientation: portrait)" srcset="./assets/strategy-release-119/market-trace-portrait.png"><img class="market-trace-layer" src="./assets/strategy-release-119/market-trace-desktop.png" alt="" decoding="async" draggable="false"></picture><canvas id="marketTraceMotion"></canvas></div><span class="bgStar" style="left:62.5%;top:22.4%;width:3px;height:3px;animation-delay:0.5s,0.8s;animation-duration:3.2s,9.3s"></span><span class="bgStar" style="left:61.1%;top:23.4%;width:2px;height:2px;animation-delay:0.9s,1.5s;animation-duration:2.9s,14.3s"></span><span class="bgStar" style="left:58.6%;top:20.3%;width:3px;height:3px;animation-delay:1.1s,1.9s;animation-duration:4.3s,10.1s"></span><span class="bgStar" style="left:15.3%;top:23.8%;width:4px;height:4px;animation-delay:1.7s,2.9s;animation-duration:3.4s,14.9s"></span><span class="bgStar" style="left:68.0%;top:36.9%;width:2px;height:2px;animation-delay:2.2s,3.7s;animation-duration:3.6s,9.4s"></span><span class="bgStar" style="left:29.5%;top:5.6%;width:3px;height:3px;animation-delay:1.2s,2.0s;animation-duration:3.7s,10.4s"></span><span class="bgStar" style="left:59.7%;top:35.0%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:4.0s,12.1s"></span><span class="bgStar" style="left:53.8%;top:33.3%;width:3px;height:3px;animation-delay:2.1s,3.6s;animation-duration:4.3s,11.8s"></span><span class="bgStar" style="left:38.0%;top:29.6%;width:2px;height:2px;animation-delay:1.6s,2.7s;animation-duration:2.9s,11.0s"></span><span class="bgStar" style="left:2.5%;top:28.3%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:3.3s,10.6s"></span><span class="bgStar" style="left:42.7%;top:12.7%;width:3px;height:3px;animation-delay:2.2s,3.7s;animation-duration:3.3s,12.8s"></span><span class="bgStar" style="left:75.6%;top:10.1%;width:2px;height:2px;animation-delay:1.4s,2.4s;animation-duration:2.9s,11.2s"></span><span class="bgStar" style="left:57.3%;top:33.8%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:3.5s,13.9s"></span><span class="bgStar" style="left:19.9%;top:11.0%;width:2px;height:2px;animation-delay:1.1s,1.9s;animation-duration:3.7s,14.2s"></span><span class="bgStar" style="left:50.9%;top:10.6%;width:2px;height:2px;animation-delay:1.6s,2.7s;animation-duration:3.0s,14.4s"></span><span class="bgStar" style="left:32.5%;top:39.3%;width:4px;height:4px;animation-delay:0.3s,0.5s;animation-duration:3.3s,12.0s"></span><span class="bgStar" style="left:28.8%;top:39.5%;width:3px;height:3px;animation-delay:1.2s,2.0s;animation-duration:2.6s,12.2s"></span><span class="bgStar" style="left:53.0%;top:23.0%;width:2px;height:2px;animation-delay:2.0s,3.4s;animation-duration:4.6s,13.0s"></span><span class="bgStar" style="left:90.2%;top:39.4%;width:4px;height:4px;animation-delay:1.7s,2.9s;animation-duration:3.9s,9.9s"></span><span class="bgStar" style="left:49.4%;top:34.2%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:3.8s,11.9s"></span><span class="bgStar" style="left:18.3%;top:6.0%;width:3px;height:3px;animation-delay:1.4s,2.4s;animation-duration:3.7s,10.3s"></span><span class="bgStar" style="left:49.6%;top:23.2%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:2.9s,11.8s"></span><span class="bgStar" style="left:60.2%;top:30.5%;width:3px;height:3px;animation-delay:3.4s,5.8s;animation-duration:4.0s,10.2s"></span><span class="bgStar" style="left:65.6%;top:32.3%;width:3px;height:3px;animation-delay:0.8s,1.4s;animation-duration:3.1s,13.8s"></span><span class="bgStar" style="left:75.5%;top:19.3%;width:2px;height:2px;animation-delay:0.8s,1.4s;animation-duration:2.7s,12.5s"></span><span class="bgStar" style="left:66.1%;top:35.9%;width:3px;height:3px;animation-delay:3.4s,5.8s;animation-duration:3.9s,12.8s"></span><span class="bgStar" style="left:5.5%;top:40.8%;width:2px;height:2px;animation-delay:1.3s,2.2s;animation-duration:2.8s,13.4s"></span><span class="bgStar" style="left:27.1%;top:41.5%;width:4px;height:4px;animation-delay:3.0s,5.1s;animation-duration:2.6s,12.4s"></span><span class="bgStar" style="left:13.3%;top:25.6%;width:2px;height:2px;animation-delay:2.0s,3.4s;animation-duration:4.2s,12.2s"></span><span class="bgStar" style="left:7.0%;top:16.6%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:4.3s,9.8s"></span><span class="bgComet" style="top:78%;left:2%"></span><span class="bgComet c2" style="top:64%;left:18%"></span><span class="bgComet c3" style="top:86%;left:38%"></span><span class="bgComet c4" style="top:70%;left:55%"></span><span class="bgComet c5" style="top:82%;left:72%"></span>
+<canvas id="water" aria-hidden="true"></canvas>
+<div class="waterfx" id="waterfx" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="scrim" aria-hidden="true"></div>
+<script id="marisTeamCapture"> function marisTeamCapture(search,store){var t=String(new URLSearchParams(search).get('t')||'').replace(/[^A-Za-z0-9]/g,'').slice(0,8),ok=false;if(t){try{store.setItem('marisTeam',t);ok=(store.getItem('marisTeam')===t)}catch(e){ok=false}}return {code:t,stored:ok}}var MARIS_TEAM_URL={code:'',stored:false};try{MARIS_TEAM_URL=marisTeamCapture(location.search,window.demoMem)}catch(e){try{MARIS_TEAM_URL=marisTeamCapture(location.search,null)}catch(_e){}}</script>
+<a class="xbtn" href="partner_home.html" aria-label="返回首页">✕</a>
+<div class="wrap">
+  <div class="crest"><a class="family-brand" href="partner_home.html" aria-label="Maris 合作伙伴中心"><span class="family-mark" aria-hidden="true"></span><span><b>MARIS</b><small>PARTNER CENTER</small></span></a><nav class="family-nav" aria-label="合作伙伴导航"><a href="partner_home.html">总览</a><a href="partner_strategy.html">策略</a><a href="partner_portal.html">接入</a><a href="partner_topup.html">账户</a><a href="partner_team.html">团队</a></nav></div>
+  <section class="story-hero"><div class="story-tools"><span class="story-eyebrow">Strategy / Research</span></div><div class="story-hero-row"><h1 class="story-title"><span>让系统替你交易的</span><em>那套逻辑,讲清楚</em></h1><div class="story-hero-intro"><div style="margin:0 0 22px;padding:14px 16px 14px 18px;border-radius:13px;border:1px solid rgba(94,234,212,.5);border-left:4px solid rgba(94,234,212,.85);background:rgba(94,234,212,.08);color:#c6f3ea;font-size:14px;line-height:1.9;font-weight:600">🎯 Maris 量化跟单在做什么、怎么控风险、怎么分钱——<b style="color:var(--acc)">三分钟读完</b>。资金始终在你自己的交易所账户里,我们只有下单权限,碰不到你的钱。</div><nav class="story-toc" aria-label="策略说明章节"><a href="#strategy-live30">满配口径收益</a><a href="#story-principles">它是什么</a><a href="#story-flow">策略的两条腿</a><a href="#story-performance">历史表现</a><a href="#story-experience">过程与风险</a><a href="#story-terms">分钱规则</a></nav></div></div></section><main class="strategy-story" id="partnerDirectory"><section class="story-section live-performance" id="strategy-live30" data-performance-30d="demo:s07?days=30&amp;view=strategy" aria-labelledby="live-performance-title">
+  <div class="live-topline"><div>
+    <p class="live-kicker">引擎满配口径 · 纸面账本</p>
+    <h2 id="live-performance-title">策略收益率（引擎满配口径）</h2>
+    <p class="live-window" data-window>正在读取原站曲线…</p>
+    <div class="live-value" aria-label="当前口径累计收益率">—</div>
+  </div><div class="live-switch" role="group" aria-label="收益曲线口径">
+    <button type="button" data-return-basis="mtm" aria-pressed="true">含浮盈</button>
+    <button type="button" data-return-basis="realized" aria-pressed="false">已结算</button>
+  </div></div>
+  <div class="live-measures"><span>所选口径最大回撤 <b data-return-dd>—</b></span><span>已结算收益 <b data-realized-value>—</b></span></div>
+  <figure class="live-figure"><svg class="live-plot" viewBox="0 0 920 290" role="img" aria-label="策略收益率（引擎满配口径）曲线" tabindex="0"></svg>
+    <figcaption class="live-readout"><span data-value-readout>数据加载后显示原始曲线</span><small>移动光标或轻触查看 · 左右方向键逐点查看</small></figcaption>
+  </figure>
+  <details class="live-ledger" data-trade-ledger>
+    <summary><span>持仓账本 <small data-trade-count>最近 8 笔交易</small></span><span class="ledger-toggle" aria-hidden="true"></span></summary>
+    <div class="ledger-content">
+      <div class="ledger-meta"><span>引擎纸面账本 · 5×复盘口径</span><time data-ledger-updated></time></div>
+      <div class="ledger-table-wrap"><table class="ledger-table"><caption class="ledger-sr-only">最近8笔引擎交易，含未平仓部分估值</caption><thead><tr><th scope="col">标的 / 方向</th><th scope="col">入场参考</th><th scope="col">退出 / 估值参考</th><th scope="col">复盘收益</th></tr></thead><tbody data-trade-rows></tbody></table></div>
+      <p class="ledger-note">未平仓部分含估值，不代表实际账户成交或已实现收益。仅展示最近 8 笔。</p>
+      <p data-ledger-empty hidden>暂未取得账本记录。</p>
+    </div>
+  </details>
+  <p class="live-footnote"><strong>策略引擎「满配口径」</strong>——引擎的每个信号足额执行，不受单户资金与风控配额限制。此窗口包含早期回测衔接段与随后引擎纸面账，<strong>不是真实账户净值曲线</strong>。含浮盈为主口径，已结算为辅助口径；实际账户收益以账户后台为准，历史表现不代表未来收益。</p>
+</section>
+<section class="story-section story-principles" id="story-principles"><div class="principle-grid"><article class="principle"><figure class="story-art" aria-hidden="true"><img src="./assets/strategy-release-119/strategy-art/custody.webp" alt="" width="768" height="768" loading="eager" decoding="async"></figure><div class="principle-copy"><span class="story-index" aria-hidden="true">01</span><h3 data-original-excerpt="0">它是什么</h3><p data-original-excerpt="1">一套 <b>7×24 小时全自动</b>的量化跟单系统:程序盯住行情与资金流,信号出现时,在<b>你自己的账户</b>里自动同步下单、自动止损止盈、自动平仓离场。你不需要盯盘,不需要转账给任何人。</p></div></article><article class="principle"><figure class="story-art" aria-hidden="true"><img src="./assets/strategy-release-119/strategy-art/dual-track.webp" alt="" width="768" height="768" loading="eager" decoding="async"></figure><div class="principle-copy"><span class="story-index" aria-hidden="true">02</span><h3 data-original-excerpt="2">策略的两条腿</h3><p data-original-excerpt="3">① 主流币趋势腿(BTC / ETH 等大票)</p><p data-original-excerpt="4">② 小币进攻腿(高弹性机会)</p></div></article><article class="principle"><figure class="story-art" aria-hidden="true"><img src="./assets/strategy-release-119/strategy-art/risk-gates.webp" alt="" width="768" height="768" loading="eager" decoding="async"></figure><div class="principle-copy"><span class="story-index" aria-hidden="true">03</span><h3 data-original-excerpt="5">安全设计</h3><p data-original-excerpt="6">API 权限最小化:只需要「合约交易」一项,<b>带提现权限的 key 系统直接拒收</b></p></div></article></div></section><section class="story-section story-flow" id="story-flow" data-step="0"><header class="story-heading"><span class="story-eyebrow">流程示意</span><h2 data-original-excerpt="7" class="story-title">7×24 小时全自动</h2><p class="story-ui">悬停或选择节点与步骤，展开对应说明。</p></header><div class="flow-layout"><div class="loop-stage" role="group" aria-label="四个环节组成的策略运行闭环"><svg class="loop-field" viewBox="0 0 600 600" aria-hidden="true"><defs><radialGradient id="coreMist"><stop stop-color="#96beeb" stop-opacity=".06"/><stop offset="1" stop-color="#96beeb" stop-opacity="0"/></radialGradient></defs><circle cx="300" cy="300" r="150" fill="url(#coreMist)"/><g class="loop-depth-orbits"><ellipse cx="300" cy="300" rx="237" ry="167" transform="rotate(-28 300 300)"/><ellipse cx="300" cy="300" rx="222" ry="154" transform="rotate(36 300 300)"/></g><circle class="loop-contour" cx="300" cy="300" r="224"/><path class="loop-route" data-route="0" d="M300 92A208 208 0 0 1 508 300"/><path class="loop-route" data-route="1" d="M508 300A208 208 0 0 1 300 508"/><path class="loop-route" data-route="2" d="M300 508A208 208 0 0 1 92 300"/><path class="loop-route" data-route="3" d="M92 300A208 208 0 0 1 300 92"/><path class="loop-direction" d="M-4 -3L0 0L-4 3" transform="translate(447 153) rotate(45)"/><path class="loop-direction" d="M-4 -3L0 0L-4 3" transform="translate(447 447) rotate(135)"/><path class="loop-direction" d="M-4 -3L0 0L-4 3" transform="translate(153 447) rotate(225)"/><path class="loop-direction" d="M-4 -3L0 0L-4 3" transform="translate(153 153) rotate(315)"/><circle class="loop-orbiter" r="2.1" style="offset-path:path('M300 92A208 208 0 1 1 300 508A208 208 0 1 1 300 92Z');animation-delay:-0.0s"/><circle class="loop-orbiter" r="1.35" style="offset-path:path('M300 92A208 208 0 1 1 300 508A208 208 0 1 1 300 92Z');animation-delay:-3.6s"/><circle class="loop-orbiter" r="1.35" style="offset-path:path('M300 92A208 208 0 1 1 300 508A208 208 0 1 1 300 92Z');animation-delay:-7.2s"/><circle class="loop-orbiter" r="1.35" style="offset-path:path('M300 92A208 208 0 1 1 300 508A208 208 0 1 1 300 92Z');animation-delay:-10.8s"/><circle class="loop-orbiter" r="1.35" style="offset-path:path('M300 92A208 208 0 1 1 300 508A208 208 0 1 1 300 92Z');animation-delay:-14.4s"/></svg><div class="loop-center"><span class="loop-center-index">01 / 04</span><span class="loop-center-title">程序盯住行情与资金流</span><span class="loop-center-meta">7×24 小时全自动</span></div><span class="loop-feedback">返回监测</span><button type="button" id="flow-art-0" class="flow-art-node is-active" data-node="0" data-light-flow="scan" style="left:50%;top:15.333%" aria-label="图示 01 · 程序盯住行情与资金流" aria-controls="flow-copy-0" aria-pressed="true"><span class="loop-icon"><img src="./assets/strategy-release-119/strategy-art/flow-scan-v91.webp" alt="" width="768" height="512" loading="lazy" decoding="async"></span><span class="loop-node-caption"><span class="flow-node-index">01</span><span class="loop-node-name">行情与资金流</span></span></button><button type="button" id="flow-art-1" class="flow-art-node" data-node="1" data-light-flow="signal" style="left:84.667%;top:50%" aria-label="图示 02 · 信号出现时" aria-controls="flow-copy-1" aria-pressed="false"><span class="loop-icon"><img src="./assets/strategy-release-119/strategy-art/flow-signal-v91.webp" alt="" width="768" height="512" loading="lazy" decoding="async"></span><span class="loop-node-caption"><span class="flow-node-index">02</span><span class="loop-node-name">信号出现</span></span></button><button type="button" id="flow-art-2" class="flow-art-node" data-node="2" data-light-flow="execute" style="left:50%;top:84.667%" aria-label="图示 03 · 自动同步下单" aria-controls="flow-copy-2" aria-pressed="false"><span class="loop-icon"><img src="./assets/strategy-release-119/strategy-art/flow-execute-v91.webp" alt="" width="768" height="512" loading="lazy" decoding="async"></span><span class="loop-node-caption"><span class="flow-node-index">03</span><span class="loop-node-name">同步下单</span></span></button><button type="button" id="flow-art-3" class="flow-art-node" data-node="3" data-light-flow="protect" style="left:15.333%;top:50%" aria-label="图示 04 · 自动止损止盈、自动平仓离场" aria-controls="flow-copy-3" aria-pressed="false"><span class="loop-icon"><img src="./assets/strategy-release-119/strategy-art/flow-protect-v91.webp" alt="" width="768" height="512" loading="lazy" decoding="async"></span><span class="loop-node-caption"><span class="flow-node-index">04</span><span class="loop-node-name">止损止盈</span></span></button></div><div class="flow-steps" role="group" aria-label="交易流程步骤"><div class="flow-entry is-active" data-entry="0"><button type="button" id="flow-copy-0" class="flow-step is-active" data-step="0" aria-controls="flow-body-0" aria-expanded="true" aria-pressed="true"><span class="flow-step-heading"><span data-original-excerpt="9">程序盯住行情与资金流</span><i aria-hidden="true">01</i></span></button><div class="flow-step-body" id="flow-body-0" role="region" aria-labelledby="flow-copy-0" aria-hidden="false"><div class="flow-step-content"><div><span data-original-excerpt="8" class="flow-source-context">小币进攻腿</span><span data-original-excerpt="10">全市场自动扫描,只在<b>行情启动的早期区间</b>出手。</span></div></div></div></div><div class="flow-entry" data-entry="1"><button type="button" id="flow-copy-1" class="flow-step" data-step="1" aria-controls="flow-body-1" aria-expanded="false" aria-pressed="false"><span class="flow-step-heading"><span data-original-excerpt="12">信号出现时</span><i aria-hidden="true">02</i></span></button><div class="flow-step-body" id="flow-body-1" role="region" aria-labelledby="flow-copy-1" aria-hidden="true"><div class="flow-step-content"><div><span data-original-excerpt="11" class="flow-source-context">主流币趋势腿</span><span data-original-excerpt="13">多周期趋势共振定方向、定时机,再叠加<b>大资金持仓流向</b>做最后确认——信号不同向,一单不下;</span></div></div></div></div><div class="flow-entry" data-entry="2"><button type="button" id="flow-copy-2" class="flow-step" data-step="2" aria-controls="flow-body-2" aria-expanded="false" aria-pressed="false"><span class="flow-step-heading"><span data-original-excerpt="14">自动同步下单</span><i aria-hidden="true">03</i></span></button><div class="flow-step-body" id="flow-body-2" role="region" aria-labelledby="flow-copy-2" aria-hidden="true"><div class="flow-step-content"><div><span data-original-excerpt="15">在<b>你自己的账户</b>里自动同步下单</span></div></div></div></div><div class="flow-entry" data-entry="3"><button type="button" id="flow-copy-3" class="flow-step" data-step="3" aria-controls="flow-body-3" aria-expanded="false" aria-pressed="false"><span class="flow-step-heading"><span data-original-excerpt="17">自动止损止盈、自动平仓离场</span><i aria-hidden="true">04</i></span></button><div class="flow-step-body" id="flow-body-3" role="region" aria-labelledby="flow-copy-3" aria-hidden="true"><div class="flow-step-content"><div><span data-original-excerpt="16" class="flow-source-context">小币进攻腿</span><span data-original-excerpt="18">动能衰竭时自动分批落袋。</span></div></div></div></div></div></div><div class="strategy-paths"><article><h3 data-original-excerpt="19">① 主流币趋势腿(BTC / ETH 等大票)</h3><p data-original-excerpt="20">多周期趋势共振定方向、定时机,再叠加<b>大资金持仓流向</b>做最后确认——信号不同向,一单不下;信号反转<b>立即平仓、必要时反手</b>。极端行情(黑天鹅预警)自动禁止做多。具体周期、阈值与信号定义属核心机密,不对外披露。</p></article><article><h3 data-original-excerpt="21">② 小币进攻腿(高弹性机会)</h3><p data-original-excerpt="22">全市场自动扫描,只在<b>行情启动的早期区间</b>出手。仓位随信号强度<b>动态演进</b>:小仓验证,确认强势后系统化递增;主升段由动态出场引擎<b>让利润充分延展</b>,动能衰竭时自动分批落袋。全程流动性达标,单笔<b>严格止损</b>,进出场零人工干预。选币模型、信号定义与风控参数属核心机密,不对外披露。</p></article></div></section>
+<section class="story-section story-performance" id="story-performance"><header class="story-heading"><span class="story-eyebrow">历史数据</span><h2 class="story-title">数据表现 · 历史最佳单月</h2></header><div class="performance-grid"><div class="performance-source" data-original-card="2"><div class="card">
+    <div class="ct"><span class="dot"></span>数据表现(回测与模拟,非收益承诺)</div>
+    <div class="nums">
+      <div class="num hero"><div class="v" style="font-size:29px;letter-spacing:-.5px">+1,200% <span style="font-size:17px;color:var(--dim)">保守 ~ 最佳</span> +7,000%</div><div class="k">年化收益推演区间 · <b>小币进攻腿满配口径</b>(保守端按回测排后 1/4 的月成绩 +24% 复利外推;最佳端按常规水平 +42.7% 连续复利,须行情持续配合。组合账户见下方按资金规模的四档口径)</div></div>
+      <div class="num"><div class="v">+42.7%</div><div class="k">月度常规水平 · 回测<br>24 组测试 · 22 组盈利</div></div>
+      <div class="num"><div class="v">+24.0%</div><div class="k">保守口径 · 月度<br>回测后四分位</div></div>
+      <div class="num"><div class="v">+108.6%</div><div class="k">单月最佳<br>回测</div></div>
+      <div class="num"><div class="v" style="color:var(--warn)">-11.6%</div><div class="k">单月最差<br>如实披露</div></div>
+    </div>
+    <div class="note">怎么读这些数字:我们把最近 30 天行情切成 <b>24 组不同起点的完整"一个月"</b>逐组回测——22 组盈利,一半以上组别的月收益达到 +42.7%(我们称之为「常规水平」),最好的一组 +108.6%,最差的一组 -11.6%。<b>好的坏的一起给,这是我们的口径</b>。按复利数学推演:保守口径(+24%/月)约合年化 ≈+1,200%,常规节奏(+42.7%/月)最佳预期约 ≈+7,000%;行情有强弱周期,<b>推演不等于承诺</b>。另有覆盖 3 年含熊市周期的组合保守下限 ≈+47%/年 作为底线参照。以上均为历史回测,<b>不代表未来收益</b>。</div>
+  </div></div><div class="performance-source" data-original-card="3"><div class="card">
+    <div class="ct"><span class="dot" style="background:var(--gold);box-shadow:0 0 12px var(--gold)"></span>历史最佳单月 · 净值曲线(回测)</div>
+    <svg viewBox="0 0 100 40" preserveAspectRatio="none" style="width:100%;height:150px">
+      <defs><linearGradient id="eqg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fcd34d" stop-opacity=".32"/><stop offset="1" stop-color="#fcd34d" stop-opacity="0"/></linearGradient></defs>
+      <polygon points="0,40 0.0,34.5 0.8,34.2 1.7,34.4 2.5,36.4 3.4,37.2 4.2,38.0 5.0,35.7 5.9,37.1 6.7,38.0 7.6,38.0 8.4,36.2 9.2,36.1 10.1,35.4 10.9,36.6 11.8,36.0 12.6,36.2 13.4,36.0 14.3,36.0 15.1,36.4 16.0,36.1 16.8,36.6 17.6,36.7 18.5,37.0 19.3,37.0 20.2,37.4 21.0,36.9 21.8,29.1 22.7,31.5 23.5,28.8 24.4,26.6 25.2,23.5 26.1,20.8 26.9,16.9 27.7,18.8 28.6,18.4 29.4,13.2 30.3,15.7 31.1,15.7 31.9,16.1 32.8,15.3 33.6,15.7 34.5,15.5 35.3,15.5 36.1,15.4 37.0,16.5 37.8,16.4 38.7,16.2 39.5,16.4 40.3,14.6 41.2,14.4 42.0,15.5 42.9,16.4 43.7,16.6 44.5,16.9 45.4,17.6 46.2,17.4 47.1,17.0 47.9,17.5 48.7,17.7 49.6,18.0 50.4,17.7 51.3,17.4 52.1,17.3 52.9,18.7 53.8,21.8 54.6,21.5 55.5,21.1 56.3,20.1 57.1,21.3 58.0,21.5 58.8,21.9 59.7,21.7 60.5,21.5 61.3,18.0 62.2,15.7 63.0,14.0 63.9,14.9 64.7,15.9 65.5,15.4 66.4,15.6 67.2,15.9 68.1,14.7 68.9,14.6 69.7,14.3 70.6,15.4 71.4,15.3 72.3,15.7 73.1,15.8 73.9,15.3 74.8,16.6 75.6,16.9 76.5,15.0 77.3,16.5 78.2,16.3 79.0,16.2 79.8,14.2 80.7,10.5 81.5,9.5 82.4,10.0 83.2,8.5 84.0,8.7 84.9,8.0 85.7,9.7 86.6,8.7 87.4,8.7 88.2,9.5 89.1,8.4 89.9,8.3 90.8,8.7 91.6,8.4 92.4,7.9 93.3,6.7 94.1,6.7 95.0,7.1 95.8,5.8 96.6,4.5 97.5,4.5 98.3,4.6 99.2,4.0 100.0,4.8 100,40" fill="url(#eqg)"/>
+      <polyline points="0.0,35.8 0.8,35.7 1.7,36.0 2.5,33.8 3.4,34.3 4.2,33.0 5.0,32.8 5.9,33.5 6.7,33.7 7.6,34.0 8.4,32.2 9.2,31.7 10.1,31.3 10.9,31.1 11.8,31.6 12.6,31.7 13.4,31.8 14.3,33.2 15.1,33.1 16.0,33.8 16.8,34.0 17.6,33.9 18.5,34.0 19.3,34.3 20.2,34.6 21.0,34.8 21.8,34.7 22.7,34.7 23.5,34.9 24.4,35.1 25.2,35.2 26.1,35.3 26.9,35.6 27.7,35.1 28.6,34.8 29.4,34.6 30.3,34.4 31.1,34.1 31.9,34.2 32.8,33.7 33.6,34.4 34.5,33.5 35.3,33.4 36.1,33.6 37.0,33.7 37.8,34.0 38.7,34.6 39.5,34.9 40.3,34.1 41.2,34.8 42.0,35.2 42.9,35.2 43.7,35.3 44.5,36.0 45.4,35.9 46.2,35.7 47.1,35.8 47.9,35.8 48.7,36.2 49.6,35.9 50.4,35.8 51.3,36.1 52.1,36.9 52.9,38.0 53.8,37.6 54.6,37.8 55.5,37.1 56.3,37.4 57.1,38.0 58.0,37.6 58.8,36.2 59.7,36.4 60.5,36.0 61.3,35.4 62.2,35.0 63.0,35.0 63.9,35.1 64.7,35.4 65.5,34.8 66.4,34.5 67.2,34.9 68.1,34.1 68.9,34.4 69.7,33.8 70.6,34.6 71.4,34.8 72.3,34.6 73.1,34.7 73.9,35.1 74.8,34.4 75.6,34.1 76.5,34.3 77.3,34.9 78.2,35.3 79.0,33.5 79.8,32.3 80.7,32.6 81.5,31.8 82.4,30.1 83.2,29.9 84.0,27.1 84.9,28.5 85.7,27.8 86.6,27.9 87.4,27.6 88.2,26.8 89.1,26.9 89.9,26.7 90.8,25.0 91.6,22.0 92.4,19.2 93.3,14.7 94.1,12.3 95.0,11.9 95.8,7.1 96.6,4.0 97.5,11.8 98.3,11.6 99.2,11.4 100.0,11.6" fill="none" stroke="#fcd34d" stroke-width="1.1"/>
+    </svg>
+    <div class="note">小币进攻腿最佳单窗回测(30 天):<b style="color:var(--gold)">10,000U → 20,864U(+108.6%)</b>。前段回踩后强势拉升——高弹性腿的真实形态。最佳单窗展示,不构成收益承诺。</div>
+  </div></div></div></section><section class="story-section" id="story-experience"><header class="story-heading"><span class="story-eyebrow">接入前必读</span><h2 data-original-excerpt="23" class="story-title">有回撤、有等待</h2></header><div class="experience-grid"><article class="experience"><figure class="story-art" aria-hidden="true"><img src="./assets/strategy-release-119/strategy-art/drawdown-floating-v114.webp" alt="" width="768" height="768" loading="lazy" decoding="async"></figure><div class="experience-copy"><h3 data-original-excerpt="24">有回撤</h3><p data-original-excerpt="25"><b>阶段性回撤(浮亏)一定会有</b>:按历史回测,一轮行情里净值从高点往下的回落<b>一般在 20% 上下</b>,行情差的时候会更深,历史最深的一次约 32%。这是换取高收益的成本,不是策略出错。</p></div></article><article class="experience"><figure class="story-art" aria-hidden="true"><img src="./assets/strategy-release-119/strategy-art/patience-floating-v114.webp" alt="" width="768" height="768" loading="lazy" decoding="async"></figure><div class="experience-copy"><h3 data-original-excerpt="26">有等待</h3><p data-original-excerpt="27"><b>市场环境差的时候,会有「净值原地盘整期」,历史上最长三四周</b></p></div></article><article class="experience"><figure class="story-art" aria-hidden="true"><img src="./assets/strategy-release-119/strategy-art/settlement-floating-v114.webp" alt="" width="768" height="768" loading="lazy" decoding="async"></figure><div class="experience-copy"><h3 data-original-excerpt="28">随时可退</h3><p data-original-excerpt="29">申请退出即结清当期,未消耗的积分余额<b>全额退还</b></p></div></article></div><p data-original-excerpt="30" class="story-note">请确认自己能接受「有回撤、有等待」的节奏再接入;拿不准就先小额起步,跑顺了再加。</p></section><section class="story-section" id="story-terms"><header class="story-heading"><span class="story-eyebrow">配置与费用</span><h2 data-original-excerpt="31" class="story-title">分钱规则:只赚你赚到的</h2></header><div class="terms-grid"><article class="allocation"><h3 data-original-excerpt="32">按资金规模的配置方式</h3><table aria-label="按原文资金档位整理"><thead><tr><th scope="col">入册资金</th><th scope="col">小币</th><th scope="col">主流</th></tr></thead><tbody><tr><th scope="row">1,000–<10,000 U</th><td>100%</td><td>0%</td></tr><tr><th scope="row">10,000–<100,000 U</th><td>70%</td><td>30%</td></tr><tr><th scope="row">100,000–<500,000 U</th><td>70%</td><td>30%</td></tr><tr><th scope="row">500,000–2,000,000 U</th><td>70%</td><td>30%</td></tr></tbody></table><a class="story-source-link" href="#strategy-note-1">查看完整配置说明 ↗</a></article><article class="fee-terms"><div class="share-rate"><strong>40<span>%</span></strong><p data-original-excerpt="33">只对<b>「历史最高净值以上」的新增利润</b></p></div><p data-original-excerpt="34" class="fee-line">每满 30 天<b>自动结算一次</b>,从预充积分里抵扣,每一笔账后台可查</p><p data-original-excerpt="35" class="fee-line">跟单门槛:账户资金 <b>1,000U 起</b></p><p data-original-excerpt="36" class="fee-line">开跑前需预存<b>不少于本金 50%</b> 的积分(未达门槛系统不启动跟单;积分随分红消耗,随时续充)</p></article></div><article class="hwm-example"><div><h3 data-original-excerpt="37" class="story-title">高水位线保护,绝不重复收费</h3><p data-original-excerpt="38">举个例子:本金 2 万,净值涨到 21,500 时结算过一次(只对 1,500 的新利润计分红),之后回撤到 20,800 再涨回 22,000——<b style="color:var(--ok)">只对 21,500→22,000 这 500U 的新高利润计分红</b>,中间回本的那段一分不收。水位只升不降,由系统自动执行——<b style="color:var(--ok)">切实保障每一位用户的权益</b>。</p></div><div class="hwm-figure"><figure class="hwm-art" aria-hidden="true"><img src="./assets/strategy-release-119/strategy-art/high-water-mark.webp" alt="" width="1200" height="800" loading="lazy" decoding="async"></figure><div class="hwm-labels" data-strategy-ui="true"><span style="left:10.67%;top:61.13%">20,000</span><span style="left:37.3%;top:37.1%">21,500</span><span style="left:61.78%;top:51.56%">20,800</span><span style="left:89.05%;top:20.51%">22,000</span><b>500 U</b></div></div></article></section><section class="story-section story-notes" id="story-notes"><header class="story-heading"><h2 class="story-title">详细说明与历史口径</h2></header><details class="story-source" id="strategy-note-0"><summary>它是什么 · 策略的两条腿<span class="source-toggle" aria-hidden="true"></span></summary><div class="legacy-source" lang="zh-CN"><div data-original-card="0"><div class="card">
+    <div class="ct"><span class="dot"></span>它是什么</div>
+    <div class="p">一套 <b>7×24 小时全自动</b>的量化跟单系统:程序盯住行情与资金流,信号出现时,在<b>你自己的账户</b>里自动同步下单、自动止损止盈、自动平仓离场。你不需要盯盘,不需要转账给任何人。</div>
+  </div></div><div data-original-card="1"><div class="card">
+    <div class="ct"><span class="dot"></span>策略的两条腿</div>
+    <div class="leg">
+      <div class="lt">① 主流币趋势腿(BTC / ETH 等大票)</div>
+      <div class="lp">多周期趋势共振定方向、定时机,再叠加<b>大资金持仓流向</b>做最后确认——信号不同向,一单不下;信号反转<b>立即平仓、必要时反手</b>。极端行情(黑天鹅预警)自动禁止做多。具体周期、阈值与信号定义属核心机密,不对外披露。</div>
+    </div>
+    <div class="leg">
+      <div class="lt">② 小币进攻腿(高弹性机会)</div>
+      <div class="lp">全市场自动扫描,只在<b>行情启动的早期区间</b>出手。仓位随信号强度<b>动态演进</b>:小仓验证,确认强势后系统化递增;主升段由动态出场引擎<b>让利润充分延展</b>,动能衰竭时自动分批落袋。全程流动性达标,单笔<b>严格止损</b>,进出场零人工干预。选币模型、信号定义与风控参数属核心机密,不对外披露。</div>
+    </div>
+  </div></div></div></details><details class="story-source" id="strategy-note-1"><summary>按资金规模的配置方式<span class="source-toggle" aria-hidden="true"></span></summary><div class="legacy-source" lang="zh-CN"><div data-original-card="4"><div class="card">
+    <div class="ct"><span class="dot"></span>按资金规模的配置方式</div>
+    <div class="leg">
+      <div class="lt">小资金(1,000 ~ 1万U 以下)· 小币进攻腿 100%</div>
+      <div class="lp">全部配置小币进攻腿,追求资金的<b>快速成长</b>。回测推演:<b>月度 +24% ~ +42.7%</b> · 年化:保守 ≈+1,200% ~ 最佳预期 ≈+7,000%。<br><span style="color:var(--ok)">优势</span>:增长最快,小资金翻身首选 · <span style="color:var(--gold)">须知</span>:波动最大,过程回撤一般 20% 上下、最深约 32%。</div>
+    </div>
+    <div class="leg">
+      <div class="lt">进阶资金(1万 ~ 10万U 以下)· 小币 70% + 主流 30%</div>
+      <div class="lp">小币腿主攻,主流趋势腿打底降波动。回测推演:<b>月度 +19% ~ +34%</b> · 年化:保守 ≈+700% ~ 最佳预期 ≈+3,200%。<br><span style="color:var(--ok)">优势</span>:主攻不减、起伏收敛一档 · <span style="color:var(--gold)">须知</span>:仍有明显回撤期,须拿得住。</div>
+    </div>
+    <div class="leg">
+      <div class="lt">中大资金(10万 ~ 50万U 以下)· 小币 70% + 主流 30%</div>
+      <div class="lp">小币腿主攻,主流趋势腿打底降波动。中大及以上资金执行层经流动性与容量管控。回测推演:<b>月度 +15% ~ +27%</b> · 年化:保守 ≈+430% ~ 最佳预期 ≈+1,650%。<br><span style="color:var(--ok)">优势</span>:收益与平稳兼顾,进可攻退可守 · <span style="color:var(--gold)">须知</span>:回撤中等,弱行情下有盘整期。</div>
+    </div>
+    <div class="leg">
+      <div class="lt">大资金(50万 ~ 200万U)· 小币 70% + 主流 30%</div>
+      <div class="lp">主流趋势腿为底仓、<b>稳健平滑</b>优先,小币腿作收益增强,<b>攻守兼备</b>。回测推演:<b>月度 +12% ~ +20%</b> · 年化:保守 ≈+290% ~ 最佳预期 ≈+790%。<br><span style="color:var(--ok)">优势</span>:曲线最平缓 · <span style="color:var(--gold)">须知</span>:收益弹性四档里最小。</div>
+    </div>
+    <div class="leg" style="border-color:rgba(252,211,77,.45)">
+      <div class="lt" style="color:var(--gold)">大资金 · 另一种选择:纯小币配置(实测口径)</div>
+      <div class="lp">大资金也想吃小币弹性?可以整户配纯小币腿。以 50万U 实测回测(24 组 30 天窗):<b>月度中位 +16%</b>,最好一组 +39%,最差一组 -5%,24 组里 4 组亏损。<br><span style="color:var(--ok)">优势</span>:收益上限高于混合档 · <span style="color:var(--gold)">须知</span>:回撤比混合档深,会出现小亏的月份,须能承受颠簸。</div>
+    </div>
+    <div class="p" style="font-size:14px;color:var(--dim);border:1px solid rgba(252,211,77,.35);border-radius:11px;padding:10px 13px;background:rgba(252,211,77,.05)"><b style="color:var(--gold)">起步门槛:入册资金 1,000U 起</b>——资金太小时,服务器与风控的固定成本会吃掉大部分收益,对你不划算,所以起步线定在 1,000U;同时账户积分需保持在入册资金的一半以上(如 1,000U 对应 500 积分),积分不足系统会暂停开新仓(存量仓位照常管理),充值即恢复。</div>
+    <div class="p" style="font-size:14px;color:var(--faint)">以上为回测复利推演口径(小币腿保守端=回测中排后 1/4 的成绩,最佳端=常规水平推演;主流趋势腿按 30 天回测月化 +9.4%~+15.9% 取九折 +8.5%~+14.3% 计入混合;行情有强弱周期),不构成收益承诺。<b style="color:var(--dim)">档位怎么算:按入册本金定档,卡点归高档</b>——正好 1万U=进阶档,正好 10万U=中大档,正好 50万U=大资金档;之后本金变化跨档了,联系团队按新档调整。<b style="color:var(--dim)">配置怎么调:不提供自助换挡</b>(频繁切换会打乱收益节奏)——想调整策略配比,联系你的团队或管理员,核实后我们在后台为你调整。</div>
+  </div></div></div></details><details class="story-source" id="strategy-note-2"><summary>数据表现 · 历史最佳单月<span class="source-toggle" aria-hidden="true"></span></summary><div class="legacy-source" lang="zh-CN"><p class="performance-reference" data-strategy-ui="true">完整数据、净值曲线与原始口径已前置展示。<a href="#story-performance">返回数据表现 ↗</a></p></div></details><details class="story-source" id="strategy-note-3"><summary>先说清楚:过程是什么样的(接入前必读)<span class="source-toggle" aria-hidden="true"></span></summary><div class="legacy-source" lang="zh-CN"><div data-original-card="5"><div class="card">
+    <div class="ct"><span class="dot" style="background:var(--gold);box-shadow:0 0 12px var(--gold)"></span>先说清楚:过程是什么样的(接入前必读)</div>
+    <div class="rule"><div class="ic">✓</div><div><b>本策略是「波段持有型」</b>:买进后要拿住一段时间、吃整段行情,不做快进快出。所以账户<b>不是每天都涨</b>,过程有起伏是常态。</div></div>
+    <div class="rule"><div class="ic">✓</div><div><b>阶段性回撤(浮亏)一定会有</b>:按历史回测,一轮行情里净值从高点往下的回落<b>一般在 20% 上下</b>,行情差的时候会更深,历史最深的一次约 32%。这是换取高收益的成本,不是策略出错。</div></div>
+    <div class="rule"><div class="ic">✓</div><div><b>市场环境差的时候,会有「净值原地盘整期」,历史上最长三四周</b>:比如大盘横着走、小币普遍下跌的阶段(7 月中下旬就是一段),系统会自动少开仓、放轻仓位,净值就横在那里不怎么动——这是在等行情,不是策略失效。</div></div>
+    <div class="rule"><div class="ic">✓</div><div>对应的保护:行情差时<b>降频轻仓</b>,行情好时再加力;单笔止损、总仓位上限、连亏熔断都是写死在系统里的硬规则,不靠临场判断。</div></div>
+    <div class="p" style="font-size:14px;color:var(--faint)">请确认自己能接受「有回撤、有等待」的节奏再接入;拿不准就先小额起步,跑顺了再加。</div>
+  </div></div></div></details><details class="story-source" id="strategy-note-4"><summary>分钱规则 · 安全设计<span class="source-toggle" aria-hidden="true"></span></summary><div class="legacy-source" lang="zh-CN"><div data-original-card="6"><div class="card">
+    <div class="ct"><span class="dot"></span>分钱规则:只赚你赚到的</div>
+    <div class="rule"><div class="ic">✓</div><div><b>不收本金、不托管、回撤期零费用</b>——本金和回撤阶段,我们一分不拿</div></div>
+    <div class="rule"><div class="ic">✓</div><div>只对<b>「历史最高净值以上」的新增利润</b>抽 40% 作为分红——本金与回撤阶段一分不收</div></div>
+    <div class="rule"><div class="ic">✓</div><div><b>高水位线保护,绝不重复收费</b>:回撤后涨回来的那段利润<b>不再收第二次</b>;你充值入金时水位同额上调,<b>本金和入金永远不会被当成利润收费</b></div></div>
+    <div class="note" style="border:1px solid rgba(110,231,183,.35);background:rgba(110,231,183,.06);border-radius:12px;padding:11px 14px;color:#c9f2df">举个例子:本金 2 万,净值涨到 21,500 时结算过一次(只对 1,500 的新利润计分红),之后回撤到 20,800 再涨回 22,000——<b style="color:var(--ok)">只对 21,500→22,000 这 500U 的新高利润计分红</b>,中间回本的那段一分不收。水位只升不降,由系统自动执行——<b style="color:var(--ok)">切实保障每一位用户的权益</b>。</div>
+    <div class="rule"><div class="ic">✓</div><div><b>高水位线规则</b>:回撤后必须先涨回原来的水位,超出部分才重新计费;你追加的本金同额抬高水位,同样不参与分红</div></div>
+    <div class="rule"><div class="ic">✓</div><div>每满 30 天<b>自动结算一次</b>,从预充积分里抵扣,每一笔账后台可查</div></div>
+    <div class="rule"><div class="ic">✓</div><div><b>随时可退</b>:申请退出即结清当期,未消耗的积分余额<b>全额退还</b></div></div>
+    <div class="rule"><div class="ic">✓</div><div>跟单门槛:账户资金 <b>1,000U 起</b></div></div>
+    <div class="rule"><div class="ic">✓</div><div>开跑前需预存<b>不少于本金 50%</b> 的积分(未达门槛系统不启动跟单;积分随分红消耗,随时续充)</div></div>
+  </div></div><div data-original-card="7"><div class="card">
+    <div class="ct"><span class="dot"></span>安全设计</div>
+    <div class="rule"><div class="ic">✓</div><div>API 权限最小化:只需要「合约交易」一项,<b>带提现权限的 key 系统直接拒收</b></div></div>
+    <div class="rule"><div class="ic">✓</div><div>密钥 <b>AES-256 加密</b>入库,页面、日志、数据库均不存明文</div></div>
+    <div class="rule"><div class="ic">✓</div><div>建议用独立子账户接入,里面只放跟单资金,权责清清楚楚</div></div>
+    <div class="p" style="margin-top:14px">准备好了就三分钟接入:</div>
+    <a class="btn" href="partner_portal.html">打开接入页 →</a>
+  </div></div></div></details></section><section class="story-cta"><h2 data-original-excerpt="39" class="story-title">准备好了就三分钟接入:</h2><a class="btn" href="partner_portal.html">打开接入页 →</a><a class="story-home-link" href="partner_home.html">返回伙伴中心</a></section><div class="risk">风险提示:合约交易存在较高风险,行情剧烈波动时可能产生回撤。历史回测与模拟数据不代表未来表现,不构成收益承诺或投资建议。建议以不影响生活的闲置资金参与,并自行确认所在地区的合规要求。</div></main></div>
+<script>
+</script>
+<button id="csFab" aria-label="客服">💬</button>
+<div id="csPanel">
+  <div class="csHd"><div><b>Maris 助手</b> <span>· 人工 9:00–21:00 SGT</span></div><div class="x" onclick="csT()">✕</div></div>
+  <div id="csMsgs"></div>
+  <div class="csChips">
+    <span onclick="csQ('怎么绑定 API?')">怎么绑定 API?</span>
+    <span onclick="csQ('各交易所要注意什么?')">各交易所注意</span>
+    <span onclick="csQ('最近收益怎么样?')">最近收益</span>
+    <span onclick="csQ('转人工')">转人工</span>
+  </div>
+  <div class="csIn"><input id="csI" placeholder="输入问题,回车发送" onkeydown="if(event.key==='Enter')csS()"><button onclick="csS()">发送</button></div>
+</div>
+<script>
+(function(){
+var P=null;demoGet('demo:s07?t='+Date.now(),{cache:'no-store'}).then(function(x){return x.json()}).then(function(d){P=d}).catch(function(){});
+var SEC=['参数','策略','仓位','杠杆','止损','止盈','选币','信号','算法','源码','代码','模型','判据','阈值','机密','怎么选','内部'];
+function fmt(n){return (n>=0?'+':'')+Number(n).toFixed(1)+'%'}
+function ans(q){
+  q=q.toLowerCase();
+  for(var i=0;i<SEC.length;i++)if(q.indexOf(SEC[i].toLowerCase())>-1)return '这部分属于策略核心,不方便展开哈～\n您点「转人工」,我请负责人来给您专业解答 😊';
+  if(q.indexOf('转人工')>-1){var hh=(new Date().getUTCHours()+8)%24;return (hh>=9&&hh<21)?'已通知人工 ✓ 负责人在线(9:00–21:00 新加坡时间),请稍候,马上回复您。':'已为您留言登记 ✓\n现在是人工离线时段——每天 9:00–21:00(新加坡时间)在线,上线后第一时间回复您。着急的问题可以先问我,流程类我都能答。';}
+  if(q.indexOf('币安')>-1||q.indexOf('binance')>-1||q.indexOf('bn')>-1)return '币安绑定注意:\n1️⃣ 创建 API 时只勾选「允许读取」+「允许合约交易」\n2️⃣ 千万不要勾「允许提现」(我们也不需要)\n3️⃣ 先开通合约账户再创建 API\n4️⃣ 建议同时设置 IP 白名单,更安全\n具体菜单位置以币安当前版本为准,找不到就转人工带您走。';
+  if(q.indexOf('okx')>-1||q.indexOf('欧易')>-1)return 'OKX 绑定注意:\n1️⃣ 创建 V5 API,权限选「读取」+「交易」\n2️⃣ 不开提现权限\n3️⃣ 会要求设置 Passphrase(密码短语)——务必自己保存好,提交时需要\n4️⃣ 确认已开通合约交易权限\n有疑问随时转人工。';
+  if(q.indexOf('bitget')>-1)return 'Bitget 绑定注意:\n1️⃣ 权限选「只读」+「合约交易」,不开提现\n2️⃣ 同样需要 Passphrase,请妥善保存\n3️⃣ 确认合约账户已开通\n遇到卡点转人工带您操作。';
+  if(q.indexOf('gate')>-1||q.indexOf('芝麻')>-1)return 'Gate 绑定注意:\n1️⃣ 创建 APIKey 时勾「查询」+「合约交易」\n2️⃣ Gate 默认给的权限比较多——逐项检查,把提现类权限全部关掉\n3️⃣ 确认合约(永续)账户已开通\n不确定的地方转人工。';
+  if(q.indexOf('注意')>-1||q.indexOf('交易所')>-1)return '四家交易所绑定 API 的关键提醒:\n\n🔸 币安:只勾「读取+合约交易」,绝不开提现;先开通合约账户;建议设 IP 白名单\n🔸 OKX:V5 API 选「读取+交易」;Passphrase 务必自己保存好\n🔸 Bitget:「只读+合约交易」;同样有 Passphrase;确认合约账户已开通\n🔸 Gate:勾「查询+合约交易」;默认权限较多,逐项把提现类全部关掉\n\n共同铁律:永远不开提现权限——资金始终在您自己的账户里。想看单家更细的,直接回我「币安」「OKX」「Bitget」或「Gate」。';
+  if(q.indexOf('绑定')>-1||q.indexOf('api')>-1||q.indexOf('接入')>-1||q.indexOf('跟单')>-1)return '接入很简单,三步:\n1️⃣ 在您自己的交易所创建 API(只给「读取+交易」权限,绝不开提现)\n2️⃣ 在「接入跟单」页提交 API\n3️⃣ 当场发您用户码,开始运行\n\n🔐 安全三条:资金永远在您自己账户里;我们无法提现;密钥加密存储。另外——除了本站页面,任何人(包括自称客服的)找您要密钥都是骗子。\n\n想看具体交易所的注意事项?直接回我「币安」「OKX」「Bitget」或「Gate」。';
+  if(q.indexOf('收益')>-1||q.indexOf('赚')>-1||q.indexOf('业绩')>-1||q.indexOf('回报')>-1){
+    if(P&&P.ret_mtm_pct!=null)return '最近 '+(P.days||30)+' 天实盘收益 '+fmt(P.ret_mtm_pct)+'(含浮盈),已落袋 '+fmt(P.ret_realized_pct)+'。\n期间最大回撤 '+Math.abs(P.max_dd_pct).toFixed(1)+'%——收益与波动并存,我们用纪律把回撤关在笼子里。\n首页有完整曲线和逐笔账本,进出场价都可以对着 K 线验证 📈\n(历史收益不代表未来,请量力配置)';
+    return '首页上方就是实盘收益卡:完整曲线+逐笔账本,进出场价可对照 K 线验证 📈';}
+  if(q.indexOf('充值')>-1||q.indexOf('积分')>-1)return '积分充值在「我的账户」页:实时查净值、收益与积分,链上充值自动到账。首页第 03 个入口点进去就是。';
+  if(q.indexOf('退出')>-1||q.indexOf('结算')>-1||q.indexOf('退款')>-1)return '随时可退:「退出与结算」页自助办理,当场生效,未消耗积分全额退还。首页第 04 个入口。';
+  if(q.indexOf('安全')>-1||q.indexOf('托管')>-1||q.indexOf('资金')>-1||q.indexOf('风险')>-1||q.indexOf('亏')>-1)return '资金安全三件套:\n✅ 资金不托管——钱始终在您自己的交易所账户\n✅ API 无提现权限——我们物理上碰不到您的本金\n✅ 密钥加密存储,随时可解绑退出';
+  if(q.indexOf('佣金')>-1||q.indexOf('分成')>-1||q.indexOf('手续费')>-1||q.indexOf('费用')>-1)return '收益分成按月结算,每月 1 日出账单,金额透明可核。具体比例以您的协议为准;细节问题点「转人工」,负责人跟您对。';
+  if(q.indexOf('谢')>-1||q.indexOf('thank')>-1)return '不客气!还有什么想了解的随时问我 😊';
+  if(q.indexOf('多少钱')>-1||q.indexOf('最低')>-1||q.indexOf('起步')>-1||q.indexOf('门槛')>-1)return '不同资金档位配置不同(稳健/进取风格也不同)。点「转人工」,负责人按您的资金量帮您配最合适的档位。';
+  if(q.indexOf('结算')>-1||q.indexOf('什么时候发')>-1||q.indexOf('分红')>-1)return '收益分成按月结算:每月 1 日 07:00(新加坡时间)固化账单、08:00 发布,金额透明可核。';
+  if(q.indexOf('爆仓')>-1||q.indexOf('亏光')>-1||q.indexOf('保本')>-1)return '实话实说:交易有风险,我们不承诺保本。但纪律写死:每笔都有止损线、小额分散持仓、极端行情自动进入防守模式。近 30 天最大回撤 3.21%（示例数字）——收益与波动并存,我们把回撤关在纪律的笼子里。请量力配置。';
+  if(q.indexOf('提现')>-1||q.indexOf('退钱')>-1||q.indexOf('到账')>-1)return '您的本金一直在您自己的交易所账户里,随时可动。跟单退出走「退出与结算」页:自助办理当场生效,未消耗积分全额退还。';
+  if(q.indexOf('换 api')>-1||q.indexOf('换api')>-1||q.indexOf('掉线')>-1||q.indexOf('失效')>-1||q.indexOf('重新绑')>-1)return 'API 失效/更换:在交易所后台新建一个 API(记得只给读取+交易权限、不开提现),然后点「转人工」,负责人帮您完成重新绑定,几分钟搞定。';
+  if(q.indexOf('积分')>-1&&q.indexOf('充')<0)return '积分是站内的服务额度:跟单运行按规则消耗积分,余额和明细在「我的账户」页实时可查;退出时未消耗的全额退。';
+  if(q.indexOf('被盗')>-1||q.indexOf('跑路')>-1||q.indexOf('骗')>-1||q.indexOf('信任')>-1||q.indexOf('可靠')>-1)return '三个硬保障您记住:1️⃣ 资金不托管——钱永远在您自己的交易所账户;2️⃣ API 无提现权限——我们物理上碰不到本金;3️⃣ 随时可退。另外:除本站页面外,任何人(包括自称客服/老师的)找您要密钥、让您转账,都是骗子。';
+  if(q.indexOf('打不开')>-1||q.indexOf('卡了')>-1||q.indexOf('bug')>-1||q.indexOf('错误')>-1||q.indexOf('显示不')>-1)return '试试:刷新页面/换个浏览器打开。还不行就点「转人工」描述一下现象,我们马上查。';
+  if(q.indexOf('几点')>-1||q.indexOf('时间')>-1||q.indexOf('在线')>-1)return '我 24 小时在;人工在线时间:每天 9:00–21:00(新加坡时间),其他时段留言,上线后第一时间回。';
+  if(q.indexOf('带单')>-1||q.indexOf('老师')>-1||q.indexOf('内幕')>-1||q.indexOf('喊单')>-1)return '我们不做喊单、没有"老师",就是一套全自动纪律化系统。任何自称我们工作人员私下带单/收费的,都是骗子,请直接举报给人工。';
+  if(q.indexOf('你好')>-1||q.indexOf('在吗')>-1||q.indexOf('hi')>-1||q.indexOf('hello')>-1)return '您好!我是 Maris 助手 👋\n可以问我:怎么绑定 API、各交易所注意事项、最近收益、充值退出流程。\n核心策略问题我不方便答,但可以帮您转人工。';
+  return '这个我可能没听懂 😅 您可以换个说法,或直接点「转人工」。\n我熟的:绑定API·各所注意·收益·充值·退出·结算时间·安全保障·API失效处理';
+}
+window.csT=function(){document.getElementById('csPanel').classList.toggle('on');if(!window.__csHi){window.__csHi=1;add('ai','您好!我是 Maris 助手 👋\n绑定 API、各交易所注意事项、收益数据、充值退出,都能直接问我;策略核心问题可以转人工(每天 9:00–21:00 新加坡时间在线)。')}}
+document.getElementById('csFab').onclick=window.csT;
+function add(w,t){var m=document.getElementById('csMsgs');var b=document.createElement('div');b.className='csB '+w;b.textContent=t;m.appendChild(b);m.scrollTop=m.scrollHeight}
+window.csQ=function(q){add('me',q);setTimeout(function(){add('ai',ans(q))},260)}
+window.csS=function(){var i=document.getElementById('csI');var q=i.value.trim();if(!q)return;i.value='';window.csQ(q)}
+})();
+</script>
+<script src="./assets/input-release-132/family.js"></script><script src="./assets/strategy-release-119/orbit-icons.js"></script><script type="module" src="./assets/strategy-release-119/market-trace.js"></script><script type="module" src="./assets/strategy-release-119/panel-ambient.js"></script><script type="module" src="./assets/strategy-release-119/strategy-story.js"></script><script type="module" src="./assets/strategy-release-119/light-flow.js"></script><script src="./assets/input-release-125/suite-polish.js" data-suite-polish></script><script type="module" src="./assets/strategy-release-119/strategy-return-v5.js"></script><script src="./assets/input-release-132/input-compat.js" data-input-compat></script></body>
+</html>

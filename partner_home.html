@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><script src="./assets/demo/demo-data.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Maris · AI 交易智能体</title>
+<style>
+:root{--tx:#eef2f7;--dim:#b0c0d4;--faint:#8b9cb2;--acc:#5eead4;--acc2:#7dd3fc;--warn:#fda4af;--ok:#6ee7b7;--gold:#fcd34d;
+--glass1:rgba(20,30,52,.42);--glass2:rgba(12,18,32,.32);--bd:rgba(126,176,238,.22);--bd-hi:rgba(126,176,238,.5)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:linear-gradient(180deg,#05070d 0%,#081019 55%,#04121a 100%);color:var(--tx);font:15px/1.75 -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC",sans-serif;min-height:100vh;overflow-x:hidden}
+#water{display:none} 
+.scrim{position:fixed;top:-12%;left:0;right:0;bottom:-12%;z-index:-2;background:linear-gradient(180deg,rgba(7,11,18,.6) 0%,rgba(7,11,18,.44) 40%,rgba(7,11,18,.7) 100%)}
+.wrap{max-width:620px;margin:0 auto;padding:52px 20px 80px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.crest{display:flex;align-items:center;gap:14px;margin-bottom:34px}
+.logo{width:50px;height:50px;border-radius:15px;background:linear-gradient(135deg,#5eead4,#2c8fa3 60%,#1e5a8a);box-shadow:0 10px 28px rgba(94,234,212,.3),inset 0 1px 0 rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:800;color:#04211d;font-size:25px}
+.crest .t1{font-size:19px;font-weight:800;letter-spacing:3.5px}
+.crest .t2{font-size:12px;color:var(--faint);letter-spacing:2px}
+h1{font-size:36px;line-height:1.28;font-weight:800;letter-spacing:-.5px;margin-bottom:12px;background:linear-gradient(92deg,#f2f7ff 25%,#8fe8d8 65%,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--dim);font-size:15px;margin-bottom:36px;max-width:92%}
+.lead b{color:var(--tx);font-weight:600}
+.nav{display:flex;flex-direction:column;gap:16px}
+.navcard{display:flex;align-items:center;gap:18px;text-decoration:none;color:var(--tx);padding:24px 22px;border-radius:20px;background:linear-gradient(165deg,var(--glass1),var(--glass2));backdrop-filter:blur(26px) saturate(1.5);-webkit-backdrop-filter:blur(26px) saturate(1.5);border:1px solid var(--bd);box-shadow:0 18px 50px rgba(2,6,14,.45),inset 0 1px 0 rgba(255,255,255,.07);transition:transform .25s,border-color .25s,box-shadow .25s}
+.navcard:hover{transform:translateY(-2px);border-color:var(--bd-hi);box-shadow:0 24px 60px rgba(2,6,14,.55),0 0 0 1px rgba(94,234,212,.15)}
+.navcard .num{flex:0 0 auto;min-width:58px;font-size:38px;font-weight:800;line-height:1;color:rgba(126,176,238,.22);letter-spacing:1px;font-variant-numeric:tabular-nums}
+.navcard .tt{font-size:18.5px;font-weight:800;letter-spacing:.5px;margin-bottom:4px}
+.navcard .ds{font-size:13px;color:#c9d7e8;line-height:1.65}
+.navcard .arrow{margin-left:auto;flex:0 0 36px;width:36px;height:36px;border:1px solid rgba(94,234,212,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--acc);transition:background .25s}
+.navcard:hover .arrow{background:rgba(94,234,212,.12)}
+.trust{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;justify-content:center}
+.trust span{font-size:12.5px;color:var(--faint);display:flex;align-items:center;gap:6px}
+.trust i{font-style:normal;color:var(--acc);font-size:13px}
+@media(max-width:430px){h1{font-size:29px}.navcard{padding:20px 17px}.navcard .tt{font-size:16px}}
+.waterfx{position:fixed;top:0;left:0;right:0;bottom:0;z-index:-2;pointer-events:none;display:none;overflow:hidden}
+.waterfx.on{display:none} 
+.waterfx i{position:absolute;display:block;border-radius:50%;border:1px solid rgba(150,210,255,.32);box-shadow:inset 0 0 18px rgba(120,200,255,.16);opacity:0;animation:wfx 4.6s linear infinite}
+.waterfx i:nth-child(1){left:16%;top:24%;width:30vmin;height:30vmin}
+.waterfx i:nth-child(2){left:58%;top:50%;width:38vmin;height:38vmin;animation-delay:1.5s}
+.waterfx i:nth-child(3){left:32%;top:70%;width:24vmin;height:24vmin;animation-delay:3s}
+@keyframes wfx{0%{transform:scale(.12);opacity:0}12%{opacity:.5}100%{transform:scale(1);opacity:0}}
+@media (orientation: portrait) and (max-width: 820px){body{background-image:linear-gradient(180deg,#05070d 0%,#081019 55%,#04121a 100%)}}
+
+
+#bgGlow{position:fixed;inset:0;z-index:-4;pointer-events:none;background:radial-gradient(70% 22% at 50% 62%,rgba(46,229,220,.18),transparent 72%)}
+#bgHorizon{position:fixed;left:-30%;right:-30%;bottom:-12%;height:52%;z-index:-3;pointer-events:none;background-image:linear-gradient(rgba(46,229,220,.16) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(46,229,220,.16) 1.5px,transparent 1.5px);background-size:64px 44px;transform:perspective(560px) rotateX(62deg);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 42%,rgba(0,0,0,.5) 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 42%,rgba(0,0,0,.5) 100%)}
+.bgStar{position:fixed;z-index:-3;border-radius:50%;background:#fff;pointer-events:none;box-shadow:0 0 10px rgba(255,255,255,1),0 0 26px rgba(160,230,255,.55);animation:bgTwinkle 2.4s ease-in-out infinite,bgDrift 9s ease-in-out infinite alternate}
+@keyframes bgTwinkle{0%,100%{opacity:.04;transform:scale(.45)}45%,55%{opacity:1;transform:scale(1.35)}}
+@keyframes bgDrift{0%{translate:0 0}100%{translate:0 14px}}
+.bgComet{position:fixed;z-index:-3;width:120px;height:2px;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85));border-radius:2px;opacity:0;transform:rotate(-32deg);animation:bgComet 14s linear infinite}
+.bgComet.c2{animation-delay:7.3s;animation-duration:17s}
+@keyframes bgComet{0%,86%{opacity:0;transform:rotate(-32deg) translateX(0)}88%{opacity:.95}100%{opacity:0;transform:rotate(-32deg) translateX(52vw)}}
+@media (prefers-reduced-motion:reduce){.bgStar{position:fixed;z-index:-3;border-radius:50%;background:#fff;pointer-events:none;box-shadow:0 0 10px rgba(255,255,255,1),0 0 26px rgba(160,230,255,.55);animation:bgTwinkle 2.4s ease-in-out infinite,bgDrift 9s ease-in-out infinite alternate}}
+
+
+.glass{background:linear-gradient(165deg,rgba(15,22,34,.44),rgba(10,16,26,.36))!important}
+.st{background:rgba(11,17,29,.42)!important}
+.navcard{background:linear-gradient(165deg,rgba(15,22,34,.5),rgba(10,16,26,.4))!important}
+.urow,.card{background:rgba(12,18,28,.38)!important}
+</style>
+<style>
+#csFab{position:fixed;right:16px;bottom:20px;z-index:60;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#5eead4,#2c8fa3 60%,#1e5a8a);box-shadow:0 12px 30px rgba(94,234,212,.35),inset 0 1px 0 rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;border:0}
+#csPanel{position:fixed;right:12px;bottom:84px;z-index:61;width:min(340px,92vw);max-height:64vh;display:none;flex-direction:column;border-radius:18px;background:linear-gradient(165deg,rgba(20,30,52,.92),rgba(12,18,32,.9));backdrop-filter:blur(26px) saturate(1.5);-webkit-backdrop-filter:blur(26px) saturate(1.5);border:1px solid var(--bd-hi);box-shadow:0 24px 70px rgba(2,6,14,.7)}
+#csPanel.on{display:flex}
+.csHd{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--bd)}
+.csHd b{font-size:14.5px;letter-spacing:.5px}.csHd span{font-size:11px;color:var(--faint)}
+.csHd .x{cursor:pointer;color:var(--faint);font-size:15px;padding:2px 6px}
+#csMsgs{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:9px;min-height:140px}
+.csB{max-width:86%;padding:9px 13px;border-radius:13px;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.csB.ai{align-self:flex-start;background:rgba(126,176,238,.12);border:1px solid rgba(126,176,238,.22);color:var(--tx)}
+.csB.me{align-self:flex-end;background:rgba(94,234,212,.14);border:1px solid rgba(94,234,212,.3);color:#d9fff6}
+.csChips{display:flex;gap:7px;flex-wrap:wrap;padding:4px 14px 10px}
+.csChips span{font-size:11.5px;color:var(--acc);border:1px solid rgba(94,234,212,.35);border-radius:999px;padding:5px 11px;cursor:pointer;background:rgba(94,234,212,.06)}
+.csIn{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--bd)}
+.csIn input{flex:1;background:rgba(7,11,18,.5);border:1px solid var(--bd);border-radius:11px;color:var(--tx);font-size:13px;padding:10px 12px;outline:none}
+.csIn button{border:0;border-radius:11px;background:rgba(94,234,212,.16);color:var(--acc);font-size:13px;font-weight:700;padding:0 16px;cursor:pointer}
+</style>
+<link rel="icon" href="./assets/partner-release-122/favicon.svg"><link rel="stylesheet" href="./assets/partner-release-122/family.css"><link rel="stylesheet" href="./assets/partner-release-122/harbor.css"><link rel="stylesheet" href="./assets/partner-release-122/orbit-icons.css"><link rel="preload" as="image" href="./assets/partner-release-122/orbit-arrow.webp"><link rel="stylesheet" href="./assets/partner-release-122/directory-cards.css"><link rel="stylesheet" href="./assets/input-release-132/suite-polish.css" data-suite-polish><link rel="stylesheet" href="./assets/partner-release-122/scrollbars.css" data-maris-scrollbars><link rel="stylesheet" href="./assets/input-release-132/input-compat.css" data-input-compat></head>
+<body class="family-page family-home">
+<div id="bgGlow"></div><div id="bgHorizon"></div><div id="marketBackdrop" aria-hidden="true"><picture><source media="(orientation: portrait)" srcset="./assets/partner-release-122/market-trace-portrait.png"><img class="market-trace-layer" src="./assets/partner-release-122/market-trace-desktop.png" alt="" decoding="async" draggable="false"></picture><canvas id="marketTraceMotion"></canvas></div><span class="bgStar" style="left:62.5%;top:22.4%;width:3px;height:3px;animation-delay:0.5s,0.8s;animation-duration:3.2s,9.3s"></span><span class="bgStar" style="left:61.1%;top:23.4%;width:2px;height:2px;animation-delay:0.9s,1.5s;animation-duration:2.9s,14.3s"></span><span class="bgStar" style="left:58.6%;top:20.3%;width:3px;height:3px;animation-delay:1.1s,1.9s;animation-duration:4.3s,10.1s"></span><span class="bgStar" style="left:15.3%;top:23.8%;width:4px;height:4px;animation-delay:1.7s,2.9s;animation-duration:3.4s,14.9s"></span><span class="bgStar" style="left:68.0%;top:36.9%;width:2px;height:2px;animation-delay:2.2s,3.7s;animation-duration:3.6s,9.4s"></span><span class="bgStar" style="left:29.5%;top:5.6%;width:3px;height:3px;animation-delay:1.2s,2.0s;animation-duration:3.7s,10.4s"></span><span class="bgStar" style="left:59.7%;top:35.0%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:4.0s,12.1s"></span><span class="bgStar" style="left:53.8%;top:33.3%;width:3px;height:3px;animation-delay:2.1s,3.6s;animation-duration:4.3s,11.8s"></span><span class="bgStar" style="left:38.0%;top:29.6%;width:2px;height:2px;animation-delay:1.6s,2.7s;animation-duration:2.9s,11.0s"></span><span class="bgStar" style="left:2.5%;top:28.3%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:3.3s,10.6s"></span><span class="bgStar" style="left:42.7%;top:12.7%;width:3px;height:3px;animation-delay:2.2s,3.7s;animation-duration:3.3s,12.8s"></span><span class="bgStar" style="left:75.6%;top:10.1%;width:2px;height:2px;animation-delay:1.4s,2.4s;animation-duration:2.9s,11.2s"></span><span class="bgStar" style="left:57.3%;top:33.8%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:3.5s,13.9s"></span><span class="bgStar" style="left:19.9%;top:11.0%;width:2px;height:2px;animation-delay:1.1s,1.9s;animation-duration:3.7s,14.2s"></span><span class="bgStar" style="left:50.9%;top:10.6%;width:2px;height:2px;animation-delay:1.6s,2.7s;animation-duration:3.0s,14.4s"></span><span class="bgStar" style="left:32.5%;top:39.3%;width:4px;height:4px;animation-delay:0.3s,0.5s;animation-duration:3.3s,12.0s"></span><span class="bgStar" style="left:28.8%;top:39.5%;width:3px;height:3px;animation-delay:1.2s,2.0s;animation-duration:2.6s,12.2s"></span><span class="bgStar" style="left:53.0%;top:23.0%;width:2px;height:2px;animation-delay:2.0s,3.4s;animation-duration:4.6s,13.0s"></span><span class="bgStar" style="left:90.2%;top:39.4%;width:4px;height:4px;animation-delay:1.7s,2.9s;animation-duration:3.9s,9.9s"></span><span class="bgStar" style="left:49.4%;top:34.2%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:3.8s,11.9s"></span><span class="bgStar" style="left:18.3%;top:6.0%;width:3px;height:3px;animation-delay:1.4s,2.4s;animation-duration:3.7s,10.3s"></span><span class="bgStar" style="left:49.6%;top:23.2%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:2.9s,11.8s"></span><span class="bgStar" style="left:60.2%;top:30.5%;width:3px;height:3px;animation-delay:3.4s,5.8s;animation-duration:4.0s,10.2s"></span><span class="bgStar" style="left:65.6%;top:32.3%;width:3px;height:3px;animation-delay:0.8s,1.4s;animation-duration:3.1s,13.8s"></span><span class="bgStar" style="left:75.5%;top:19.3%;width:2px;height:2px;animation-delay:0.8s,1.4s;animation-duration:2.7s,12.5s"></span><span class="bgStar" style="left:66.1%;top:35.9%;width:3px;height:3px;animation-delay:3.4s,5.8s;animation-duration:3.9s,12.8s"></span><span class="bgStar" style="left:5.5%;top:40.8%;width:2px;height:2px;animation-delay:1.3s,2.2s;animation-duration:2.8s,13.4s"></span><span class="bgStar" style="left:27.1%;top:41.5%;width:4px;height:4px;animation-delay:3.0s,5.1s;animation-duration:2.6s,12.4s"></span><span class="bgStar" style="left:13.3%;top:25.6%;width:2px;height:2px;animation-delay:2.0s,3.4s;animation-duration:4.2s,12.2s"></span><span class="bgStar" style="left:7.0%;top:16.6%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:4.3s,9.8s"></span><span class="bgComet" style="top:78%;left:2%"></span><span class="bgComet c2" style="top:64%;left:18%"></span><span class="bgComet c3" style="top:86%;left:38%"></span><span class="bgComet c4" style="top:70%;left:55%"></span><span class="bgComet c5" style="top:82%;left:72%"></span>
+<canvas id="water" aria-hidden="true"></canvas>
+<div class="waterfx" id="waterfx" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="scrim" aria-hidden="true"></div>
+<script id="marisTeamCapture"> function marisTeamCapture(search,store){var t=String(new URLSearchParams(search).get('t')||'').replace(/[^A-Za-z0-9]/g,'').slice(0,8),ok=false;if(t){try{store.setItem('marisTeam',t);ok=(store.getItem('marisTeam')===t)}catch(e){ok=false}}return {code:t,stored:ok}}var MARIS_TEAM_URL={code:'',stored:false};try{MARIS_TEAM_URL=marisTeamCapture(location.search,window.demoMem)}catch(e){try{MARIS_TEAM_URL=marisTeamCapture(location.search,null)}catch(_e){}}</script>
+<div class="wrap">
+  <div class="crest"><a class="family-brand" href="partner_home.html" aria-label="Maris 合作伙伴中心"><span class="family-mark" aria-hidden="true"></span><span><b>MARIS</b><small>PARTNER CENTER</small></span></a><nav class="family-nav" aria-label="合作伙伴导航"><a href="partner_home.html">总览</a><a href="partner_strategy.html">策略</a><a href="partner_portal.html">接入</a><a href="partner_topup.html">账户</a><a href="partner_team.html">团队</a></nav></div>
+  <section class="portal-hero" id="portalHero"><div class="network-scene" aria-hidden="true"><canvas class="network-globe"></canvas><div class="network-orbit-labels"></div></div><div class="portal-copy"><span class="family-eyebrow">MARIS / PARTNERS</span><h1>AI 智能体替你交易,<br>钱始终在你自己手里</h1>
+  <div style="margin:0 0 22px;padding:14px 16px 14px 18px;border-radius:13px;border:1px solid rgba(125,211,252,.5);border-left:4px solid rgba(125,211,252,.85);background:rgba(125,211,252,.08);color:#cfe8fa;font-size:14px;line-height:1.9;font-weight:600">🛡️ 7×24 全自动 AI 交易智能体。<b style="color:var(--acc2)">资金不托管、密钥加密、随时可退</b>——从这里开始了解、接入、管理你的账户。</div>
+  <div class="portal-actions"><a class="btn" href="partner_strategy.html">了解策略 <span>↗</span></a><a class="family-text-link" href="partner_portal.html">接入账户 →</a></div></div><a class="portal-scroll" href="#partnerDirectory">探索合作伙伴中心 <span>↓</span></a></section><div class="family-content" id="partnerDirectory"><div class="nav directory-grid" role="navigation" aria-label="探索合作伙伴中心">
+    <a class="navcard directory-card" data-directory-card="1" href="partner_strategy.html">
+      <div class="num">01</div>
+      <div class="directory-copy"><div class="tt">策略介绍</div><div class="ds">它是什么、怎么控风险、怎么分钱——三分钟讲清楚</div></div>
+      <div class="arrow">→</div>
+    <div class="directory-visual" aria-hidden="true"><img class="directory-generated" src="./assets/partner-release-122/directory-art/strategy-v87.webp" width="768" height="512" alt="" loading="lazy" decoding="async"></div></a>
+    <a class="navcard directory-card" data-directory-card="2" href="partner_portal.html">
+      <div class="num">02</div>
+      <div class="directory-copy"><div class="tt">接入跟单</div><div class="ds">提交交易所 API,三分钟完成接入,当场发用户码</div></div>
+      <div class="arrow">→</div>
+    <div class="directory-visual" aria-hidden="true"><img class="directory-generated" src="./assets/partner-release-122/directory-art/connection-v87.webp" width="768" height="512" alt="" loading="lazy" decoding="async"></div></a>
+    <a class="navcard directory-card" data-directory-card="3" href="partner_topup.html">
+      <div class="num">03</div>
+      <div class="directory-copy"><div class="tt">我的账户 · 积分充值</div><div class="ds">实时查净值、收益与积分;链上充值自动到账</div></div>
+      <div class="arrow">→</div>
+    <div class="directory-visual" aria-hidden="true"><img class="directory-generated" src="./assets/partner-release-122/directory-art/balance-v87.webp" width="768" height="512" alt="" loading="lazy" decoding="async"></div></a>
+    <a class="navcard directory-card" data-directory-card="4" href="partner_exit.html">
+      <div class="num">04</div>
+      <div class="directory-copy"><div class="tt">退出与结算</div><div class="ds">随时可退,未消耗积分全额退还;自助办理,当场生效</div></div>
+      <div class="arrow">→</div>
+    <div class="directory-visual" aria-hidden="true"><img class="directory-generated" src="./assets/partner-release-122/directory-art/settlement-v87.webp" width="768" height="512" alt="" loading="lazy" decoding="async"></div></a>
+  </div>
+  <div class="trust">
+    <span><i>◆</i> 资金不托管</span><span><i>◆</i> 密钥加密存储</span><span><i>◆</i> 提现权限零容忍</span><span><i>◆</i> 随时可退 · 余额全退</span>
+  </div>
+  
+</div></div>
+
+<button id="csFab" aria-label="客服">💬<span id="csDot" style="display:none;position:absolute;top:6px;right:6px;width:10px;height:10px;border-radius:50%;background:#f43f5e;box-shadow:0 0 6px #f43f5e"></span></button>
+<div id="csPanel">
+  <div class="csHd"><div><b>Maris 助手</b> <span>· 人工 9:00–21:00 SGT</span></div><div class="x" onclick="csT()">✕</div></div>
+  <div id="csMsgs"></div>
+  <div class="csChips">
+    <span onclick="csQ('怎么绑定 API?')">怎么绑定 API?</span>
+    <span onclick="csQ('各交易所要注意什么?')">各交易所注意</span>
+    <span onclick="csQ('最近收益怎么样?')">最近收益</span>
+    <span onclick="csQ('转人工')">转人工</span>
+  </div>
+  <div class="csIn"><input id="csI" placeholder="输入问题,回车发送" onkeydown="if(event.key==='Enter')csS()"><button onclick="csS()">发送</button></div>
+</div>
+<script>
+(function(){
+var P=null;demoGet('demo:s07?days=30&_t='+Date.now(),{cache:'no-cache'}).then(function(x){return x.json()}).then(function(d){P=d}).catch(function(){});
+var SEC=['参数','策略','仓位','杠杆','止损','止盈','选币','信号','算法','源码','代码','模型','判据','阈值','机密','怎么选','内部'];
+function fmtPx(x){if(x===null||x===undefined||x==='')return '—';var n=Number(x);if(!isFinite(n))return '—';var a=Math.abs(n),d=a>=1?2:(a>=0.01?4:(a>=0.0001?6:8));return n.toLocaleString('en-US',{minimumFractionDigits:a>=1?2:0,maximumFractionDigits:d})}                                                                            
+function fmt(n){return (n>=0?'+':'')+Number(n).toFixed(1)+'%'}
+function ans(q){
+  q=q.toLowerCase();
+  for(var i=0;i<SEC.length;i++)if(q.indexOf(SEC[i].toLowerCase())>-1)return '这部分属于策略核心,不方便展开哈～\n您点「转人工」,我请负责人来给您专业解答 😊';
+  if(q.indexOf('转人工')>-1){csHumanEnter();return '已转人工 📨 负责人将直接回复您,期间我不插话;回复会显示在这里,关掉页面也不会丢。\n15 分钟没有新回复,人工会话自动结束(之后留言仍会送达人工)。\n人工每天 9:00–21:00(新加坡时间)优先在线。';}
+  if(q.indexOf('币安')>-1||q.indexOf('binance')>-1||q.indexOf('bn')>-1)return '币安创建 API,先找到入口:\n📍 网页版:登录币安官网 → 右上角头像 → 「账户」→「API 管理」→ 点「创建 API」(选「系统生成」)\n📍 手机 App:左上角三条杠菜单 → 「更多服务」→ 搜索「API」→ 进「API 管理」;任何时候找不到,就用 App 的搜索功能直接搜「API」\n💡 界面偶尔改版——记住万能一招:搜索框搜「API管理」永远能到。\n\n进去之后,完整流程 6 步:\n1️⃣ 页面下方「默认安全控制措施」勾选框:不用勾\n2️⃣ 点「创建 API」→ 密钥类型选「系统生成」(默认第一个)→ 下一步\n3️⃣ 给 API 起个名字(随便起,比如 maris)→ 按提示完成安全验证\n4️⃣ 创建成功先把 API Key 和 密钥(Secret)复制保存好——Secret 只显示这一次\n5️⃣ 编辑权限:勾「允许读取」+「允许合约交易」;千万不要勾「允许提现」;IP 限制保持默认「无限制」→ 保存\n6️⃣ 回到我们「接入跟单」页,把 Key 和 Secret 填进去提交\n⚠️ 前提:已完成币安 KYC 实名、已开通合约账户,否则创建不了。\n卡在哪一步就把截图发这里问我,或回「转人工」。';
+  if(q.indexOf('okx')>-1||q.indexOf('欧易')>-1)return 'OKX 创建 API 入口:官网右上角头像 → 「API」;App 内搜索「API」即到。\n\n绑定注意:\n1️⃣ 创建 V5 API,权限选「读取」+「交易」\n2️⃣ 不开提现权限\n3️⃣ 会要求设置 Passphrase(密码短语)——务必自己保存好,提交时需要\n4️⃣ 确认已开通合约交易权限\n有疑问随时转人工。';
+  if(q.indexOf('bitget')>-1)return 'Bitget 创建 API 入口:官网右上角头像 → 「API 管理」;App 内搜索「API」即到。\n\n绑定注意:\n1️⃣ 权限选「只读」+「合约交易」,不开提现\n2️⃣ 同样需要 Passphrase,请妥善保存\n3️⃣ 确认合约账户已开通\n遇到卡点转人工带您操作。';
+  if(q.indexOf('gate')>-1||q.indexOf('芝麻')>-1)return 'Gate 创建 API 入口:官网右上角头像 → 「API 管理」;App 内搜索「API」即到。\n\n绑定注意:\n1️⃣ 创建 APIKey 时勾「查询」+「合约交易」\n2️⃣ Gate 默认给的权限比较多——逐项检查,把提现类权限全部关掉\n3️⃣ 确认合约(永续)账户已开通\n不确定的地方转人工。';
+  if(q.indexOf('系统生成')>-1||q.indexOf('自行生成')>-1||q.indexOf('密钥类型')>-1||q.indexOf('选哪个')>-1)return '选「系统生成」(默认第一个),然后点下一步。\n「自行生成」(Ed25519/RSA)是给需要自己造密钥对的开发者用的,我们不用它。\n创建成功后,把 API Key 和 密钥(Secret)都复制保存好——Secret 只显示这一次,错过要重建。这两样只填到我们「接入跟单」页,不要发给任何人(包括自称客服的都是骗子)。';
+  if(q.indexOf('打勾')>-1||q.indexOf('勾选')>-1||q.indexOf('要勾')>-1||q.indexOf('勾吗')>-1||q.indexOf('默认安全控制')>-1)return '币安「API管理」页面下方那个「默认安全控制措施」勾选框:不用勾。保持不勾,直接点上方「创建 API」继续就行。\n(勾了会把您主账户和子账户里所有现有 API 都套上币安的默认安全限制,可能影响跟单 API 的正常运行。)\n其他页面遇到拿不准要不要勾的选项:先不动,拍个截图发这里问我,或转人工确认。';
+  if(q.indexOf('入口')>-1||q.indexOf('哪里创建')>-1||q.indexOf('在哪创建')>-1||q.indexOf('哪里申请')>-1||q.indexOf('找不到')>-1||q.indexOf('搜不到')>-1||q.indexOf('路径')>-1||q.indexOf('从哪')>-1)return '四家交易所「创建 API」的入口都在这:\n\n🔸 币安:网页版币安官网 → 右上角头像 → 「账户」→「API 管理」;App 左上角三条杠 → 更多服务 → 搜「API」\n🔸 OKX:官网右上角头像 → 「API」;App 内搜索「API」\n🔸 Bitget:官网右上角头像 → 「API 管理」;App 内搜索「API」\n🔸 Gate:官网右上角头像 → 「API 管理」;App 内搜索「API」\n\n💡 万能一招:随便哪家,App/官网的搜索框里搜「API」都能直达入口。想看某一家的权限勾选细节,回我「币安」「OKX」「Bitget」或「Gate」。';
+  if(q.indexOf('白名单')>-1||q.indexOf('ip地址')>-1||q.indexOf('ip 白')>-1)return '不需要设置 IP 白名单——创建 API 时按默认「无限制」即可正常运行,我们不需要您做任何白名单绑定。(如果之前设过白名单导致跟单异常,点「转人工」帮您处理。)';
+  if(q.indexOf('passphrase')>-1||q.indexOf('密码短语')>-1)return 'Passphrase(密码短语)= 创建 API 时您自己设置的一串口令(OKX/Bitget 会要求设)。提交我们页面时需要原样填写,所以设的时候务必自己记好。忘了怎么办:回交易所后台重置该 API 的 Passphrase,或者干脆重新创建一个 API 再提交。';
+  if(q.indexOf('开通合约')>-1||q.indexOf('合约账户')>-1||q.indexOf('合约没开')>-1||q.indexOf('怎么开合约')>-1)return '开通合约账户:在交易所 App/官网搜「合约」进入合约页,首次进入会引导您开通(部分交易所要做个小答题,按提示来就行)。开通之后再去创建 API,就能勾选「合约交易」权限了。卡住就转人工带您走。';
+  if(q.indexOf('生效')>-1||q.indexOf('多久开始')>-1||q.indexOf('什么时候开始')>-1||q.indexOf('开始交易')>-1||q.indexOf('多久能跑')>-1)return '提交 API 后当场就发您用户码;积分到位后系统自动接入信号开始运行(不会静默接入,以页面提示为准)。想确认当前状态:「我的账户」页实时可查,或点「转人工」帮您看。';
+  if(q.indexOf('能做什么')>-1||q.indexOf('不能做什么')>-1||q.indexOf('权限')>-1||q.indexOf('能操作')>-1||q.indexOf('动我')>-1||q.indexOf('碰我')>-1||q.indexOf('控制')>-1)return '您授权的 API,我们「能做什么 / 不能做什么」一清二楚:\n\n✅ 能做的(仅限您勾选给的权限):\n· 读取账户数据(仓位/余额)——运行策略、给您展示收益的必需\n· 在您的账户里按策略开仓/平仓(合约交易)\n\n🚫 做不到的(权限根本没给,物理上不可能):\n· 提现、转账、资金划转——碰不到您本金一分钱\n· 修改您的账户设置、登录您的账户\n\n🔑 主动权永远在您手里:随时可以去交易所删除这个 API,授权立刻终止;退出走「退出与结算」页,未消耗的积分全额退。';
+  if(q.indexOf('注意')>-1||q.indexOf('交易所')>-1)return '四家交易所绑定 API 的关键提醒:\n\n🔸 币安:只勾「读取+合约交易」,绝不开提现;先开通合约账户;IP 限制选默认「无限制」即可\n🔸 OKX:V5 API 选「读取+交易」;Passphrase 务必自己保存好\n🔸 Bitget:「只读+合约交易」;同样有 Passphrase;确认合约账户已开通\n🔸 Gate:勾「查询+合约交易」;默认权限较多,逐项把提现类全部关掉\n\n共同铁律:永远不开提现权限——资金始终在您自己的账户里。想看单家更细的,直接回我「币安」「OKX」「Bitget」或「Gate」。';
+  if(q.indexOf('绑定')>-1||q.indexOf('api')>-1||q.indexOf('接入')>-1||q.indexOf('跟单')>-1)return '接入很简单,四步:\n1️⃣ 在您自己的交易所创建 API(只给「读取+交易」权限,绝不开提现)\n2️⃣ 在「接入跟单」页提交 API\n3️⃣ 当场发您用户码\n4️⃣ 到「我的账户」页充值积分——积分到位,系统自动接入信号开始运行\n\n🔐 安全三条:资金永远在您自己账户里;我们无法提现;密钥加密存储。另外——除了本站页面,任何人(包括自称客服的)找您要密钥都是骗子。\n\n想看具体交易所的注意事项?直接回我「币安」「OKX」「Bitget」或「Gate」。';
+  if(q.indexOf('收益')>-1||q.indexOf('赚')>-1||q.indexOf('业绩')>-1||q.indexOf('回报')>-1){
+    if(P&&P.ret_realized_pct!=null)return '最近 '+(P.days||30)+' 天已结算落袋收益 '+fmt(P.ret_realized_pct)+',含浮盈口径 '+fmt(P.ret_mtm_pct)+'。\n结算口径最大回撤 '+Math.abs(P.max_dd_realized_pct!=null?P.max_dd_realized_pct:P.max_dd_pct).toFixed(1)+'%——收益与波动并存,我们用纪律把回撤关在笼子里。\n首页有完整曲线和逐笔账本,进出场价都可以对着 K 线验证 📈\n(历史收益不代表未来,请量力配置)';
+    if(P&&P.ret_mtm_pct!=null)return '最近 '+(P.days||30)+' 天实盘收益 '+fmt(P.ret_mtm_pct)+'(含浮盈)。\n期间最大回撤 '+Math.abs(P.max_dd_pct).toFixed(1)+'%——收益与波动并存,我们用纪律把回撤关在笼子里。\n首页有完整曲线和逐笔账本,进出场价都可以对着 K 线验证 📈\n(历史收益不代表未来,请量力配置)';
+    return '首页上方就是实盘收益卡:完整曲线+逐笔账本,进出场价可对照 K 线验证 📈';}
+  if(q.indexOf('充值')>-1||q.indexOf('积分')>-1||q.indexOf('门槛')>-1)return '积分充值在「我的账户」页:实时查净值、收益与积分,链上充值自动到账。首页第 03 个入口点进去就是。\n\n📌 开跑门槛:预存积分需达到您本金的 50%(留有 10U 容差,零头不卡)——未达门槛系统保持待命不开仓,补足后自动开始运行。您的具体门槛数字在「我的账户」页实时可见。';
+  if(q.indexOf('退出')>-1||q.indexOf('结算')>-1||q.indexOf('退款')>-1)return '随时可退:「退出与结算」页自助办理,当场生效,未消耗积分全额退还。首页第 04 个入口。';
+  if(q.indexOf('安全')>-1||q.indexOf('托管')>-1||q.indexOf('资金')>-1||q.indexOf('风险')>-1||q.indexOf('亏')>-1)return '资金安全三件套:\n✅ 资金不托管——钱始终在您自己的交易所账户\n✅ API 无提现权限——我们物理上碰不到您的本金\n✅ 密钥加密存储,随时可解绑退出';
+  if(q.indexOf('佣金')>-1||q.indexOf('分成')>-1||q.indexOf('分润')>-1||q.indexOf('手续费')>-1||q.indexOf('费用')>-1)return '分润为利润的 30%,而且只对「高水位以上的新增利润」收取——亏损期和回本期一分不收,按月结算(每月 1 日出账单,金额透明可核)。细节问题点「转人工」,负责人跟您对。';
+  if(q.indexOf('谢')>-1||q.indexOf('thank')>-1)return '不客气!还有什么想了解的随时问我 😊';
+  if(q.indexOf('多少钱')>-1||q.indexOf('最低')>-1||q.indexOf('起步')>-1||q.indexOf('门槛')>-1)return '不同资金档位配置不同(稳健/进取风格也不同)。点「转人工」,负责人按您的资金量帮您配最合适的档位。';
+  if(q.indexOf('结算')>-1||q.indexOf('什么时候发')>-1||q.indexOf('分红')>-1)return '收益分成按月结算:每月 1 日 07:00(新加坡时间)固化账单、08:00 发布,金额透明可核。';
+  if(q.indexOf('爆仓')>-1||q.indexOf('亏光')>-1||q.indexOf('保本')>-1)return '实话实说:交易有风险,我们不承诺保本。但纪律写死:每笔都有止损线、小额分散持仓、极端行情自动进入防守模式。近 30 天最大回撤 3.21%（示例数字）——收益与波动并存,我们把回撤关在纪律的笼子里。请量力配置。';
+  if(q.indexOf('提现')>-1||q.indexOf('退钱')>-1||q.indexOf('到账')>-1)return '您的本金一直在您自己的交易所账户里,随时可动。跟单退出走「退出与结算」页:自助办理当场生效,未消耗积分全额退还。';
+  if(q.indexOf('换 api')>-1||q.indexOf('换api')>-1||q.indexOf('掉线')>-1||q.indexOf('失效')>-1||q.indexOf('重新绑')>-1)return 'API 失效/更换:在交易所后台新建一个 API(记得只给读取+交易权限、不开提现),然后点「转人工」,负责人帮您完成重新绑定,几分钟搞定。';
+  if(q.indexOf('积分')>-1&&q.indexOf('充')<0)return '积分是站内的服务额度:跟单运行按规则消耗积分,余额和明细在「我的账户」页实时可查;退出时未消耗的全额退。';
+  if(q.indexOf('被盗')>-1||q.indexOf('跑路')>-1||q.indexOf('骗')>-1||q.indexOf('信任')>-1||q.indexOf('可靠')>-1)return '三个硬保障您记住:1️⃣ 资金不托管——钱永远在您自己的交易所账户;2️⃣ API 无提现权限——我们物理上碰不到本金;3️⃣ 随时可退。另外:除本站页面外,任何人(包括自称客服/老师的)找您要密钥、让您转账,都是骗子。';
+  if(q.indexOf('打不开')>-1||q.indexOf('卡了')>-1||q.indexOf('bug')>-1||q.indexOf('错误')>-1||q.indexOf('显示不')>-1)return '试试:刷新页面/换个浏览器打开。还不行就点「转人工」描述一下现象,我们马上查。';
+  if(q.indexOf('几点')>-1||q.indexOf('时间')>-1||q.indexOf('在线')>-1)return '我 24 小时在;人工在线时间:每天 9:00–21:00(新加坡时间),其他时段留言,上线后第一时间回。';
+  if(q.indexOf('带单')>-1||q.indexOf('老师')>-1||q.indexOf('内幕')>-1||q.indexOf('喊单')>-1)return '我们不做喊单、没有"老师",就是一套全自动纪律化系统。任何自称我们工作人员私下带单/收费的,都是骗子,请直接举报给人工。';
+  if(q.indexOf('你好')>-1||q.indexOf('在吗')>-1||q.indexOf('hi')>-1||q.indexOf('hello')>-1)return '您好!我是 Maris 助手 👋\n可以问我:怎么绑定 API、各交易所注意事项、最近收益、充值退出流程。\n核心策略问题我不方便答,但可以帮您转人工。';
+  return '这个我可能没听懂 😅 您可以换个说法,或直接点「转人工」。\n我熟的:绑定API·创建API入口·各所注意·API能做什么不能做什么·开通合约·Passphrase·收益·充值·退出·结算·安全·API失效处理';
+}
+window.csT=function(){var p=document.getElementById('csPanel');p.classList.toggle('on');
+if(p.classList.contains('on')){csSeen();csHistoryOnce();csPollStart();if(!window.__csHi){window.__csHi=1;add('ai','您好!我是 Maris 助手 👋\n绑定 API、各交易所注意事项、收益数据、充值退出,都能直接问我;需要人工就点「转人工」——您的留言人工都能看到,回复会显示在这里,关掉页面也不会丢。')}}else{csPollStop()}}
+document.getElementById('csFab').onclick=window.csT;
+function add(w,t){var m=document.getElementById('csMsgs');var b=document.createElement('div');b.className='csB '+w;b.textContent=t;m.appendChild(b);m.scrollTop=m.scrollHeight}
+                                                                        
+function csSid(){var s=demoMem.cs_sid||'';if(!/^[0-9a-f]{32}$/.test(s)){var a=new Uint8Array(16);if(window.crypto&&crypto.getRandomValues){crypto.getRandomValues(a)}else{for(var j=0;j<16;j++)a[j]=Math.floor(Math.random()*256)}s='';for(var i=0;i<16;i++){s+=('0'+a[i].toString(16)).slice(-2)}demoMem.cs_sid=s}return s}
+var CS_LAST=0,CS_TIMER=null,CS_HIST=false,CS_HIST_OK=false;
+function csSeen(){demoMem.cs_seen_ts=String(Math.floor(Date.now()/1000));var d=document.getElementById('csDot');if(d)d.style.display='none'}
+function csDotCheck(rows){var seen=Number(demoMem.cs_seen_ts||0),hit=false;for(var i=0;i<rows.length;i++){if(rows[i].role==='staff'&&Number(rows[i].ts||0)>seen)hit=true}
+var open=document.getElementById('csPanel').classList.contains('on');var d=document.getElementById('csDot');if(d)d.style.display=(hit&&!open)?'block':'none';if(hit&&open)csSeen()}
+function csHistoryOnce(){if(CS_HIST)return;CS_HIST=true;
+demoGet('demo:s01?sid='+csSid()).then(function(x){return x.json()}).then(function(d){if(!d||!d.ok){CS_HIST=false;return}CS_HIST_OK=true;var rows=d.rows||[];for(var i=0;i<rows.length;i++){var r=rows[i];CS_LAST=Math.max(CS_LAST,Number(r.ts||0));add(r.role==='staff'?'ai':'me',(r.role==='staff'?'👩‍💼 人工回复:\n':'')+String(r.text||''))}csDotCheck(rows)}).catch(function(){CS_HIST=false})}                                                                                           
+function csPoll(){if(!CS_HIST_OK){csHistoryOnce();return}demoGet('demo:s03?sid='+csSid()+'&after='+CS_LAST).then(function(x){return x.json()}).then(function(d){if(!d||!d.ok)return;var rows=d.rows||[];for(var i=0;i<rows.length;i++){var r=rows[i];CS_LAST=Math.max(CS_LAST,Number(r.ts||0));if(r.role==='staff'){add('ai','👩‍💼 人工回复:\n'+String(r.text||''));csHumanEnter()}}csDotCheck(rows)}).catch(function(){})}
+function csPollStart(){if(!CS_TIMER)CS_TIMER=setInterval(csPoll,5000)}
+function csPollStop(){if(CS_TIMER){clearInterval(CS_TIMER);CS_TIMER=null}}
+function csPush(q){var body=JSON.stringify({sid:csSid(),text:q,page:'home'});
+demoGet('demo:s02',{method:'POST',headers:{'Content-Type':'application/json'},body:body}).then(function(x){if(x&&x.status===429)add('ai','您发得有点快啦,这小时留言额度到了,稍后再试 🙏')}).catch(function(){
+demoGet('demo:s02',{method:'POST',headers:{'Content-Type':'application/json'},body:body}).catch(function(){add('ai','网络不稳,这条留言可能没送达,稍后重试一下 🙏')})})}
+window.csQ=function(q){add('me',q);csPush(q);
+if(q.indexOf('转人工')>-1){setTimeout(function(){add('ai',ans(q))},260);return}
+if(csHumanActive()){csHumanTouch();return}
+if(csHumanExpiredOnce()){add('ai','人工会话已结束(15 分钟无新回复)。您的留言仍会送达人工;流程类问题我继续秒答。')}
+setTimeout(function(){add('ai',ans(q))},260)}
+                                                                   
+function csHumanEnter(){demoMem.cs_human_until=String(Date.now()+15*60*1000);demoMem.cs_human_open='1'}
+function csHumanTouch(){if(csHumanActive())demoMem.cs_human_until=String(Date.now()+15*60*1000)}
+function csHumanActive(){return Number(demoMem.cs_human_until||0)>Date.now()}
+function csHumanExpiredOnce(){if(demoMem.cs_human_open==='1'&&!csHumanActive()){demoMem.cs_human_open='';return true}return false}
+window.csS=function(){var i=document.getElementById('csI');var q=i.value.trim();if(!q)return;i.value='';window.csQ(q)}
+if(/^[0-9a-f]{32}$/.test(demoMem.cs_sid||''))setTimeout(function(){demoGet('demo:s01?sid='+demoMem.cs_sid).then(function(x){return x.json()}).then(function(d){if(d&&d.ok)csDotCheck(d.rows||[])}).catch(function(){})},8000);
+})();
+</script>
+<script src="./assets/input-release-132/family.js"></script><script src="./assets/partner-release-122/orbit-icons.js"></script><script type="module" src="./assets/partner-release-122/network-globe.js"></script><script type="module" src="./assets/partner-release-122/market-trace.js"></script><script type="module" src="./assets/partner-release-122/light-flow.js"></script><script src="./assets/input-release-125/suite-polish.js" data-suite-polish></script><script src="./assets/input-release-132/input-compat.js" data-input-compat></script></body>
+</html>

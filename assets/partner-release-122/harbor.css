@@ -1,0 +1,10 @@
+body.partner-authenticated,body.partner-guest,body.family-page{
+  background-image:
+    radial-gradient(ellipse 85% 95% at 50% 120%,rgba(79,149,167,.22) 0%,rgba(32,79,111,.16) 46%,rgba(22,50,78,.06) 70%,transparent 100%),
+    linear-gradient(0deg,rgba(32,73,104,.58) 0%,rgba(23,49,78,.24) 32%,rgba(16,33,54,.07) 62%,transparent 92%),
+    linear-gradient(180deg,#05070d 0%,#081019 55%,#04121a 100%);
+  background-size:100% clamp(260px,40vh,420px),100% clamp(260px,40vh,420px),100% 100%;
+  background-position:center bottom;
+  background-repeat:no-repeat;
+  background-attachment:scroll;
+}

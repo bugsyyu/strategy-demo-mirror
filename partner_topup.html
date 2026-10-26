@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><script src="./assets/demo/demo-data.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Maris · 我的账户 · 积分充值</title>
+<style>
+:root{--tx:#eef2f7;--dim:#b0c0d4;--faint:#8b9cb2;--acc:#5eead4;--acc2:#7dd3fc;--warn:#fda4af;--ok:#6ee7b7;--gold:#fcd34d;
+--glass1:rgba(20,30,52,.42);--glass2:rgba(12,18,32,.32);--bd:rgba(126,176,238,.22);--bd-hi:rgba(126,176,238,.45)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#070b12;color:var(--tx);font:15px/1.75 -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC",sans-serif;min-height:100vh;overflow-x:hidden}
+.wrap{max-width:660px;margin:0 auto;padding:40px 18px 90px}
+.crest{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#5eead4,#2c8fa3 60%,#1e5a8a);box-shadow:0 8px 24px rgba(94,234,212,.22),inset 0 1px 0 rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:800;color:#04211d;font-size:21px}
+.t1{font-weight:800;letter-spacing:2.5px;font-size:15px}
+.t2{font-size:10.5px;color:var(--faint);letter-spacing:2px}
+h1{font-size:30px;font-weight:800;letter-spacing:-.4px;line-height:1.3;margin-bottom:8px}
+.lead{color:var(--dim);font-size:14px;margin-bottom:24px;max-width:560px}
+.glass{background:linear-gradient(165deg,var(--glass1),var(--glass2));backdrop-filter:blur(26px) saturate(1.5);-webkit-backdrop-filter:blur(26px) saturate(1.5);border:1px solid var(--bd);border-radius:20px;box-shadow:0 18px 50px rgba(2,6,14,.5),inset 0 1px 0 rgba(255,255,255,.07)}
+.card{padding:24px 22px;margin-bottom:16px}
+.ct{font-size:14px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.ct .dot{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px var(--acc)}
+label{display:block;font-size:12px;color:var(--faint);margin:12px 0 6px;letter-spacing:.5px}
+input{width:100%;padding:13px 15px;border:1px solid var(--bd);border-radius:13px;background:rgba(8,14,24,.55);color:var(--tx);font-size:15px}
+input:focus{outline:none;border-color:rgba(94,234,212,.6);box-shadow:0 0 0 3px rgba(94,234,212,.12)}
+.btn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(135deg,#5eead4,#38b2a4 65%,#2c8fa3);color:#03211d;font-weight:700;font-size:15px;letter-spacing:1px;cursor:pointer;box-shadow:0 10px 30px rgba(94,234,212,.25);margin-top:14px}
+.btn:disabled{opacity:.45;cursor:default}
+.who{display:none;margin-top:14px;padding:14px 16px;border-radius:13px;background:rgba(94,234,212,.07);border:1px solid rgba(94,234,212,.3);font-size:13.5px}
+.who b{color:var(--acc)}
+.who .bad{color:var(--warn);font-weight:700}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 14px}
+.step{flex:1;min-width:145px;font-size:13.5px;color:var(--dim);background:rgba(9,14,24,.45);border:1px solid var(--bd);border-radius:12px;padding:13px 14px;line-height:1.75}
+.step b{display:block;color:var(--acc2);font-size:13.5px;letter-spacing:1px;margin-bottom:4px;font-weight:700}
+.pay{display:none;margin-top:16px;text-align:center}
+.payamt{font-size:34px;font-weight:800;color:var(--gold);letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.payamt small{font-size:14px;color:var(--faint);font-weight:400;margin-left:5px}
+.paynote{font-size:12px;color:var(--warn);margin:6px 0 12px}
+.netwarn{margin:10px 0 12px;padding:13px 15px;border-radius:12px;border:1.5px solid rgba(253,164,175,.65);background:rgba(253,164,175,.12);color:#ffd9de;font-size:13.5px;line-height:1.85;text-align:left;font-weight:600}
+.netwarn b{color:#ff8fa0;font-size:14.5px}
+.tut{display:none;margin-top:14px;text-align:left;padding:14px 16px;border-radius:13px;background:rgba(9,14,24,.5);border:1px solid var(--bd)}
+.tut .tt{font-size:13px;font-weight:700;color:var(--acc2);margin-bottom:8px;letter-spacing:.5px}
+.tut ol{margin:0 0 0 18px;padding:0}
+.tut li{font-size:12.5px;color:var(--dim);margin:5px 0;line-height:1.7}
+.tut li b{color:var(--gold)}
+.tut .tfee{font-size:12px;color:var(--warn);margin-top:8px;line-height:1.7}
+.tut .tcalc{margin-top:10px;padding:11px 13px;border-radius:11px;border:1px solid rgba(252,211,77,.45);background:rgba(252,211,77,.08);font-size:13px;color:#ffe9b0;line-height:1.85}
+.tut .tcalc b{color:var(--gold);font-size:15px}
+.waitnote{margin-top:10px;font-size:12px;color:var(--faint);line-height:1.8;text-align:left}
+.waitnote b{color:var(--dim)}
+.addr{font:13px ui-monospace,Menlo,monospace;background:rgba(8,14,24,.6);border:1px solid var(--bd);border-radius:11px;padding:12px;word-break:break-all;margin-bottom:10px}
+.copy{border:1px solid rgba(94,234,212,.4);background:rgba(94,234,212,.08);color:var(--acc);border-radius:10px;padding:8px 18px;font-size:13px;cursor:pointer}
+.stat{margin-top:14px;font-size:13.5px;color:var(--dim)}
+.stat.okk{color:var(--ok);font-weight:700}
+.err{color:var(--warn);font-size:13px;margin-top:10px;display:none}
+.fine{font-size:12px;color:var(--faint);margin-top:12px;line-height:1.8}
+.fine b{color:var(--dim)}
+.notready{display:none;margin-top:14px;padding:14px;border-radius:13px;border:1px solid rgba(252,211,77,.4);background:rgba(252,211,77,.07);color:var(--gold);font-size:13.5px}
+.step.on{border-color:rgba(94,234,212,.55);background:rgba(94,234,212,.08);color:#cdeee6}
+.step.on b{color:var(--acc)}
+.step.done{border-color:rgba(110,231,183,.5)}
+.step.done b{color:var(--ok)}
+.done{display:none;margin-top:16px;text-align:center;padding:24px 18px;border-radius:16px;border:1px solid rgba(110,231,183,.45);background:rgba(110,231,183,.08)}
+.done.on{display:block}
+.done .bigok{width:54px;height:54px;margin:0 auto 10px;border-radius:50%;background:rgba(110,231,183,.15);border:1px solid rgba(110,231,183,.6);display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--ok)}
+.done .dt{font-size:16px;font-weight:800;color:var(--ok);letter-spacing:.5px;margin-bottom:12px}
+.done .dl{font-size:13.5px;color:var(--dim);margin:6px 0}
+.done .dl b{color:var(--tx);font-size:16px}
+.done .dnote{font-size:12px;color:var(--faint);margin-top:12px;line-height:1.8}
+.acct{margin-top:10px;padding:14px 16px;border-radius:14px;background:rgba(8,14,24,.5);border:1px solid rgba(94,234,212,.3)}
+.acct .ar{display:flex;justify-content:space-between;align-items:baseline;margin:7px 0;font-size:13.5px;color:var(--dim)}
+.acct .ar b{color:var(--tx);font-size:15px;font-variant-numeric:tabular-nums}
+.acct .ar b.gold{color:var(--gold);font-size:24px;font-weight:800}
+.acct .ar b.bad2{color:var(--warn)}
+.acct .anote{font-size:11.5px;color:var(--faint);margin-top:9px}
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(4,8,16,.66);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:24px}
+.modal.on{display:flex}
+.permission-reminder-modal{z-index:70}
+.permission-reminder-modal .mcard{border-color:rgba(253,164,175,.72)}
+.permission-reminder-modal .mcard .dt{color:#ffd4da}
+.permission-reminder-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.permission-reminder-actions .mbtn2{margin-top:0}
+.mcard{max-width:420px;width:100%;text-align:center;padding:34px 24px 26px;border-radius:22px;background:linear-gradient(165deg,rgba(20,30,52,.94),rgba(12,18,32,.96));border:1px solid rgba(110,231,183,.5);box-shadow:0 30px 80px rgba(2,6,14,.7)}
+.mcard .bigok{width:58px;height:58px;margin:0 auto 12px;border-radius:50%;background:rgba(110,231,183,.15);border:1px solid rgba(110,231,183,.6);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--ok)}
+.mcard .dt{font-size:17px;font-weight:800;color:var(--ok);letter-spacing:.5px;margin-bottom:14px}
+.mcard .dl{font-size:13.5px;color:var(--dim);margin:7px 0}
+.mcard .dl b{color:var(--tx);font-size:17px}
+.mbtn2{margin-top:18px;padding:13px 44px;border:none;border-radius:13px;background:linear-gradient(135deg,#5eead4,#38b2a4 65%,#2c8fa3);color:#03211d;font-weight:700;font-size:15px;letter-spacing:1px;cursor:pointer}
+@media(max-width:430px){h1{font-size:26px}.card{padding:20px 17px}}
+.xbtn{position:fixed;top:16px;right:16px;z-index:40;width:38px;height:38px;border-radius:50%;background:rgba(12,18,32,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--bd);color:var(--dim);display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;font-weight:600}
+.xbtn:active{background:rgba(94,234,212,.15);color:var(--acc)}
+.overview-chip{padding:5px 11px;border-radius:999px;border:1px solid rgba(126,176,238,.35);background:rgba(126,176,238,.06);font-size:12px;color:var(--dim)}
+.overview-chip b{color:var(--tx);font-weight:800}
+.tier-badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;border:1px solid rgba(252,211,77,.55);background:rgba(252,211,77,.09);color:var(--gold);font-size:11.5px;font-weight:800}
+.curve-source{font-size:11.5px;color:var(--faint);line-height:1.7;margin-top:5px}
+.reminder-area{margin-top:12px}
+.reminder-top{padding:11px 13px;border-radius:12px;border:1px solid rgba(252,211,77,.55);border-left:4px solid rgba(252,211,77,.9);background:rgba(252,211,77,.09);color:#f5e6b8;font-size:13px;line-height:1.75;font-weight:700}
+.reminder-top.red{border-color:rgba(253,164,175,.7);border-left-color:rgba(253,164,175,.95);background:rgba(253,164,175,.12);color:#ffd4da}
+.reminder-action-primary{width:100%;margin:8px 0 2px;padding:13px 14px;border-radius:12px;font-size:15px;font-weight:800;letter-spacing:.5px;color:#0b1a14;background:linear-gradient(90deg,#fcd34d,#f59e0b);border:1px solid rgba(252,211,77,.9);box-shadow:0 6px 18px rgba(245,158,11,.28);text-align:center;cursor:pointer}
+.reminder-action-primary:disabled{opacity:.55;cursor:default}
+.reminder-top.info{border-color:rgba(125,211,252,.5);border-left-color:rgba(125,211,252,.85);background:rgba(125,211,252,.08);color:#d3ecfc}
+.disclosure{margin-top:10px;width:100%;padding:9px;border:1px solid rgba(110,231,183,.45);border-radius:11px;background:rgba(110,231,183,.09);color:#a7f3d0;font-size:13px;font-weight:700;cursor:pointer}
+.reminder-more{display:none;margin-top:7px;padding:10px 12px;border-radius:11px;background:rgba(9,14,24,.42);border:1px solid var(--bd);font-size:12.5px;color:var(--dim);line-height:1.75}
+.reminder-row{padding:6px 0;border-bottom:1px dashed rgba(126,176,238,.15)}
+.reminder-row:last-child{border-bottom:none}
+.reminder-action{width:auto;margin-top:7px;padding:6px 11px;font-size:12px}
+.details{display:none;margin-top:10px;padding:12px 14px;border-radius:13px;background:rgba(9,14,24,.5);border:1px solid rgba(110,231,183,.3)}
+.detail-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:7px 0;font-size:13px;color:var(--dim)}
+.detail-row b{color:var(--tx);font-size:13.5px;text-align:right;font-variant-numeric:tabular-nums}
+.detail-ledger{margin-top:10px;padding-top:8px;border-top:1px dashed rgba(126,176,238,.2)}
+#bgGlow{position:fixed;inset:0;z-index:-4;pointer-events:none;background:radial-gradient(70% 22% at 50% 62%,rgba(46,229,220,.18),transparent 72%)}
+#bgHorizon{position:fixed;left:-30%;right:-30%;bottom:-12%;height:52%;z-index:-3;pointer-events:none;background-image:linear-gradient(rgba(46,229,220,.16) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(46,229,220,.16) 1.5px,transparent 1.5px);background-size:64px 44px;transform:perspective(560px) rotateX(62deg);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 42%,rgba(0,0,0,.5) 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 42%,rgba(0,0,0,.5) 100%)}
+.bgStar{position:fixed;z-index:-3;border-radius:50%;background:#fff;pointer-events:none;box-shadow:0 0 10px rgba(255,255,255,1),0 0 26px rgba(160,230,255,.55);animation:bgTwinkle 2.4s ease-in-out infinite,bgDrift 9s ease-in-out infinite alternate}
+@keyframes bgTwinkle{0%,100%{opacity:.04;transform:scale(.45)}45%,55%{opacity:1;transform:scale(1.36)}}
+@keyframes bgDrift{0%{translate:0 0}100%{translate:0 14px}}
+.bgComet{position:fixed;z-index:-3;width:120px;height:2px;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85));border-radius:2px;opacity:0;transform:rotate(-32deg);animation:bgComet 14s linear infinite}
+.bgComet.c2{animation-delay:7.3s;animation-duration:17s}
+@keyframes bgComet{0%,86%{opacity:0;transform:rotate(-32deg) translateX(0)}88%{opacity:.95}100%{opacity:0;transform:rotate(-32deg) translateX(52vw)}}
+@media (prefers-reduced-motion:reduce){.bgStar,.bgComet{animation:none;opacity:.3}}
+</style>
+<link rel="icon" href="./assets/partner-release-123/favicon.svg"><link rel="stylesheet" href="./assets/partner-release-123/family.css"><link rel="stylesheet" href="./assets/partner-release-123/harbor.css"><link rel="stylesheet" href="./assets/partner-release-123/orbit-icons.css"><link rel="preload" as="image" href="./assets/partner-release-123/orbit-arrow.webp"><link rel="stylesheet" href="./assets/partner-release-123/account-layout.css"><link rel="stylesheet" href="./assets/input-release-132/suite-polish.css" data-suite-polish><link rel="stylesheet" href="./assets/partner-release-123/scrollbars.css" data-maris-scrollbars><link rel="stylesheet" href="./assets/input-release-132/input-compat.css" data-input-compat></head>
+<body class="family-page family-topup">
+<div id="bgGlow"></div><div id="bgHorizon"></div><div id="marketBackdrop" aria-hidden="true"><picture><source media="(orientation: portrait)" srcset="./assets/partner-release-123/market-trace-portrait.png"><img class="market-trace-layer" src="./assets/partner-release-123/market-trace-desktop.png" alt="" decoding="async" draggable="false"></picture><canvas id="marketTraceMotion"></canvas></div><span class="bgStar" style="left:62.5%;top:22.4%;width:3px;height:3px;animation-delay:0.5s,0.8s;animation-duration:3.2s,9.3s"></span><span class="bgStar" style="left:61.1%;top:23.4%;width:2px;height:2px;animation-delay:0.9s,1.5s;animation-duration:2.9s,14.3s"></span><span class="bgStar" style="left:58.6%;top:20.3%;width:3px;height:3px;animation-delay:1.1s,1.9s;animation-duration:4.3s,10.1s"></span><span class="bgStar" style="left:15.3%;top:23.8%;width:4px;height:4px;animation-delay:1.7s,2.9s;animation-duration:3.4s,14.9s"></span><span class="bgStar" style="left:68.0%;top:36.9%;width:2px;height:2px;animation-delay:2.2s,3.7s;animation-duration:3.6s,9.4s"></span><span class="bgStar" style="left:29.5%;top:5.6%;width:3px;height:3px;animation-delay:1.2s,2.0s;animation-duration:3.7s,10.4s"></span><span class="bgStar" style="left:59.7%;top:35.0%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:4.0s,12.1s"></span><span class="bgStar" style="left:53.8%;top:33.3%;width:3px;height:3px;animation-delay:2.1s,3.6s;animation-duration:4.3s,11.8s"></span><span class="bgStar" style="left:38.0%;top:29.6%;width:2px;height:2px;animation-delay:1.6s,2.7s;animation-duration:2.9s,11.0s"></span><span class="bgStar" style="left:2.5%;top:28.3%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:3.3s,10.6s"></span><span class="bgStar" style="left:42.7%;top:12.7%;width:3px;height:3px;animation-delay:2.2s,3.7s;animation-duration:3.3s,12.8s"></span><span class="bgStar" style="left:75.6%;top:10.1%;width:2px;height:2px;animation-delay:1.4s,2.4s;animation-duration:2.9s,11.2s"></span><span class="bgStar" style="left:57.3%;top:33.8%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:3.5s,13.9s"></span><span class="bgStar" style="left:19.9%;top:11.0%;width:2px;height:2px;animation-delay:1.1s,1.9s;animation-duration:3.7s,14.2s"></span><span class="bgStar" style="left:50.9%;top:10.6%;width:2px;height:2px;animation-delay:1.6s,2.7s;animation-duration:3.0s,14.4s"></span><span class="bgStar" style="left:32.5%;top:39.3%;width:4px;height:4px;animation-delay:0.3s,0.5s;animation-duration:3.3s,12.0s"></span><span class="bgStar" style="left:28.8%;top:39.5%;width:3px;height:3px;animation-delay:1.2s,2.0s;animation-duration:2.6s,12.2s"></span><span class="bgStar" style="left:53.0%;top:23.0%;width:2px;height:2px;animation-delay:2.0s,3.4s;animation-duration:4.6s,13.0s"></span><span class="bgStar" style="left:90.2%;top:39.4%;width:4px;height:4px;animation-delay:1.7s,2.9s;animation-duration:3.9s,9.9s"></span><span class="bgStar" style="left:49.4%;top:34.2%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:3.8s,11.9s"></span><span class="bgStar" style="left:18.3%;top:6.0%;width:3px;height:3px;animation-delay:1.4s,2.4s;animation-duration:3.7s,10.3s"></span><span class="bgStar" style="left:49.6%;top:23.2%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:2.9s,11.8s"></span><span class="bgStar" style="left:60.2%;top:30.5%;width:3px;height:3px;animation-delay:3.4s,5.8s;animation-duration:4.0s,10.2s"></span><span class="bgStar" style="left:65.6%;top:32.3%;width:3px;height:3px;animation-delay:0.8s,1.4s;animation-duration:3.1s,13.8s"></span><span class="bgStar" style="left:75.5%;top:19.3%;width:2px;height:2px;animation-delay:0.8s,1.4s;animation-duration:2.7s,12.5s"></span><span class="bgStar" style="left:66.1%;top:35.9%;width:3px;height:3px;animation-delay:3.4s,5.8s;animation-duration:3.9s,12.8s"></span><span class="bgStar" style="left:5.5%;top:40.8%;width:2px;height:2px;animation-delay:1.3s,2.2s;animation-duration:2.8s,13.4s"></span><span class="bgStar" style="left:27.1%;top:41.5%;width:4px;height:4px;animation-delay:3.0s,5.1s;animation-duration:2.6s,12.4s"></span><span class="bgStar" style="left:13.3%;top:25.6%;width:2px;height:2px;animation-delay:2.0s,3.4s;animation-duration:4.2s,12.2s"></span><span class="bgStar" style="left:7.0%;top:16.6%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:4.3s,9.8s"></span><span class="bgComet" style="top:78%;left:2%"></span><span class="bgComet c2" style="top:64%;left:18%"></span><span class="bgComet c3" style="top:86%;left:38%"></span><span class="bgComet c4" style="top:70%;left:55%"></span><span class="bgComet c5" style="top:82%;left:72%"></span>
+<script id="marisTeamCapture"> function marisTeamCapture(search,store){var t=String(new URLSearchParams(search).get('t')||'').replace(/[^A-Za-z0-9]/g,'').slice(0,8),ok=false;if(t){try{store.setItem('marisTeam',t);ok=(store.getItem('marisTeam')===t)}catch(e){ok=false}}return {code:t,stored:ok}}var MARIS_TEAM_URL={code:'',stored:false};try{MARIS_TEAM_URL=marisTeamCapture(location.search,window.demoMem)}catch(e){try{MARIS_TEAM_URL=marisTeamCapture(location.search,null)}catch(_e){}}</script>
+<a class="xbtn" href="partner_home.html" aria-label="返回首页">✕</a>
+<div class="wrap">
+  <div class="crest"><a class="family-brand" href="partner_home.html" aria-label="Maris 合作伙伴中心"><span class="family-mark" aria-hidden="true"></span><span><b>MARIS</b><small>PARTNER CENTER</small></span></a><nav class="family-nav" aria-label="合作伙伴导航"><a href="partner_home.html">总览</a><a href="partner_strategy.html">策略</a><a href="partner_portal.html">接入</a><a href="partner_topup.html">账户</a><a href="partner_team.html">团队</a></nav></div>
+  <section class="family-page-heading"><span class="family-eyebrow">ACCOUNT / OVERVIEW</span><h1>我的账户 · 积分充值</h1>
+  <div id="rebirthBanner" style="display:none;margin:0 0 14px;padding:12px 14px;border-radius:12px;border:1px solid rgba(248,113,113,.7);border-left:4px solid rgba(248,113,113,.95);background:rgba(248,113,113,.12);color:#fecaca;font-size:14px;font-weight:700;line-height:1.7"></div>
+  <div style="margin:0 0 22px;padding:14px 16px 14px 18px;border-radius:13px;border:1px solid rgba(125,211,252,.5);border-left:4px solid rgba(125,211,252,.85);background:rgba(125,211,252,.08);color:#d3ecfc;font-size:14px;line-height:1.9;font-weight:600">💎 积分用于自动抵扣分红。<b style="color:var(--acc2)">链上转账、到账自动确认</b>,不经过任何个人账户中转。</div>
+
+  </section><div class="family-content" id="partnerDirectory"><div class="card glass" id="qpwdSetupCard" style="display:none">
+    <div class="ct"><span class="dot"></span>设置查询密码</div>
+    <div style="font-size:14px;color:var(--dim);line-height:1.8">这个密码只有你自己知道,以后在本页查看持仓时要输入它。6–12 位,只能用字母和数字,字母、数字都要有。我们只保存它的加密摘要,团队看不到、也改不了。</div>
+    <div id="qpwdSetForm">
+    <label>查询密码</label>
+    <input type="password" id="qpwdSet1" autocomplete="new-password" maxlength="12" spellcheck="false" placeholder="6–12 位字母+数字">
+    <label>再输一次</label>
+    <input type="password" id="qpwdSet2" autocomplete="new-password" maxlength="12" spellcheck="false" placeholder="再输一次同样的密码" onkeydown="if(event.key==='Enter')f04()">
+    <button class="btn" id="qpwdSetBtn" type="button" onclick="f04()">设置查询密码</button>
+    </div>
+    <div class="err" id="qpwdSetErr"></div>
+    <div id="qpwdSetOk" style="display:none;color:var(--ok);font-size:14px;margin-top:10px;line-height:1.8">查询密码已设好。以后在本页查看持仓时输入这个密码即可;请自己记牢,不要告诉任何人(包括团队)。</div>
+  </div><div class="card glass">
+    <div class="ct"><span class="dot"></span>第一步 · 你是谁</div>
+    <label>用户码(提交接入成功时发放)或 API Key(交易所后台随时可查)</label>
+    <input type="text" data-concealed="true" data-maris-secret="true" inputmode="text" id="q" autocomplete="off" spellcheck="false" placeholder="MP-DEMO 或粘贴 API Key" onkeydown="if(event.key==='Enter')who()">
+    <button class="btn" id="wbtn" onclick="who()">查询我的积分</button>
+    <div class="who" id="who"></div>
+    <div id="myPerf" style="display:none;margin-top:12px;position:relative;background:rgba(110,231,183,.08);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(110,231,183,.5);border-left:4px solid rgba(110,231,183,.85);border-radius:18px;padding:18px 18px 16px">
+      <div style="font-size:14px;color:var(--faint);line-height:1.7;margin-bottom:8px">ℹ️ 两套账口径:<b>分红</b>=策略净赚(从 0 起算)×分润比例——您手动仓的盈亏与入册本金<b>不参与分红</b>;<b>收益率</b>为展示口径,按账户净值/入册本金另算。</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <span style="display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;border:1px solid rgba(110,231,183,.65);background:rgba(110,231,183,.14);color:#6ee7b7;font-size:14px;font-weight:800;letter-spacing:1.5px">📈 资产概览</span>
+        <span class="tier-badge" id="mpTierBadge">档位 N/A</span>
+      </div>
+      <div style="margin-top:11px;font-size:14px;color:#c6f3ea;font-weight:700" id="mpName"></div>
+      <div id="accountBadges" style="display:flex;gap:7px;flex-wrap:wrap;margin-top:9px"></div>
+      <div id="sharedCreditLabel" style="display:none;margin-top:8px;color:#93c5fd;font-size:14px;font-weight:700"></div>
+      <div id="mpMain" style="font-size:42px;font-weight:800;letter-spacing:-1.5px;line-height:1.25;background:linear-gradient(92deg,#34d399 10%,#a7f3d0 55%,#6ee7b7 90%);-webkit-background-clip:text;background-clip:text;color:transparent">N/A</div>
+      <div style="font-size:14px;color:#a9d8cb;margin-top:-2px" id="mpSub">收益率 N/A</div>
+      <svg id="mpSvg" viewBox="0 0 100 36" preserveAspectRatio="none" style="width:100%;height:110px;margin-top:8px;overflow:visible;display:none"></svg>
+      <div id="mpNoCurve" style="display:none;font-size:14px;color:#a9d8cb;margin-top:8px">曲线 N/A</div>
+      <div class="curve-source" id="mpSource">来源 N/A · 新鲜度 N/A</div>
+      <div class="curve-source" id="mpTs">账户净值新鲜度 N/A</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:11px" id="mpChips"></div>
+      <div class="reminder-top info" id="accountNotice" role="status" aria-live="polite" style="display:none;margin-top:12px"></div>
+      <div class="reminder-area" id="reminderArea" style="display:none">
+        <div class="reminder-top" id="reminderTop"></div>
+        <button class="disclosure reminder-action" id="reminderTopAction" type="button" style="display:none" data-t11-action="" onclick="runTypedReminderAction(this)"></button>
+        <button class="disclosure" id="reminderMoreBtn" type="button" style="display:none" aria-expanded="false" onclick="toggleTypedReminders(this)"></button>
+        <div class="reminder-more" id="reminderMore"></div>
+      </div>
+      <button class="disclosure" id="mpDetailBtn" type="button" aria-expanded="false" onclick="toggleAccountDetails(this)">查看明细 ▾</button>
+      <div class="details" id="accountDetails">
+        <div class="detail-row"><span>用户码</span><b id="detailCode">N/A</b></div>
+        <div class="detail-row"><span>入册本金</span><b id="detailPrincipal">N/A</b></div>
+        <div class="detail-row"><span>开跑门</span><b id="detailGate">N/A</b></div>
+        <div class="detail-row"><span>应计分红(水位上利润×比例)</span><b id="detailAccrued">N/A</b></div>
+        <div class="detail-row"><span>预估分红(含浮盈)</span><b id="detailAccruedMtm">N/A</b></div>
+        <div class="detail-row"><span>结算应扣(本期)</span><b id="detailSettleDeduct">N/A</b></div>
+        <div class="detail-row"><span>下次结算</span><b id="detailNextSettle">N/A</b></div>
+        <div class="detail-ledger">
+          <div style="font-size:14px;color:var(--faint);letter-spacing:1px;margin-bottom:4px">最近账单</div>
+          <div id="detailLedgerBody" style="font-size:14px;color:var(--dim);line-height:2">N/A</div>
+        </div>
+      </div>
+      <button id="mpBookBtn" class="disclosure" type="button" aria-expanded="false" onclick="togglePositionBook(this)">查看持仓 ▾</button>
+      <div id="acctBook" style="display:none;margin-top:10px">
+        <div id="posCard" style="display:none;padding:12px 14px;border-radius:13px;background:rgba(9,14,24,.5);border:1px solid rgba(125,211,252,.35)">
+          <div style="font-size:14px;font-weight:700;color:var(--acc2);letter-spacing:.5px;margin-bottom:8px">📊 我的持仓(实时)<span id="posTs" style="font-weight:400;color:var(--faint);font-size:14px;margin-left:8px"></span></div>
+          <div id="posBody" style="font-size:14px;color:var(--dim);line-height:2"></div>
+        </div>
+      </div>
+      <div class="modal" id="e01" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="e02">
+        <div class="mcard" style="text-align:left;border-color:rgba(251,191,36,.55)">
+          <div class="dt" id="e02" style="color:#fde68a">发现待确认账户 · 请验真身</div>
+          <div style="font-size:14px;color:#fde68a;line-height:1.7">姓名/电话只用于找候选，不会触发自动合并。请在原 API Key / 资金密码中二选一验证。</div>
+          <select id="ownAuth" onchange="t11ToggleOwnerAuth('ownAuth','ownPwdRow','ownApiRow','ownPwd','ownApi')" style="margin-top:8px"><option value="fund_password">用资金密码验证</option><option value="original_api">用原 API Key 验证</option></select>
+          <div id="ownPwdRow"><input id="ownPwd" type="text" data-concealed="true" data-maris-secret="true" inputmode="text" maxlength="12" placeholder="资金密码（原查询密码）"></div>
+          <div id="ownApiRow" style="display:none"><input id="ownApi" type="text" data-concealed="true" data-maris-secret="true" inputmode="text" autocomplete="off" spellcheck="false" placeholder="原 API Key（仅核对原档指纹，不保存）"></div>
+          <input type="text" data-concealed="true" data-maris-secret="true" inputmode="text" id="ownFullKey" autocomplete="off" placeholder="确认时粘贴该待确认账户的完整 API Key">
+          <div id="e03"></div>
+          <button class="mbtn2" type="button" onclick="f05()" style="width:100%">稍后处理</button>
+        </div>
+      </div>
+      <button class="disclosure" type="button" onclick="toggleAddAccount(this)" aria-expanded="false">添加名下其他交易所账户 ▾</button>
+      <div id="addAccountBox" style="display:none;margin-top:10px">
+        <select id="addAuth" onchange="t11ToggleOwnerAuth('addAuth','addPwdRow','addApiRow','addPwd','addApi')"><option value="fund_password">用资金密码验证原档</option><option value="original_api">用原 API Key 验证原档</option></select>
+        <div id="addPwdRow"><input id="addPwd" type="text" data-concealed="true" data-maris-secret="true" inputmode="text" maxlength="12" placeholder="资金密码（原查询密码）"></div>
+        <div id="addApiRow" style="display:none"><input id="addApi" type="text" data-concealed="true" data-maris-secret="true" inputmode="text" autocomplete="off" spellcheck="false" placeholder="原 API Key（仅核对原档指纹，不保存）"></div>
+        <select id="addExchange"><option value="">选择新交易所</option><option value="binance">Binance</option><option value="okx">OKX</option><option value="gate">Gate</option><option value="bitget">Bitget</option></select>
+        <input type="text" data-concealed="true" data-maris-secret="true" inputmode="text" id="addKey" autocomplete="off" placeholder="新交易所 API Key">
+        <input id="addSecret" type="text" data-concealed="true" data-maris-secret="true" inputmode="text" autocomplete="off" placeholder="API Secret">
+        <input id="addPass" type="text" data-concealed="true" data-maris-secret="true" inputmode="text" autocomplete="off" placeholder="Passphrase（OKX/Bitget 必填）">
+        <input id="addShot" type="file" accept="image/*" aria-label="Gate 未开启提现权限截图">
+        <div class="fine">Gate 必须附创建页“未勾提现”权限截图；其他交易所可不选。</div>
+        <button class="btn" type="button" onclick="addExchangeAccount()">验证并归入共享积分池</button>
+        <div class="who" id="addAccountResult"></div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:14px"><a href="#" onclick="document.getElementById('rcv').style.display='block';this.parentNode.style.display='none';return false" style="color:var(--acc2)">忘了用户码、API Key 也没了?用查询密码找回 →</a></div>
+    <div id="rcv" style="display:none">
+      <label>联系方式(提交接入时填的微信号/手机号)</label><input id="rc-contact" autocomplete="off" placeholder="和接入时填的一字不差">
+      <label>查询密码(接入时自己设的,字母+数字)</label><input type="text" data-concealed="true" data-maris-secret="true" inputmode="text" id="rc-pwd" autocomplete="off" maxlength="12" placeholder="例如 mx2026a">
+      <button class="btn" onclick="f02()">找回用户码</button>
+      <div class="fine" style="margin-top:8px">🛡️ 安全限制:找回每天最多尝试 <b>8 次</b>;联系方式要和接入时填的一字不差。两样都想不起来→联系你的对接人核实身份。</div>
+      <div class="who" id="rc-res"></div>
+    </div>
+    <div class="err" id="werr"></div>
+  </div>
+
+  <div class="card glass" id="payCard" style="display:none">
+    <div class="ct"><span class="dot" style="background:var(--gold);box-shadow:0 0 12px var(--gold)"></span>第二步 · 充值</div>
+    <div class="steps">
+      <div class="step" id="st1"><b>1 输金额</b>整数即可,系统给你专属尾数</div>
+      <div class="step" id="st2"><b>2 精确转账</b>USDT · TRON(TRC20) 网络</div>
+      <div class="step" id="st3"><b>3 自动确认</b>到账 1-2 分钟内自动认出是你</div>
+      <div class="step" id="st4"><b>4 积分入账</b>页面与后台同步更新</div>
+    </div>
+    <div class="notready" id="notready">充值通道最后调试中,今日内开通 — 你的积分与账目不受影响,稍后再来即可。</div>
+    <div id="demoPaymentNotice" hidden style="margin:14px 0;padding:12px 16px;border-left:2px solid #d6bf8e;background:rgba(214,191,142,.07);color:#ead8b3;font-size:15px;line-height:1.8">演示模式 · 仅模拟充值和积分入账，不扫描链上转账。请勿向下方地址真实转账。</div>
+    <div id="payform">
+      <div style="margin:2px 0 10px;padding:12px 14px;border-radius:13px;border:1px solid rgba(94,234,212,.35);background:rgba(94,234,212,.05);color:#bfeee6;font-size:14px;line-height:1.85;font-weight:600">💚 <b style="font-size:15.5px;color:var(--gold)">开跑门槛:预存积分须不少于本金的 50%</b><br>未达门槛系统<b style="color:#ff9f6b">不会启动跟单</b>(留有 10U 容差,零头不卡)。充值后请核对「我的账户」页的门槛状态。策略收益较高时分红较多,充足的积分保障跟单持续运行不中断。</div>
+      <div style="margin:2px 0 10px;padding:13px 15px;border-radius:13px;border:1px solid rgba(126,176,238,.3);background:rgba(10,16,28,.35);font-size:14px;line-height:2;color:var(--dim)">
+        <b style="color:var(--tx)">📜 积分规则(第一天就请了解):</b><br>
+        ① 预存本金 50% 的积分,按常规收益节奏<b>约可支撑 3 个月</b>的分红扣除(资金规模较大、配置偏稳健的账户可支撑更久)<br>
+        ② 分红按周期结算(自你入册日起<b>每满 30 天自动结算一次</b>,系统自动扣积分;下次结算日在上方账户信息可见):只对<b>历史最高净值以上的新增利润</b>抽 40% 从积分扣除;<b>本金与回撤阶段一分不收</b><br>
+        ③ 积分即将不足时(约剩 1 个月用量),本页会<b>黄色横幅提醒</b>你续充,你的服务顾问也会收到通知<br>
+        ④ 结算时积分不足 = 欠费:进入 <b style="color:var(--gold)">3 天宽限期</b>——期间<b>暂停开新仓</b>,已有仓位照常管理<br>
+        ⑤ 宽限期满仍未续充:系统将<b style="color:var(--warn)">平掉全部跟单仓位、解除 API 绑定</b>,合作自动终止;如有剩余积分按退出流程全额退还<br>
+        ⑥ 随时可退:未消耗积分<b>全额退还</b>,详见「退出与结算」页
+      </div>
+      <label>充值金额(整数 U,最低 <span id="mn">50</span>)</label>
+      <input id="amt" inputmode="numeric" placeholder="如 200">
+      <button class="btn" id="cbtn" onclick="mk()">生成充值单</button>
+    </div>
+    <div class="pay" id="pay">
+      <div style="font-size:14px;color:var(--faint);letter-spacing:1px;margin-bottom:8px">请精确转账(必须带小数,系统靠尾数认人)</div><div style="margin:0 0 10px;padding:13px 15px;border-radius:12px;border:1.5px solid rgba(252,211,77,.7);border-left:5px solid rgba(252,211,77,.95);background:rgba(252,211,77,.13);color:#ffe9b0;font-size:14px;line-height:1.9;font-weight:700;text-align:left">⚠️ 「<b style="color:#fcd34d">到账金额</b>」必须等于下面这个数!部分交易所提现会<b style="color:#fcd34d">从金额里扣手续费</b>——请选「到账数量」模式,或把手续费加在外面。<span style="font-weight:500;color:#f5e6b8">万一转多转少也不会丢:会进人工核对通道,稍晚入账。</span></div>
+      <div class="payamt" id="payamt"></div>
+      <div class="paynote">金额务必分毫不差 · 本单 1 小时内有效, 到期自动作废</div>
+      <div class="netwarn">⚠️ 转账前最后核对两件事:<br>① <b>网络必须选 TRX / Tron(TRC20)</b>——选成 BSC 或其他链,转出后<b>链上无法追回</b>;<br>② 收款地址逐字核对,与下方显示<b>完全一致</b>再转。</div>
+      <div class="addr" id="addr"></div>
+      <button class="copy" onclick="cpA()">复制地址</button>
+      <button class="copy" onclick="cpM()" style="margin-left:8px">复制金额</button>
+      <div class="tut" id="tut"></div>
+      <div class="stat" id="stat">等待到账,自动检测中 …</div>
+      <div class="waitnote">转账后请<b>停留本页 1~2 分钟</b>,到账会自动弹出「充值成功」提示。提前关掉页面也不影响:积分照样自动入账,回本页输用户码或 API Key 就能看到。</div>
+    </div>
+    <div class="done" id="done">
+      <div class="bigok">✓</div>
+      <div class="dt">充值成功 · 积分已入账</div>
+      <div class="dl">本次入账 <b id="dAmt">—</b></div>
+      <div class="dl">当前积分余额 <b id="dCred">—</b></div>
+      <div class="dl" id="dArr" style="display:none;color:var(--warn)"></div>
+      <div class="dl" style="color:var(--ok);font-size:14px" data-payment-network-note="true">✓ 链上已确认:款项已到达收款账户,请放心</div>
+      <div class="dnote">积分在每期分红结算时自动抵扣;之后随时回本页,输用户码或 API Key 就能查余额。</div>
+    </div>
+    <div class="err" id="cerr"></div>
+    <div class="fine">转错金额或超时到账也不会丢:会进「待认领」由管理员人工核对入账。<b>忘记用户码?</b>直接粘贴你的 API Key 一样能查(交易所 API 管理页里随时看得到, 只显示一次的是 Secret 不是 Key)。</div>
+  </div>
+  
+</div></div>
+<div class="modal" id="okModal">
+  <div class="mcard">
+    <div class="bigok">✓</div>
+    <div class="dt">充值成功 · 积分已入账</div>
+    <div class="dl">本次入账 <b id="mAmt">—</b></div>
+    <div class="dl">当前积分余额 <b id="mCred">—</b></div>
+    <div class="dl">用户码 <b id="mCode">—</b></div>
+    <div class="dl" style="color:var(--ok);font-size:14px;margin-top:10px" data-payment-network-note="true">✓ 链上已确认:款项已到达收款账户,请放心</div>
+    <button class="mbtn2" type="button" onclick="document.getElementById('okModal').className='modal'">好的</button>
+  </div>
+</div>
+<div class="modal permission-reminder-modal" id="permissionReminderModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="permissionReminderTitle">
+  <div class="mcard">
+    <div class="bigok" aria-hidden="true">!</div>
+    <div class="dt" id="permissionReminderTitle">API 权限需要处理</div>
+    <div class="dl" id="permissionReminderMessage"></div>
+    <div class="permission-reminder-actions">
+      <button class="mbtn2" id="permissionReminderAction" type="button" style="display:none" data-t11-action="" onclick="runPermissionReminderPopupAction(this)"></button>
+      <button class="mbtn2" type="button" onclick="dismissPermissionReminderPopup()">稍后处理</button>
+    </div>
+  </div>
+</div>
+<script>
+var CODE='',ORDER='',POLL=null,PAY_AMT='',FLOW_DONE=false,AR=null,EXG='',T11_IDENTIFY_SEQ=0,T11_VIEW_EPOCH=0,T11_ACTIVE_QUERY='',T11_SELECTED_ACCOUNT='',T11_PERMISSION_POPUP_KEY='',v01='';
+var T11_PERMISSION_POPUP_SEEN=Object.create(null);
+var TUT={
+binance:{n:'币安 Binance',s:['打开币安 App → 资产 → <b>提现</b> → 选 USDT','网络选 <b>TRX Tron(TRC20)</b>(列表里就是 TRX 三个字母)','收款地址粘贴本页上方地址(点「复制地址」)','调整数量,让页面显示的<b>「到账数量」恰好等于上方应付金额</b>(含小数)','确认提交,回本页等 1~2 分钟自动提示']},
+okx:{n:'欧易 OKX',s:['打开欧易 App → 资产 → <b>提币</b> → USDT → 链上提币','网络选 <b>TRC20(波场)</b>','收款地址粘贴本页上方地址','调整数量,让<b>「到账数量」恰好等于上方应付金额</b>(含小数)','确认提交,回本页等 1~2 分钟自动提示']},
+gate:{n:'Gate',s:['打开 Gate App → 钱包 → <b>提现</b> → USDT','网络选 <b>TRON / TRC20</b>','收款地址粘贴本页上方地址','调整数量,让<b>「到账数量」恰好等于上方应付金额</b>(含小数)','确认提交,回本页等 1~2 分钟自动提示']},
+bitget:{n:'Bitget',s:['打开 Bitget App → 资产 → <b>提币</b> → USDT → 链上提币','网络选 <b>TRC20</b>','收款地址粘贴本页上方地址','调整数量,让<b>「到账数量」恰好等于上方应付金额</b>(含小数)','确认提交,回本页等 1~2 分钟自动提示']}};
+function showTut(){
+  if(/^demo/.test(ORDER)){var demoTut=document.getElementById('tut');if(demoTut){demoTut.textContent='这是演示订单，无需转账。约40秒后自动演示到账效果。';demoTut.style.display='block'}return}
+  var t=TUT[EXG]||TUT.binance;
+  var el=document.getElementById('tut');if(!el)return;
+  var pay=parseFloat(PAY_AMT)||0,sug=(pay+1).toFixed(2);
+  el.innerHTML='<div class="tt">📖 '+t.n+' 转账教程'+(TUT[EXG]?'':'(其他交易所步骤类似)')+'</div><ol>'+t.s.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ol>'+
+  '<div class="tcalc">💡 本单帮你算好,不用自己算:<br>「提现数量」填 <b>'+sug+'</b>(含约 1U 手续费)<br>提交前核对页面显示「到账数量」= <b>'+PAY_AMT+'</b> 即可放心提交;若手续费不是 1U,微调提现数量,永远以「到账数量 = '+PAY_AMT+'」为准。</div>';
+  el.style.display='block';
+}
+function J(u,b){return demoGet(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(function(x){return x.json()})}
+function esc(s){return String(s||'').replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]})}
+                                                                                   
+var T11_REMINDER_PRIORITY={permission:0,key_expiry:1,pause:2,tier:3,exit_cancelled:4,credit_threshold:5};
+var T11_REMINDER_SEVERITY={info:0,orange:1,red:2};
+var T11_REMINDER_ACTIONS={
+  fix_api_permissions:{label:'去接入页重建 Key'},
+  renew_api_key:{label:'去接入页换 Key'},
+  contact_support:{label:'查看联系说明'},
+  top_up_credit:{label:'立即充值'},
+  restore_principal:{label:'查看恢复说明'},
+  review_tier_change:{label:'确认切换档位'},
+  ack_credit_notice:{label:'我已知悉,去处理 ✓',primary:true}
+};
+var T11_REMINDER_KIND_ACTIONS={
+  permission:{fix_api_permissions:true},
+  key_expiry:{renew_api_key:true},
+  pause:{contact_support:true,top_up_credit:true,restore_principal:true},
+  tier:{review_tier_change:true,contact_support:true},
+  exit_cancelled:{},
+  credit_threshold:{ack_credit_notice:true,top_up_credit:true}
+};
+function t11Finite(v){
+  if(typeof v!=='number'&&typeof v!=='string')return null;
+  if(typeof v==='string'&&!v.trim())return null;
+  var n=Number(v);return Number.isFinite(n)?n:null;
+}
+function t11Text(v){
+  if(typeof v!=='string'&&typeof v!=='number')return 'N/A';
+  if(typeof v==='number'&&!Number.isFinite(v))return 'N/A';
+  var s=String(v).trim();return s?s:'N/A';
+}
+function fmtPx(x){if(x===null||x===undefined||x==='')return '—';var n=Number(x);if(!isFinite(n))return '—';var a=Math.abs(n),d=a>=1?2:(a>=0.01?4:(a>=0.0001?6:8));return n.toLocaleString('en-US',{minimumFractionDigits:a>=1?2:0,maximumFractionDigits:d})}                                                                            
+function fmtU(v){
+  var n=t11Finite(v);return n===null?'N/A':(n.toLocaleString('en-US',{maximumFractionDigits:2})+' U');
+}
+function fmtSignedU(v){
+  var n=t11Finite(v);return n===null?'N/A':((n>0?'+':'')+fmtU(n));
+}
+function fmtPercent(v){
+  var n=t11Finite(v);return n===null?'N/A':((n>0?'+':'')+n.toFixed(2)+'%');
+}
+function fmtSgtDate(ts){
+  var n=t11Finite(ts);if(n===null||n<=0)return 'N/A';
+  var dt=new Date(n*1000);if(!Number.isFinite(dt.getTime()))return 'N/A';
+  try{return dt.toLocaleDateString('zh-CN',{timeZone:'Asia/Singapore',year:'numeric',month:'2-digit',day:'2-digit'})+' SGT'}catch(_e){return 'N/A'}
+}
+function normalizeRecentLedger(rows){
+  if(!Array.isArray(rows))return [];
+  return rows.map(function(row){
+    row=(row&&typeof row==='object')?row:{};
+    var when='N/A',ts=t11Finite(row.ts);
+    if(ts!==null&&ts>0){
+      var dt=new Date(ts*1000);
+      if(Number.isFinite(dt.getTime())){try{when=dt.toLocaleDateString('zh-CN',{timeZone:'Asia/Singapore',month:'2-digit',day:'2-digit'})}catch(_e){when='N/A'}}
+    }else if(t11Text(row.t)!=='N/A'){when=t11Text(row.t)}
+    return {when:when,label:t11Text(row.label),amount:t11Text(row.amt),good:(typeof row.good==='boolean'?row.good:null)};
+  });
+}
+function normalizeT11Series(rows){
+  if(!Array.isArray(rows)||rows.length<2)return [];
+  var out=[];
+  for(var i=0;i<rows.length;i++){
+    if(!Array.isArray(rows[i])||rows[i].length<2)return [];
+    var t=t11Finite(rows[i][0]),v=t11Finite(rows[i][1]);
+    if(t===null||t<=0||v===null)return [];
+    out.push([t,v]);
+  }
+  return out;
+}
+function equityFreshness(d){
+  if(d&&d.demo===true)return '演示 fixture（非实时）';
+  var age=t11Finite(d&&d.equity_age_s);
+  if(age===null||age<0)return 'N/A';
+  if(age<=60)return '1 分钟内';
+  if(age<=3600)return Math.ceil(age/60)+' 分钟内';
+  return '已超过 1 小时（约 '+Math.ceil(age/3600)+' 小时）';
+}
+function snapSkewNote(d){
+  if(d&&d.demo===true)return '';
+  var sk=t11Finite(d&&d.snap_skew_s);
+  if(sk===null)return '';
+  return '（净值与累计收益取自两条独立刷新链，本次时刻差约 '+Math.round(Math.abs(sk))+' 秒，属正常范围，不代表数据丢失或计算出错）';
+}
+function f4AdjustOf(strat){
+   
+  var a=t11Finite(strat&&strat.realized_adjust);
+  return (a===null||Math.abs(a)<0.005)?null:a;
+}
+function buildReturnModel(d){
+  d=(d&&typeof d==='object')?d:{};
+  var principal=t11Finite(d.principal_total),strat=(d.strategy&&typeof d.strategy==='object')?d.strategy:null;
+  var realized=t11Finite(strat&&strat.realized_pnl),floating=t11Finite(strat&&strat.floating);
+  if(strat&&strat.fresh===true&&principal!==null&&principal>0&&realized!==null&&floating!==null){
+    var strategyTotal=realized+floating,adj=f4AdjustOf(strat);
+    var rc=(d.return_chain&&typeof d.return_chain==='object')?d.return_chain:null,rcF=rc?t11Finite(rc.factor):null,rcA=rc?t11Finite(rc.anchor_profit):null;  
+    var rcOn=(rcF!==null&&rcF>0&&rcA!==null),retVal=rcOn?((rcF*(1+(strategyTotal-rcA)/principal)-1)*100):(strategyTotal/principal*100),rcNote=rcOn?'（已结利润折入过本金；收益率按折入前后连乘衔接，不从零重算）':'';
+    return {value:retVal,total:strategyTotal,label:'策略累计收益率',totalLabel:'策略累计收益',
+            source:(adj===null?'执行器策略账本':'执行器策略账本 + 平台历史调整'),freshness:'后端 fresh=true',
+            note:(adj===null?'':('含平台补记的历史已实现调整 '+fmtSignedU(adj)+'（执行器早期漏记，平台核对后补记；下方收益曲线为执行器原始记录，未含此项）'))+rcNote};
+  }
+  var accountPct=t11Finite(d.profit_pct),accountTotal=t11Finite(d.profit_total);
+  if(accountPct!==null){
+    return {value:accountPct,total:accountTotal,label:'账户累计收益率',totalLabel:'账户累计收益',source:(d.demo===true?'演示 fixture 账户净值':'账户净值相对入册本金'),freshness:equityFreshness(d)};
+  }
+  return {value:null,total:null,label:'收益率',totalLabel:'累计收益',source:'N/A',freshness:'N/A'};
+}
+function buildCurveModel(d){
+  d=(d&&typeof d==='object')?d:{};
+  var strat=(d.strategy&&typeof d.strategy==='object')?d.strategy:null;
+  var strategyRows=(strat&&strat.fresh===true)?normalizeT11Series(strat.hist):[];
+  if(strategyRows.length){var adjC=f4AdjustOf(strat);return {points:strategyRows,source:'执行器策略盈亏账本',freshness:'后端 fresh=true',scope:'原始策略盈亏点（U）'+(adjC===null?'':('，未含平台历史调整 '+fmtSignedU(adjC)))}}
+  var equityRows=normalizeT11Series(d.equity_history);
+  if(equityRows.length){return {points:equityRows,source:(d.demo===true?'演示 fixture 账户净值历史':'账户净值历史'),freshness:equityFreshness(d),scope:'原始账户净值点（U，不等同策略收益）'}}
+  return {points:[],source:'N/A',freshness:'N/A',scope:'后端未提供至少 2 个完整原始点'};
+}
+function buildAccountDetailsModel(d){
+  d=(d&&typeof d==='object')?d:{};
+  var gate='N/A',required=t11Finite(d.min_credit_required);
+  if(d.team_pool&&typeof d.team_pool==='object'){if(d.team_pool.mode==='member_first_pool_backstop'){gate='团队2模式 · '+(d.team_pool.entry_ok===true?'可开新仓(本户积分或团队池任一达标)':'暂停开新仓(本户积分与团队池均不足)')}else{gate=(d.team_pool.role==='leader'?('团队池门槛 '+fmtU(d.team_pool.required)+' · '):'团队池模式 · ')+(d.team_pool.entry_ok===true?'全队达标':'全队暂停开新仓')}}    
+  else if(d.credit_exempt===true){gate=d.credit_exempt_until?('积分豁免 · 体验至 '+(function(t){try{return new Date(t*1000).toLocaleDateString('zh-CN',{timeZone:'Asia/Singapore',year:'numeric',month:'2-digit',day:'2-digit'})}catch(e){return '—'}})(d.credit_exempt_until)+'(到期后按正常积分规则)'):'积分豁免 · 无门槛'}
+  else if(d.credit_gate_waiver===true){gate='先跑准入 · 已批(分润照常扣;后续补足积分)'}
+  else if(required!==null){gate=fmtU(required)+' · '+(d.run_gate_ok===true?'已达标':(d.run_gate_ok===false?((d.credit_ever_paid===false)?'未充积分 · 未达开跑门槛':'未达标'):'状态 N/A'))}
+  if(typeof d.gate_hint==='string'&&d.gate_hint){gate+=' · '+d.gate_hint}
+  return {code:t11Text(d.code),principal:fmtU(d.principal_total),gate:gate,accrued:fmtU(d.accrued),accruedMtm:fmtU(d.accrued_mtm),settleDeduct:fmtU(d.settlement_deduct),nextSettle:fmtSgtDate(d.next_settle_ts),ledger:normalizeRecentLedger(d.recent_ledger)};
+}
+function normalizeTypedReminder(row){
+  if(!row||typeof row!=='object')return null;
+  if(!Object.prototype.hasOwnProperty.call(T11_REMINDER_PRIORITY,row.kind))return null;
+  if(row.severity!=='red'&&row.severity!=='orange'&&row.severity!=='info')return null;
+  if(t11Finite(row.priority)!==T11_REMINDER_PRIORITY[row.kind])return null;
+  if(typeof row.message!=='string'||!row.message.trim())return null;
+  var action=null,kindActions=T11_REMINDER_KIND_ACTIONS[row.kind];
+  if(typeof row.action==='string'&&row.action.trim()){
+    var candidateAction=row.action.trim();
+    if(Object.prototype.hasOwnProperty.call(T11_REMINDER_ACTIONS,candidateAction)&&kindActions&&kindActions[candidateAction]===true)action=candidateAction;
+  }
+  if(!Object.prototype.hasOwnProperty.call(row,'event_ts'))return null;
+  var eventTs=row.event_ts===null?null:t11Finite(row.event_ts);
+  if(row.event_ts!==null&&(eventTs===null||eventTs<0))return null;
+  return {kind:row.kind,severity:row.severity,priority:T11_REMINDER_PRIORITY[row.kind],message:row.message.trim(),event_ts:eventTs,action:action};
+}
+function sameTypedReminder(a,b){
+  return !!(a&&b&&a.kind===b.kind&&a.message===b.message&&a.event_ts===b.event_ts);
+}
+function typedReminderModel(d){
+  d=(d&&typeof d==='object')?d:{};
+  var rows=Array.isArray(d.reminders)?d.reminders.map(normalizeTypedReminder).filter(function(x){return x!==null}):[];
+  var slotTop=normalizeTypedReminder(d.reminder_slot&&d.reminder_slot.top);
+  if(slotTop)rows.push(slotTop);
+  var exitMessage=exitCancellationNoticeText(d),exitNotice=(d.notice&&typeof d.notice==='object'&&!Array.isArray(d.notice))?d.notice:null;
+  if(exitMessage){
+    var exitRow=normalizeTypedReminder({kind:'exit_cancelled',severity:'info',priority:T11_REMINDER_PRIORITY.exit_cancelled,message:exitMessage,event_ts:(exitNotice&&Object.prototype.hasOwnProperty.call(exitNotice,'ts'))?exitNotice.ts:null});
+    if(exitRow)rows.push(exitRow);
+  }
+  var unique=[];
+  rows.forEach(function(row){
+    var existing=-1;
+    for(var i=0;i<unique.length;i++){if(sameTypedReminder(unique[i],row)){existing=i;break}}
+    if(existing<0)unique.push(row);
+    else{
+      if(T11_REMINDER_SEVERITY[row.severity]>T11_REMINDER_SEVERITY[unique[existing].severity])unique[existing].severity=row.severity;
+      if(unique[existing].action===null&&row.action!==null)unique[existing].action=row.action;
+    }
+  });
+  var ordered=[];
+  ['red','orange','info'].forEach(function(severity){
+    unique.forEach(function(row){if(row.kind==='permission'&&row.severity===severity)ordered.push(row)});
+  });
+                                                                                                          
+  ['red','orange','info'].forEach(function(severity){
+    ['key_expiry','pause','tier','credit_threshold','exit_cancelled'].forEach(function(kind){
+      unique.forEach(function(row){if(row.kind===kind&&row.severity===severity)ordered.push(row)});
+    });
+  });
+  var top=ordered.length?ordered[0]:null,remaining=ordered.slice(1),permission=null;
+  for(var j=0;j<ordered.length;j++){if(ordered[j].kind==='permission'){permission=ordered[j];break}}
+  return {top:top,remaining:remaining,remainingCount:remaining.length,permission:permission};
+}
+function exitCancellationNoticeText(d){
+  d=(d&&typeof d==='object'&&!Array.isArray(d))?d:{};
+  var notice=(d.notice&&typeof d.notice==='object'&&!Array.isArray(d.notice))?d.notice:null;
+  if(d.demo===true||d.status!=='active'||!notice||(notice.kind!=='exit_cancelled'&&notice.kind!=='admin_message')||typeof notice.msg!=='string')return null;
+  var message=notice.msg.trim();return message||null;
+}
+                        
+function stepMark(n){for(var i=1;i<=4;i++){var el=document.getElementById('st'+i);if(el)el.className='step'+(i<n?' done':(i===n?' on':''))}}
+function f02(){
+  var c=(document.getElementById('rc-contact').value||'').trim(),p=(document.getElementById('rc-pwd').value||'').trim();
+  var r=document.getElementById('rc-res');
+  if(!c||!p){r.style.display='block';r.innerHTML='<span class="bad">请把联系方式和查询密码都填上</span>';return}
+  J('demo:s09',{contact:c,password:p}).then(function(d){
+    r.style.display='block';
+    if(d&&d.ok&&d.codes&&d.codes.length){
+      var nm={binance:'币安',okx:'欧易',gate:'Gate',bitget:'Bitget'};
+      r.innerHTML='✅ 找到了,你的用户码:<br>'+d.codes.map(function(x){return '<b style="font-size:18px;letter-spacing:1px;color:var(--gold)">'+x.code+'</b> ('+(nm[x.exchange]||x.exchange)+')'}).join('<br>')+'<br><span style="font-size:12px;color:var(--faint)">请截图保存;填到上面的输入框就能查积分。</span>';
+      document.getElementById('rc-pwd').value='';
+    }else{
+      r.innerHTML='<span class="bad">'+((d&&d.hint)||'没找到,请核对后再试')+'</span>';
+    }
+  }).catch(function(){r.style.display='block';r.innerHTML='<span class="bad">网络异常,请重试</span>'})
+}
+function t11Get(id){
+  try{return document.getElementById(id)}catch(_e){return null}
+}
+                                                            
+                                                                
+if(typeof CODE==='undefined'){var CODE='',ORDER='',POLL=null,PAY_AMT='',FLOW_DONE=false,AR=null,EXG='',T11_IDENTIFY_SEQ=0,T11_VIEW_EPOCH=0,T11_ACTIVE_QUERY='',T11_SELECTED_ACCOUNT='',T11_PERMISSION_POPUP_KEY='',v01='';}
+if(typeof T11_PERMISSION_POPUP_SEEN==='undefined'){var T11_PERMISSION_POPUP_SEEN=Object.create(null);}
+function t11Style(el,name,value){
+  try{if(!el||!el.style||typeof el.style!=='object')return false;el.style[name]=value;return true}catch(_e){return false}
+}
+function t11PutText(el,value){
+  try{if(!el||!Object.prototype.hasOwnProperty.call(el,'textContent')&&typeof el.textContent==='undefined')return false;el.textContent=value;return true}catch(_e){return false}
+}
+function t11PutHtml(el,value){
+  try{if(!el||!Object.prototype.hasOwnProperty.call(el,'innerHTML')&&typeof el.innerHTML==='undefined')return false;el.innerHTML=value;return true}catch(_e){return false}
+}
+function t11Attr(el,name,value){
+  try{if(!el||typeof el.setAttribute!=='function')return false;el.setAttribute(name,value);return true}catch(_e){return false}
+}
+function t11PutClass(el,value){
+  try{if(!el||!Object.prototype.hasOwnProperty.call(el,'className')&&typeof el.className==='undefined')return false;el.className=value;return true}catch(_e){return false}
+}
+function t11Expanded(button,expanded){
+  t11Attr(button,'aria-expanded',expanded?'true':'false');
+}
+function resetT11SecondaryState(){
+  var details=t11Get('accountDetails'),detailBtn=t11Get('mpDetailBtn');
+  t11Style(details,'display','none');
+  t11PutText(detailBtn,'查看明细 ▾');t11Expanded(detailBtn,false);
+  var book=t11Get('acctBook'),bookBtn=t11Get('mpBookBtn'),pos=t11Get('posCard');
+  t11Style(book,'display','none');
+  t11Style(pos,'display','none');
+  t11PutText(bookBtn,'查看持仓 ▾');t11Expanded(bookBtn,false);
+  var posBody=t11Get('posBody'),posTs=t11Get('posTs');
+  t11PutHtml(posBody,'');
+  t11PutText(posTs,'');
+}
+function drawT11Curve(model){
+  var svg=t11Get('mpSvg'),noc=t11Get('mpNoCurve'),source=t11Get('mpSource');
+  if(!svg&&!noc&&!source)return;
+  var rows=model.points;
+  if(rows.length<2){
+    t11Style(svg,'display','none');t11PutHtml(svg,'');
+    t11Style(noc,'display','block');t11PutText(noc,'曲线 N/A · '+model.scope);
+    t11PutText(source,'曲线来源：'+model.source+' · 新鲜度：'+model.freshness);
+    return;
+  }
+  var times=rows.map(function(row){return row[0]}),values=rows.map(function(row){return row[1]});
+  var tMin=Math.min.apply(0,times),tMax=Math.max.apply(0,times),vMin=Math.min.apply(0,values),vMax=Math.max.apply(0,values);
+  var tRange=tMax-tMin,vRange=vMax-vMin;
+  var xy=rows.map(function(row,i){
+    var x=tRange>0?((row[0]-tMin)/tRange*100):(i/(rows.length-1)*100);
+    var y=vRange>0?(32-((row[1]-vMin)/vRange*26)):18;
+    return [x,y];
+  });
+  var points=xy.map(function(point){return point[0].toFixed(2)+','+point[1].toFixed(2)}).join(' '),last=xy[xy.length-1];
+  var down=values[values.length-1]<values[0],stroke=down?'#fda4af':'#34d399',fill=down?'rgba(253,164,175,.28)':'rgba(52,211,153,.32)';
+  if(svg){
+    t11PutHtml(svg,'<defs><linearGradient id="mpg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+stroke+'" stop-opacity=".32"/><stop offset="1" stop-color="'+stroke+'" stop-opacity="0"/></linearGradient></defs>'+
+      '<line x1="0" y1="32" x2="100" y2="32" stroke="rgba(126,176,238,.18)" stroke-width=".3"/>'+
+      '<polygon points="0,36 '+points+' 100,36" fill="url(#mpg)"/>'+
+      '<polyline points="'+points+'" fill="none" stroke="'+stroke+'" stroke-width="1.25" stroke-linejoin="round" stroke-linecap="round"/>'+
+      '<circle cx="'+last[0].toFixed(2)+'" cy="'+last[1].toFixed(2)+'" r="2.4" fill="'+fill+'"/>'+
+      '<circle cx="'+last[0].toFixed(2)+'" cy="'+last[1].toFixed(2)+'" r="1.1" fill="'+stroke+'"/>');
+    t11Style(svg,'display','block');
+  }
+  t11Style(noc,'display','none');
+  t11PutText(source,'曲线来源：'+model.source+' · 新鲜度：'+model.freshness+' · '+model.scope+' · 原始值范围 '+fmtU(vMin)+' 至 '+fmtU(vMax)+'，按采样时间和数值线性绘制');
+}
+function reminderActionHtml(row){
+  var spec=T11_REMINDER_ACTIONS[row.action];
+  if(!spec)return '';
+  return '<button class="disclosure reminder-action" type="button" data-t11-action="'+esc(row.action)+'" onclick="runTypedReminderAction(this)">'+esc(spec.label)+'</button>';
+}
+function permissionReminderKey(row){
+  return row?JSON.stringify([row.kind,row.message,row.event_ts]):'';
+}
+function dismissPermissionReminderPopup(){
+  if(T11_PERMISSION_POPUP_KEY)T11_PERMISSION_POPUP_SEEN[T11_PERMISSION_POPUP_KEY]=true;
+  var modal=t11Get('permissionReminderModal');
+  t11PutClass(modal,'modal permission-reminder-modal');t11Attr(modal,'aria-hidden','true');
+  return true;
+}
+function runPermissionReminderPopupAction(btn){
+  dismissPermissionReminderPopup();
+  return runTypedReminderAction(btn);
+}
+function renderPermissionReminderPopup(model){
+  var row=model&&model.permission,modal=t11Get('permissionReminderModal');
+  var message=t11Get('permissionReminderMessage'),action=t11Get('permissionReminderAction');
+  if(!row){
+    T11_PERMISSION_POPUP_KEY='';
+    t11PutClass(modal,'modal permission-reminder-modal');t11Attr(modal,'aria-hidden','true');
+    t11PutText(message,'');t11Style(action,'display','none');t11PutText(action,'');t11Attr(action,'data-t11-action','');
+    return null;
+  }
+  var key=permissionReminderKey(row),spec=T11_REMINDER_ACTIONS[row.action];
+  T11_PERMISSION_POPUP_KEY=key;t11PutText(message,row.message);
+  t11Style(action,'display',spec?'inline-block':'none');t11PutText(action,spec?spec.label:'');t11Attr(action,'data-t11-action',spec?row.action:'');
+  if(T11_PERMISSION_POPUP_SEEN[key]===true){t11PutClass(modal,'modal permission-reminder-modal');t11Attr(modal,'aria-hidden','true')}
+  else{t11PutClass(modal,'modal permission-reminder-modal on');t11Attr(modal,'aria-hidden','false')}
+  return row;
+}
+function renderTypedReminders(d){
+  var model=typedReminderModel(d),area=t11Get('reminderArea'),top=t11Get('reminderTop');
+  var topAction=t11Get('reminderTopAction'),btn=t11Get('reminderMoreBtn'),more=t11Get('reminderMore');
+  renderPermissionReminderPopup(model);
+  t11Style(more,'display','none');t11PutHtml(more,'');
+  t11Style(btn,'display','none');t11PutText(btn,'');t11Attr(btn,'data-reminder-count','0');t11Expanded(btn,false);
+  t11Style(topAction,'display','none');t11PutText(topAction,'');if(topAction&&'disabled' in topAction)topAction.disabled=false;t11Attr(topAction,'data-t11-action','');
+  if(!area||!top){t11Style(area,'display','none');return model}
+  t11PutClass(top,'reminder-top');
+  if(!model.top){t11Style(area,'display','none');t11PutText(top,'');return model}
+  t11Style(area,'display','block');t11PutClass(top,'reminder-top '+model.top.severity);t11PutText(top,model.top.message);
+  var topSpec=T11_REMINDER_ACTIONS[model.top.action];
+  if(topAction&&topSpec){t11Style(topAction,'display',topSpec.primary?'block':'inline-block');t11PutText(topAction,topSpec.label);t11Attr(topAction,'data-t11-action',model.top.action);t11PutClass(topAction,'disclosure reminder-action'+(topSpec.primary?' reminder-action-primary':''))}
+  if(model.remainingCount>0&&btn&&more){
+    t11Style(btn,'display','block');t11PutText(btn,'还有'+model.remainingCount+'条提醒 · 点开看');t11Attr(btn,'data-reminder-count',String(model.remainingCount));
+    t11PutHtml(more,model.remaining.map(function(row){return '<div class="reminder-row"><div>'+esc(row.message)+'</div>'+reminderActionHtml(row)+'</div>'}).join(''));
+  }
+  return model;
+}
+function renderAccountNotice(d){
+  var el=t11Get('accountNotice'),message=exitCancellationNoticeText(d);
+                                                                                              
+  t11PutText(el,'');t11Style(el,'display','none');
+  return message;
+}
+function toggleTypedReminders(btn){
+  var more=t11Get('reminderMore');if(!btn||!more||!more.style||typeof more.style!=='object')return false;
+  var open=more.style.display!=='block';
+  t11Style(more,'display',open?'block':'none');t11Expanded(btn,open);
+  if(!open){var raw=typeof btn.getAttribute==='function'?btn.getAttribute('data-reminder-count'):null,count=t11Finite(raw);if(count===null&&typeof more.getElementsByClassName==='function')count=more.getElementsByClassName('reminder-row').length;if(count===null)count=0;t11PutText(btn,'还有'+count+'条提醒 · 点开看')}
+  else{t11PutText(btn,'收起其余提醒 ▴')}
+  return true;
+}
+function reminderGuidance(message){
+  var err=t11Get('werr');
+  t11PutText(err,message);t11Style(err,'display','block');
+}
+function runTypedReminderAction(btn){
+  var action=btn&&typeof btn.getAttribute==='function'?btn.getAttribute('data-t11-action'):'';
+  if(!Object.prototype.hasOwnProperty.call(T11_REMINDER_ACTIONS,action))return false;
+  if(action==='fix_api_permissions'||action==='renew_api_key'){
+    if(typeof location!=='undefined'&&typeof location.assign==='function')location.assign('partner_portal.html');
+    else if(typeof location!=='undefined')location.href='partner_portal.html';
+    return true;
+  }
+  if(action==='ack_credit_notice'){
+    var qv=(t11Get('q')&&typeof t11Get('q').value==='string')?t11Get('q').value.trim():'';
+    if(btn&&'disabled' in btn)btn.disabled=true;
+    J('demo:s16',{q:qv}).then(function(r){
+      if(r&&r.ok){who()}else{if(btn&&'disabled' in btn)btn.disabled=false;alert('确认失败,请稍后再试')}
+    }).catch(function(){if(btn&&'disabled' in btn)btn.disabled=false});
+    return true;
+  }
+  if(action==='top_up_credit'){
+    var pay=t11Get('payCard'),amount=t11Get('amt');
+    if(pay){t11Style(pay,'display','block');if(typeof pay.scrollIntoView==='function')pay.scrollIntoView({behavior:'smooth',block:'start'})}
+    if(amount&&typeof amount.focus==='function')amount.focus();
+    return true;
+  }
+  if(action==='restore_principal'){
+    reminderGuidance('请先在交易所把本金恢复到开跑门槛；恢复后等待系统复核。');return true;
+  }
+  if(action==='contact_support'){
+    reminderGuidance('请联系你的对接人或管理员核对；不要在公开页面发送 API Secret。');return true;
+  }
+  if(action==='review_tier_change'){
+    var qEl=t11Get('q'),identity=CODE||((qEl&&qEl.value)||'').trim();
+    if(!identity||typeof J!=='function'){reminderGuidance('当前身份不可用，请重新查询后再确认切换。');return false}
+    if('disabled' in btn)btn.disabled=true;t11PutText(btn,'切换中…');
+    J('demo:s18',{q:identity}).then(function(result){
+      if(result&&result.ok){t11PutText(btn,'已切换 ✓ '+(result.tier_label||''));setTimeout(function(){who()},1200)}
+      else{t11PutText(btn,'稍后再试');if('disabled' in btn)btn.disabled=false}
+    }).catch(function(){t11PutText(btn,'稍后再试');if('disabled' in btn)btn.disabled=false});
+    return true;
+  }
+  return false;
+}
+function renderAccountDetails(d){
+  var model=buildAccountDetailsModel(d);
+  var fields={detailCode:model.code,detailPrincipal:model.principal,detailGate:model.gate,detailAccrued:model.accrued,detailAccruedMtm:model.accruedMtm,detailSettleDeduct:model.settleDeduct,detailNextSettle:model.nextSettle};
+  Object.keys(fields).forEach(function(id){t11PutText(t11Get(id),fields[id])});
+  var body=t11Get('detailLedgerBody');
+  t11PutHtml(body,model.ledger.length?model.ledger.map(function(row){
+    var color=row.good===true?'var(--ok)':(row.good===false?'var(--warn)':'var(--dim)');
+    return '<div style="display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed rgba(126,176,238,.12);padding:2px 0"><span>'+esc(row.when)+' · '+esc(row.label)+'</span><b style="color:'+color+'">'+esc(row.amount)+'</b></div>';
+  }).join(''):'N/A');
+}
+function renderAccountControls(d){
+  var badges=t11Get('accountBadges'),shared=t11Get('sharedCreditLabel'),rows=t11Get('e03'),box=t11Get('e01');
+  var accounts=Array.isArray(d.accounts)?d.accounts:[];
+  t11PutHtml(badges,accounts.map(function(a){
+    var on=a.account_ref===d.selected_account_ref;
+    var state=a.execution_connected===false?' · 待执行接线':'';
+    return '<button type="button" data-account-ref="'+esc(a.account_ref)+'" onclick="switchAccount(this.getAttribute(\'data-account-ref\'))" style="padding:5px 10px;border-radius:999px;border:1px solid '+(on?'#6ee7b7':'rgba(125,211,252,.35)')+';background:'+(on?'rgba(110,231,183,.18)':'rgba(8,15,28,.35)')+';color:#dbeafe">'+esc(String(a.exchange||'').toUpperCase()+state)+'</button>';
+  }).join(''));
+  var pool=d.shared_credit||{};
+  t11PutText(shared,pool.label?('💎 '+pool.label+' · 余额 '+fmtU(pool.balance)+' · 门槛 '+fmtU(pool.required)):'');
+  t11Style(shared,'display',pool.label?'block':'none');
+  var candidates=Array.isArray(d.v02)?d.v02:[];
+  t11PutHtml(rows,candidates.map(function(c){return '<div style="margin-top:8px;font-size:12px">'+esc(String(c.exchange||'').toUpperCase())+' · Key尾号 '+esc(c.key_tail||'')+' <button type="button" onclick="f06(\''+esc(c.candidate_id)+'\',\'confirm\')">是我的，确认合并</button> <button type="button" onclick="f06(\''+esc(c.candidate_id)+'\',\'not_mine\')">不是我的</button></div>'}).join(''));
+  var candidateSignature=candidates.map(function(c){return String(c.candidate_id||'')}).sort().join('|');
+  var dismissedIds=v01?v01.split('|').filter(Boolean):[];
+  var open=Boolean(candidates.some(function(c){var id=String(c.candidate_id||'');return id&&dismissedIds.indexOf(id)<0}));
+  if(box){box.className=open?'modal on':'modal';box.setAttribute('aria-hidden',open?'false':'true');box.setAttribute('data-candidate-signature',candidateSignature)}
+}
+function f05(){
+  var box=t11Get('e01');if(!box)return false;
+  var ids=(v01+'|'+String(box.getAttribute('data-candidate-signature')||'')).split('|').filter(Boolean);
+  v01=Array.from(new Set(ids)).sort().join('|');
+  box.className='modal';box.setAttribute('aria-hidden','true');return true;
+}
+function switchAccount(ref){T11_SELECTED_ACCOUNT=String(ref||'');who(null,T11_SELECTED_ACCOUNT)}
+function toggleAddAccount(btn){var box=t11Get('addAccountBox'),open=box&&box.style.display!=='block';t11Style(box,'display',open?'block':'none');t11Expanded(btn,open);return true}
+function readAddAccountShot(){return new Promise(function(resolve,reject){var el=t11Get('addShot'),f=el&&el.files&&el.files[0];if(!f){resolve('');return}if(f.size>800000){reject(new Error('截图不能超过 800KB'));return}var r=new FileReader();r.onload=function(){resolve(String(r.result||''))};r.onerror=function(){reject(new Error('截图读取失败'))};r.readAsDataURL(f)})}
+function t11OwnerAuthPayload(method,password,originalApi){
+  method=String(method||'').trim();password=String(password||'').trim();originalApi=String(originalApi||'').trim();
+  if(method==='fund_password'&&password&&!originalApi)return {owner_auth_method:'fund_password',query_password:password};
+  if(method==='original_api'&&originalApi&&!password)return {owner_auth_method:'original_api',original_api_key:originalApi};
+  return null;
+}
+function t11ToggleOwnerAuth(methodId,passwordRowId,apiRowId,passwordInputId,apiInputId){
+  var method=t11Get(methodId),original=method&&method.value==='original_api';
+  t11Style(t11Get(passwordRowId),'display',original?'none':'block');
+  t11Style(t11Get(apiRowId),'display',original?'block':'none');
+  var inactive=t11Get(original?passwordInputId:apiInputId);if(inactive)inactive.value='';
+}
+function addExchangeAccount(){
+  var result=t11Get('addAccountResult'),payload={q:T11_ACTIVE_QUERY,exchange:(t11Get('addExchange').value||'').trim(),api_key:(t11Get('addKey').value||'').trim(),api_secret:(t11Get('addSecret').value||'').trim(),passphrase:(t11Get('addPass').value||'').trim()};
+  var auth=t11OwnerAuthPayload(t11Get('addAuth').value,t11Get('addPwd').value,t11Get('addApi').value);
+  if(!auth){t11PutText(result,'请在原 API Key / 资金密码中二选一完成验证');t11Style(result,'display','block');return false}
+  Object.keys(auth).forEach(function(k){payload[k]=auth[k]});
+  readAddAccountShot().then(function(shot){payload.keyshot_b64=shot;return J('demo:s04',payload)}).then(function(d){t11PutText(result,d&&d.ok?d.msg:('添加失败：'+((d&&d.hint)||(d&&d.error)||'稍后重试')));t11Style(result,'display','block');if(d&&d.ok){t11Get('addSecret').value='';t11Get('addPass').value='';t11Get('addPwd').value='';t11Get('addApi').value='';T11_SELECTED_ACCOUNT=d.account_ref||'';who(null,T11_SELECTED_ACCOUNT)}}).catch(function(err){t11PutText(result,(err&&err.message)||'网络异常，请稍后重试');t11Style(result,'display','block')});return true
+}
+function f06(candidateId,decision){
+  var payload={q:T11_ACTIVE_QUERY,candidate_id:candidateId,decision:decision};
+  if(decision==='confirm')payload.full_api_key=(t11Get('ownFullKey').value||'').trim();
+  var auth=t11OwnerAuthPayload(t11Get('ownAuth').value,t11Get('ownPwd').value,t11Get('ownApi').value);
+  if(!auth){alert('请在原 API Key / 资金密码中二选一完成验证');return false}
+  Object.keys(auth).forEach(function(k){payload[k]=auth[k]});
+  J('demo:s05',payload).then(function(d){if(!d||!d.ok){alert((d&&d.hint)||(d&&d.error)||'操作失败');return}t11Get('ownFullKey').value='';t11Get('ownPwd').value='';t11Get('ownApi').value='';who()}).catch(function(){alert('网络异常，请稍后重试')});return true
+}
+function toggleAccountDetails(btn){
+  var details=t11Get('accountDetails');if(!btn||!details||!details.style||typeof details.style!=='object')return false;
+  var open=details.style.display!=='block';
+  t11Style(details,'display',open?'block':'none');t11PutText(btn,open?'收起明细 ▴':'查看明细 ▾');t11Expanded(btn,open);
+  return true;
+}
+function togglePositionBook(btn){
+  var book=t11Get('acctBook');if(!btn||!book||!book.style||typeof book.style!=='object')return false;
+  var open=book.style.display!=='block';
+  t11Style(book,'display',open?'block':'none');t11PutText(btn,open?'收起持仓 ▴':'查看持仓 ▾');t11Expanded(btn,open);
+  return true;
+}
+function renderMyPerf(d){
+  var card=t11Get('myPerf');if(!card)return;
+  d=(d&&typeof d==='object')?d:{};
+  var viewOpen={details:t11Get('accountDetails')&&t11Get('accountDetails').style.display==='block',book:t11Get('acctBook')&&t11Get('acctBook').style.display==='block',reminders:t11Get('reminderMore')&&t11Get('reminderMore').style.display==='block'};
+  resetT11SecondaryState();
+  t11Style(card,'display','block');
+  var rb=t11Get('rebirthBanner'),rn=d.rebirth_notice;
+  if(rb){if(rn&&typeof rn==='object'&&rn.message){t11Style(rb,'display','block');t11PutText(rb,'⚠️ '+t11Text(rn.message));}else{t11Style(rb,'display','none');t11PutText(rb,'');}}
+  var statusText=d.status==='active'?'运行中':(d.status==='exit_pending'?'退出结算中':(d.status==='exited'?'历史存档':t11Text(d.status)));
+  var name=t11Get('mpName'),tierBadge=t11Get('mpTierBadge');
+  t11PutText(name,t11Text(d.name_mask)+' · '+statusText);
+  t11PutText(tierBadge,'档位 '+t11Text(d.tier_label));
+  var ret=buildReturnModel(d),mm=t11Get('mpMain');
+  if(mm){
+    t11PutText(mm,fmtPercent(ret.value));
+    t11Style(mm,'background',(ret.value!==null&&ret.value<0)?'linear-gradient(92deg,#fda4af 10%,#fecdd3 55%,#fda4af 90%)':'linear-gradient(92deg,#34d399 10%,#a7f3d0 55%,#6ee7b7 90%)');
+    t11Style(mm,'webkitBackgroundClip','text');t11Style(mm,'backgroundClip','text');
+  }
+  var sub=t11Get('mpSub');t11PutText(sub,ret.label+' · 来源：'+ret.source+' · 新鲜度：'+ret.freshness+(ret.note?(' · '+ret.note):''));
+  drawT11Curve(buildCurveModel(d));
+  var accountTs=t11Get('mpTs');t11PutText(accountTs,'账户净值来源：'+(d.demo===true?'demo_fixture.equity':'x_k01')+' · 新鲜度：'+equityFreshness(d)+snapSkewNote(d));
+  var chips=[['账户净值',fmtU(d.equity)], [ret.totalLabel,fmtSignedU(ret.total)], (d.credit_source==='team_pool'?['积分','由团队池承担']:(d.credit_source==='team_pool_leader'?['积分余额(团队池)',fmtU(d.credit)]:['积分余额',fmtU(d.credit)]))];
+  if(d.t2_card&&typeof d.t2_card==='object'){var _tc=d.t2_card,_tv=function(o){return (o&&typeof o==='object')?fmtU(o.value):'—'};chips.push(['团队积分代付(本期)',_tv(_tc.t2_pool_used_period)]);chips.push(['本期预估应扣',_tv(_tc.t2_deduction_estimate)]);chips.push(['最近实扣',_tv(_tc.t2_deduction_actual)])}    
+  var gapP=t11Finite(d.principal_total),gapE=t11Finite(d.equity);
+  var gapPaired=(d.gap&&typeof d.gap==='object')?t11Finite(d.gap.gap_paired):null;
+  var reconGap=(gapPaired!==null)?gapPaired:((gapP!==null&&gapE!==null&&ret.total!==null&&isFinite(ret.total))?(gapE-gapP-ret.total):null);
+  if(gapPaired===null&&reconGap!==null){var gapFold=t11Finite(d.principal_folded_total);if(gapFold!==null)reconGap+=gapFold}  
+  if(reconGap!==null&&Math.abs(reconGap)>=5){var fs=(d.fee_summary&&typeof d.fee_summary==='object')?d.fee_summary:null;var fc=fs?t11Finite(fs.commission):null,ff=fs?t11Finite(fs.funding):null;chips.push(['费用与时差',fmtSignedU(reconGap)]);if(fc!==null&&ff!==null){chips.push(['其中 手续费≈',fmtSignedU(fc)]);chips.push(['资金费≈',fmtSignedU(ff)]);chips.push(['其他(时差)≈',fmtSignedU(reconGap-fc-ff)])}}                                      
+  var chipsEl=t11Get('mpChips');t11PutHtml(chipsEl,chips.map(function(chip){return '<span class="overview-chip">'+esc(chip[0])+' <b>'+esc(chip[1])+'</b></span>'}).join(''));
+  renderAccountControls(d);renderAccountNotice(d);renderTypedReminders(d);renderAccountDetails(d);
+  var showPositions=d.status==='active'&&d.demo!==true;
+  t11Style(t11Get('mpBookBtn'),'display',showPositions?'block':'none');
+  if(viewOpen.details)toggleAccountDetails(t11Get('mpDetailBtn'));
+  if(viewOpen.book&&showPositions)togglePositionBook(t11Get('mpBookBtn'));
+  if(viewOpen.reminders&&t11Get('reminderMoreBtn')&&t11Get('reminderMoreBtn').style.display!=='none')toggleTypedReminders(t11Get('reminderMoreBtn'));
+}
+function renderPaymentDemoMode(isDemo){
+  var notice=document.getElementById('demoPaymentNotice');if(notice)notice.hidden=!isDemo;
+  document.querySelectorAll('[data-payment-network-note]').forEach(function(el){el.textContent=isDemo?'✓ 演示到账已完成 · 没有真实链上转账':'✓ 链上已确认:款项已到达收款账户,请放心'});
+}
+function clearIdentityPaymentView(){
+  if(POLL)clearInterval(POLL);POLL=null;ORDER='';PAY_AMT='';FLOW_DONE=false;
+  ['pay','tut'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none'});
+  var done=document.getElementById('done');if(done)done.className='done';
+  var modal=document.getElementById('okModal');if(modal)modal.className='modal';
+  var btn=document.getElementById('cbtn');if(btn)btn.disabled=false;
+  renderPaymentDemoMode(false);
+}
+function clearT11IdentityView(){
+  t11ClearQueryPwd();    
+  clearIdentityPaymentView();
+  t11Style(t11Get('myPerf'),'display','none');
+  t11Style(t11Get('rebirthBanner'),'display','none');
+  resetT11SecondaryState();renderAccountNotice({});renderTypedReminders({});
+  t11Style(t11Get('payCard'),'display','none');
+  var whoBox=t11Get('who');t11Style(whoBox,'display','none');t11PutText(whoBox,'');
+}
+
+
+var T11_QPWD=null,T11_QPWD_DRAFT=null;
+
+
+var T11_QPWD_HINTS={query_pwd_unset:'这个账户还没设置查询密码,设好之前持仓页不开放;交易照常。',query_pwd_required:'请输入你自己设置的查询密码后查看持仓。',query_pwd_wrong:'查询密码不对。',query_pwd_locked:'密码错误次数过多,请稍后再试。',api_positions_view_off:'经 API 接入的账户不提供持仓视图;交易照常。'};
+function t11ClearQueryPwd(){T11_QPWD=null;T11_QPWD_DRAFT=null}
+ 
+function t11QueryPwdDraft(el){T11_QPWD_DRAFT=(el&&typeof el.value==='string'&&el.value)?{q:T11_ACTIVE_QUERY,v:el.value}:null}
+function t11PositionsBody(q,accountRef,tryPwd){
+  var b={q:q,account_ref:accountRef||''};
+  var pwd=(typeof tryPwd==='string')?tryPwd:((T11_QPWD&&T11_QPWD.q===q)?T11_QPWD.pwd:'');
+  if(typeof pwd==='string'&&pwd)b.pwd=pwd;
+  return b;
+}
+function t11RenderQueryPwdGate(body,q,d){
+  var err=d.error,needInput=(err==='query_pwd_required'||err==='query_pwd_wrong');
+  if(T11_QPWD&&T11_QPWD.q===q)T11_QPWD=null;    
+  var hint=(typeof d.hint==='string'&&d.hint)?d.hint:T11_QPWD_HINTS[err];
+  var html='<div data-qpwd-gate="'+esc(err)+'" style="color:var(--faint)">'+esc(hint)+'</div>';
+  if(needInput)html+='<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px">'+
+    '<input type="password" id="qpwdIn" autocomplete="off" maxlength="12" spellcheck="false" placeholder="你自己设置的查询密码" style="flex:1;min-width:150px" oninput="t11QueryPwdDraft(this)" onkeydown="if(event.key===\'Enter\')t11SubmitQueryPwd()">'+
+    '<button type="button" class="btn" id="qpwdBtn" style="width:auto;margin-top:0;padding:10px 16px" onclick="t11SubmitQueryPwd()">查看持仓</button></div>';
+  t11PutHtml(body,html);
+  if(needInput&&T11_QPWD_DRAFT&&T11_QPWD_DRAFT.q===q){var inp=t11Get('qpwdIn');if(inp)inp.value=T11_QPWD_DRAFT.v}
+  else if(!needInput)T11_QPWD_DRAFT=null;
+}
+function t11SubmitQueryPwd(){
+  var el=t11Get('qpwdIn'),v=(el&&typeof el.value==='string')?el.value:'';
+  if(el)el.value='';
+  T11_QPWD_DRAFT=null;
+  var q=T11_ACTIVE_QUERY;
+  if(!q||!v)return;
+  loadMyPositions(q,T11_VIEW_EPOCH,T11_SELECTED_ACCOUNT,v);
+}
+function loadMyPositions(q,viewEpoch,accountRef,tryPwd){
+  var card=t11Get('posCard'),body=t11Get('posBody'),ts=t11Get('posTs');
+  if(!card||!body||!card.style||typeof card.style!=='object'||(!Object.prototype.hasOwnProperty.call(body,'innerHTML')&&typeof body.innerHTML==='undefined'))return;
+  J('demo:s06',t11PositionsBody(q,accountRef,tryPwd)).then(function(d){
+    if(viewEpoch!==T11_VIEW_EPOCH)return;
+    t11Style(card,'display','block');
+    if(d&&!d.ok&&Object.prototype.hasOwnProperty.call(T11_QPWD_HINTS,d.error)){t11RenderQueryPwdGate(body,q,d);return}
+    if(d&&d.ok&&typeof tryPwd==='string'&&tryPwd&&q===T11_ACTIVE_QUERY)T11_QPWD={q:q,pwd:tryPwd};
+    if(d&&d.ok&&d.pending_adapter){t11PutHtml(body,'<span style="color:var(--faint)">该交易所的持仓展示即将支持,先以交易所 App 内为准。</span>');return}
+    if(!d||!d.ok){t11PutHtml(body,'<span style="color:var(--faint)">'+((d&&d.hint)||'持仓暂时读不到,稍后刷新重试;以交易所 App 内为准。')+'</span>');return}
+    t11PutText(ts,d.ts_sgt?('更新 '+d.ts_sgt+' SGT'):'');
+    var noteHtml=d.strategy_only?'<div style="color:var(--faint);font-size:11.5px;margin-bottom:4px">仅显示系统策略开的仓位;你自己手动开的仓不在此列。</div>':'';
+    if(d.execution_connected===false){t11PutHtml(body,'<span style="color:var(--faint)">'+esc(d.note||'执行器账户查找尚未接线。')+'</span>');return}
+    if(!Array.isArray(d.rows)||!d.rows.length){t11PutHtml(body,noteHtml+'<span style="color:var(--ok)">当前策略空仓 · 系统在等待信号,出手会自动开仓。</span>');return}
+    t11PutHtml(body,noteHtml+d.rows.map(function(p){
+      var up=(p.roi_pct!=null&&p.roi_pct>=0);
+      return '<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;border-bottom:1px dashed rgba(126,176,238,.15);padding:3px 0">'+
+        '<span><b style="color:var(--tx)">'+esc2(p.sym||'')+'</b> <b style="color:'+(p.side==='多'?'var(--ok)':'var(--warn)')+'">'+p.side+'</b>'+(p.lev?(' <span style="color:var(--faint);font-size:11.5px">'+p.lev+'x</span>'):'')+'</span>'+
+        '<span style="color:var(--faint);font-size:12.5px">开 '+fmtPx(p.entry)+' → 现 '+fmtPx(p.mark)+'</span>'+
+        '<span><b style="color:'+(up?'var(--ok)':'var(--warn)')+'">'+(p.roi_pct!=null?((p.roi_pct>=0?'+':'')+p.roi_pct.toFixed(2)+'%'):'—')+'</b> <span style="color:var(--faint);font-size:12px">('+(p.upl_usdt>=0?'+':'')+p.upl_usdt+'U)</span></span></div>'
+    }).join(''));
+  }).catch(function(){if(viewEpoch===T11_VIEW_EPOCH){t11Style(card,'display','block');t11PutHtml(body,'<span style="color:var(--faint)">网络异常,稍后重试。</span>')}})
+}
+
+
+var T11_SETUP_TOKEN='';
+var T11_SETUP_ERRORS={not_enabled:'自助设置查询密码的功能还没开放,请联系给你开通账户的服务方。',token_invalid:'这个设置链接无效或已过期(72 小时内有效,只能用一次),请向服务方重新索取。',bad_recover_pwd:'查询密码需要 6–12 位,只能用字母和数字,字母、数字都要有。',rate_limited:'尝试太频繁了,请稍后再试。'};
+function t11SetupToken(){try{var t=(new URLSearchParams(location.search).get('setup')||'').trim();return /^[A-Za-z0-9_.~\-]{8,256}$/.test(t)?t:''}catch(_e){return ''}}
+function t11QueryPwdShapeOk(v){return typeof v==='string'&&/^[A-Za-z0-9]{6,12}$/.test(v)&&/[A-Za-z]/.test(v)&&/[0-9]/.test(v)}
+function t11DropSetupParam(){try{var u=new URL(location.href);u.searchParams.delete('setup');history.replaceState(null,'',u.pathname+u.search+u.hash)}catch(_e){}}
+function f03(){T11_SETUP_TOKEN=t11SetupToken();if(T11_SETUP_TOKEN)t11Style(t11Get('qpwdSetupCard'),'display','block')}
+function f04(){
+  var e=t11Get('qpwdSetErr'),ok=t11Get('qpwdSetOk'),b=t11Get('qpwdSetBtn'),a=t11Get('qpwdSet1'),c=t11Get('qpwdSet2');
+  var v1=(a&&typeof a.value==='string')?a.value:'',v2=(c&&typeof c.value==='string')?c.value:'';
+  function fail(msg){t11PutText(e,msg);t11Style(e,'display','block')}
+  t11Style(e,'display','none');
+  if(!T11_SETUP_TOKEN){fail('设置链接缺失,请用服务方发给你的完整链接打开本页。');return}
+  if(!t11QueryPwdShapeOk(v1)){fail(T11_SETUP_ERRORS.bad_recover_pwd);return}
+  if(v1!==v2){fail('两次输入的密码不一样,请重新输入。');return}
+  if(b)b.disabled=true;
+  J('demo:s08',{token:T11_SETUP_TOKEN,pwd:v1}).then(function(d){
+    if(b)b.disabled=false;
+    if(d&&d.ok){if(a)a.value='';if(c)c.value='';T11_SETUP_TOKEN='';t11DropSetupParam();t11Style(t11Get('qpwdSetForm'),'display','none');t11Style(ok,'display','block');return}
+    fail(T11_SETUP_ERRORS[(d&&typeof d.error==='string')?d.error:'']||'设置没有成功,请稍后再试。');
+  }).catch(function(){if(b)b.disabled=false;fail('网络异常,请稍后再试。')})
+}
+f03();
+function esc2(s){return String(s||'').replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]})}
+function who(cb,accountRef){
+  var qEl=t11Get('q'),q=((qEl&&typeof qEl.value==='string')?qEl.value:'').trim();if(!q)return;
+  if(typeof accountRef==='undefined')accountRef=T11_SELECTED_ACCOUNT;
+  var replacing=!!CODE&&q!==T11_ACTIVE_QUERY,identifySeq=++T11_IDENTIFY_SEQ,viewEpoch=++T11_VIEW_EPOCH;
+  if(replacing){clearT11IdentityView();CODE='';EXG='';T11_ACTIVE_QUERY='';T11_SELECTED_ACCOUNT='';accountRef=''}
+  t11Style(t11Get('werr'),'display','none');
+  J('demo:s15',{q:q,account_ref:accountRef||''}).then(function(d){
+    if(identifySeq!==T11_IDENTIFY_SEQ)return;
+    if(!d||!d.ok){
+      clearT11IdentityView();CODE='';EXG='';T11_ACTIVE_QUERY='';T11_SELECTED_ACCOUNT='';
+      var e=t11Get('werr'),error=d&&d.error;
+      t11PutText(e,error==='not_found'?'没找到:请核对用户码或 API Key(区分大小写按原样粘贴)':(error==='archive_expired'?((d&&d.hint)||'该账户已退出满30天,历史查询已关闭'):'查询失败,稍后再试'));t11Style(e,'display','block');return;
+    }
+    CODE=d.code||q;EXG=(d.exchange||'').toLowerCase();T11_ACTIVE_QUERY=q;T11_SELECTED_ACCOUNT=d.selected_account_ref||'';
+    renderPaymentDemoMode(d.demo===true);
+    var w=t11Get('who');t11Style(w,'display','none');t11PutText(w,'');
+    renderMyPerf(d);
+    if(d.status==='active'&&d.demo!==true){loadMyPositions(q,viewEpoch,T11_SELECTED_ACCOUNT)}
+    if(d.last_credited&&d.last_credited.oid&&!FLOW_DONE){try{var _ak='ack_'+d.last_credited.oid;
+      if(!demoMem[_ak]){demoMem[_ak]=1;
+        document.getElementById('mAmt').textContent=(d.last_credited.amount!=null?d.last_credited.amount:'—')+' USDT';
+        document.getElementById('mCred').textContent=(d.credit!=null?(d.credit+' U'):'—');
+        var _mc=document.getElementById('mCode');if(_mc)_mc.textContent=d.code||'';
+        document.getElementById('okModal').className='modal on';}}catch(_e){}}
+    if(!AR)AR=setInterval(function(){who()},30000);
+    document.getElementById('payCard').style.display='block';
+    document.getElementById('mn').textContent=d.min_amount||50;
+    document.getElementById('notready').style.display=d.channel_ready?'none':'block';
+    document.getElementById('payform').style.display=d.channel_ready?'block':'none';
+    if(!FLOW_DONE)stepMark(1);
+    if(cb)cb(d);
+  }).catch(function(){if(identifySeq===T11_IDENTIFY_SEQ){clearT11IdentityView();CODE='';EXG='';T11_ACTIVE_QUERY='';T11_SELECTED_ACCOUNT='';var e=t11Get('werr');t11PutText(e,'网络异常,稍后再试');t11Style(e,'display','block')}})
+}
+function mk(){
+  var e=document.getElementById('cerr');e.style.display='none';
+  var mn=parseInt(document.getElementById('mn').textContent,10)||50;
+  var raw=document.getElementById('amt').value.trim();
+  var a=parseInt(raw,10);
+  if(!raw||isNaN(a)||a<1){e.textContent='请先输入充值金额(整数 U,最低 '+mn+')';e.style.display='block';return}
+  if(a<mn){e.textContent='最低充值 '+mn+' U,请调整金额';e.style.display='block';return}
+  document.getElementById('cbtn').disabled=true;
+  var createCode=CODE;
+  J('demo:s13',{code:CODE,amount:a}).then(function(d){
+    if(CODE!==createCode)return;
+    document.getElementById('cbtn').disabled=false;
+    if(!d.ok){e.textContent=d.error==='address_not_configured'?'充值通道最后调试中,请稍后再来':'生成失败: '+(d.hint||d.error||'');e.style.display='block';return}
+    ORDER=d.order_id;PAY_AMT=d.pay_amount;FLOW_DONE=false;
+    document.getElementById('done').className='done';
+    document.getElementById('payamt').innerHTML=d.pay_amount+'<small>USDT</small>';
+    document.getElementById('addr').textContent=d.address;
+    document.getElementById('pay').style.display='block';
+    document.getElementById('stat').className='stat';document.getElementById('stat').textContent='等待到账,自动检测中 …';
+    showTut();
+    stepMark(2);
+    if(POLL)clearInterval(POLL);POLL=setInterval(chk,10000);
+  }).catch(function(){document.getElementById('cbtn').disabled=false;e.textContent='网络异常,请重试';e.style.display='block'})
+}
+function chk(){
+  if(!ORDER)return;
+  var pollOrder=ORDER;
+  demoGet('demo:s17?id='+ORDER).then(function(x){return x.json()}).then(function(d){
+    if(ORDER!==pollOrder)return;
+    if(d.ok&&d.status==='credited'){
+      clearInterval(POLL);FLOW_DONE=true;
+      var s=document.getElementById('stat');s.className='stat okk';s.textContent=/^demo/.test(ORDER)?'✓ 演示到账,积分已更新':'✓ 已到账,积分已更新';
+      stepMark(5);
+      var amtTxt=(PAY_AMT||d.pay_amount||'—')+' USDT';
+      document.getElementById('dAmt').textContent=amtTxt;
+      document.getElementById('mAmt').textContent=amtTxt;
+      document.getElementById('mCode').textContent=CODE;
+      document.getElementById('done').className='done on';
+      who(function(dd){
+        var cr=(dd&&dd.credit!=null)?(dd.credit+' U'):'—';
+        document.getElementById('dCred').textContent=cr;
+        document.getElementById('mCred').textContent=cr;
+        var da=document.getElementById('dArr');
+        if(dd&&dd.arrears>0){da.textContent='注意:仍有欠费 '+dd.arrears+' U,建议继续充值补齐';da.style.display='block'}
+        else{da.style.display='none'}
+      });
+      document.getElementById('okModal').className='modal on';
+      try{demoMem['ack_'+ORDER]=1}catch(_e){}
+    }
+  }).catch(function(){})
+}
+function cpA(){navigator.clipboard.writeText(document.getElementById('addr').textContent)}
+function cpM(){navigator.clipboard.writeText(document.getElementById('payamt').textContent.replace('USDT','').trim())}
+</script>
+
+<script src="./assets/input-release-132/family.js"></script><script src="./assets/partner-release-123/orbit-icons.js"></script><script type="module" src="./assets/partner-release-123/market-trace.js"></script><script src="./assets/input-release-125/suite-polish.js" data-suite-polish></script><script src="./assets/input-release-132/input-compat.js" data-input-compat></script></body>
+</html>

@@ -1,0 +1,37 @@
+.orbit-host{position:relative;--orbit-angle:0deg;--orbit-size:25px;--orbit-travel:0px}
+.orbit-host[data-orbit-direction=ne]{--orbit-angle:-45deg}
+.orbit-host[data-orbit-direction=se]{--orbit-angle:45deg}
+.orbit-host[data-orbit-direction=down]{--orbit-angle:90deg}
+.orbit-host[data-orbit-direction=up]{--orbit-angle:-90deg}
+.orbit-host[data-orbit-direction=left]{--orbit-angle:180deg}
+.orbit-host[data-orbit-direction]::after{
+  content:"";display:inline-block;position:relative;inset:auto;
+  width:var(--orbit-size);height:var(--orbit-size);margin:0 0 0 .4em;
+  vertical-align:-.42em;border:0;border-radius:0;box-shadow:none;
+  pointer-events:none;opacity:1;translate:0 0;scale:1;
+  background-image:linear-gradient(105deg,transparent 42%,#c2f5ff40 49%,#ffffff80 50%,#b5aeec38 51%,transparent 58%),url(orbit-arrow.webp);
+  background-size:300% 100%,contain;background-position:180% 50%,center;
+  background-repeat:no-repeat;background-color:transparent;
+  -webkit-mask:url(orbit-arrow.webp) center/contain no-repeat;
+  mask:url(orbit-arrow.webp) center/contain no-repeat;
+  transform:rotate(var(--orbit-angle)) translateX(var(--orbit-travel));
+  filter:drop-shadow(0 0 1px #8fdad620);
+  transition:transform .65s cubic-bezier(.2,.75,.25,1),filter .65s ease;
+  animation:orbit-refraction 7.8s linear infinite;
+  animation-delay:var(--orbit-phase,0s);animation-play-state:paused;
+}
+.orbit-host[data-orbit-visible=true]::after{animation-play-state:running}
+html[data-orbit-paused] .orbit-host::after{animation-play-state:paused}
+.orbit-host.orbit-host--only{display:inline-block;line-height:0;font-size:0;flex:none;vertical-align:middle;width:var(--orbit-size);height:var(--orbit-size)}
+.orbit-host.orbit-host--only::after{display:block;margin:0;vertical-align:baseline}
+[data-orbit-control]:is(:hover,:focus-visible):not(:disabled){--orbit-travel:3px}
+[data-orbit-control]:is(:hover,:focus-visible):not(:disabled) .orbit-host,[data-orbit-control].orbit-host:is(:hover,:focus-visible):not(:disabled){--orbit-travel:3px}
+[data-orbit-control]:is(:hover,:focus-visible):not(:disabled) .orbit-host::after,[data-orbit-control].orbit-host:is(:hover,:focus-visible):not(:disabled)::after{filter:drop-shadow(0 0 3px #8ddce657)}
+.family-page .navcard .arrow.orbit-host{--orbit-size:35px;justify-self:end}
+.family-page .navcard:hover .arrow.orbit-host{transform:none}
+.portal-actions .orbit-host{--orbit-size:28px}
+.portal-scroll .orbit-host{--orbit-size:25px;animation:none;transform:none}
+.partner-chapters .orbit-host{--orbit-size:21px}
+.pgt.orbit-host,.disclosure.orbit-host{--orbit-size:22px;white-space:nowrap}
+@keyframes orbit-refraction{0%,22%{background-position:180% 50%,center}70%,100%{background-position:-180% 50%,center}}
+@media(prefers-reduced-motion:reduce){.orbit-host[data-orbit-direction]::after{animation:none!important;transition:none!important;transform:rotate(var(--orbit-angle));filter:none}}

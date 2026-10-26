@@ -1,0 +1,44 @@
+
+.family-home .directory-grid{position:relative;isolation:isolate;gap:0;margin:6px 0 10px;padding:1px 0}
+.directory-grid::before,.directory-grid::after{content:'';position:absolute;z-index:3;pointer-events:none}
+.directory-grid::before{left:50%;top:18px;bottom:18px;width:1px;background:linear-gradient(transparent,#b9d9e52c 17%,#c2c5e83b 50%,#b9d9e520 86%,transparent)}
+.directory-grid::after{left:20px;right:20px;top:50%;height:1px;background:linear-gradient(90deg,transparent,#b9d9e528 20%,#c3c9e63b 50%,#b9d9e528 80%,transparent)}
+.family-home .directory-card{--dir-rgb:153,218,230;--dir-color:#a8e1e9;display:grid;grid-template-columns:minmax(0,1fr) 42px;grid-template-rows:116px auto;gap:4px 20px;min-height:268px;align-items:end;position:relative;isolation:isolate;overflow:hidden;border:0;border-radius:0;padding:26px 32px 30px;margin:0;background:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;transform:none;text-decoration:none;outline-offset:-4px}
+.family-home .directory-card:nth-child(2){--dir-rgb:167,159,232;--dir-color:#c3baf2}
+.family-home .directory-card:nth-child(3){--dir-rgb:143,214,187;--dir-color:#b2e3cc}
+.family-home .directory-card:nth-child(4){--dir-rgb:218,188,143;--dir-color:#e3cda7}
+.directory-card::before{content:'';position:absolute;inset:8px 10px;z-index:-1;border-radius:18px;background:radial-gradient(ellipse 70% 95% at 81% 24%,rgba(var(--dir-rgb),.07),transparent 75%),linear-gradient(125deg,#bdcfdf04,transparent);transition:opacity .55s;opacity:.8;pointer-events:none}
+.directory-card::after{content:'';position:absolute;left:32px;right:32px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--dir-rgb),.18) 15%,rgba(var(--dir-rgb),.45) 62%,transparent);opacity:.6;transition:opacity .5s;pointer-events:none}
+.family-home .directory-card:is(:hover,:focus-visible){transform:none;background:transparent!important;box-shadow:none}
+.directory-card:is(:hover,:focus-visible)::before{opacity:1;background:radial-gradient(ellipse 70% 95% at 81% 24%,rgba(var(--dir-rgb),.115),transparent 75%),linear-gradient(125deg,#bdcfdf08,transparent)}
+.directory-card:is(:hover,:focus-visible)::after{opacity:1}
+.family-home .directory-card:focus-visible{outline:2px solid var(--dir-color);border-radius:12px}
+.family-home .directory-card .num{align-self:start;justify-self:start;grid-column:1;grid-row:1;display:flex;align-items:center;gap:14px;min-width:0;padding:0;margin:0;background:none;border:0;box-shadow:none;color:var(--dir-color);font:400 13px/1.5 ReflectInter,monospace;letter-spacing:.08em}
+.directory-card .num::after{content:'';width:30px;height:1px;background:linear-gradient(90deg,rgba(var(--dir-rgb),.45),transparent)}
+.directory-copy{grid-column:1;grid-row:2;position:relative;z-index:2;min-width:0;align-self:end}
+.family-home .directory-card .tt{font:500 25px/1.4 ReflectAeonik,'PingFang SC',sans-serif;letter-spacing:-.02em;color:#f0f4f7;margin:0;transition:color .4s}
+.family-home .directory-card .ds{font:400 15px/1.8 ReflectInter,'PingFang SC',sans-serif;letter-spacing:0;color:#adbfcd;margin-top:11px;text-wrap:pretty;max-width:405px;transition:color .4s}
+.family-home .directory-card:is(:hover,:focus-visible) .tt{color:#f3fbfc}
+.family-home .directory-card:is(:hover,:focus-visible) .ds{color:#c5d7df}
+.family-home .directory-card .arrow{grid-column:2;grid-row:2;align-self:center;margin:0;justify-self:end;border:1px solid rgba(var(--dir-rgb),.20);border-radius:50%;background:rgba(var(--dir-rgb),.025);width:42px;height:42px;display:grid;place-items:center;transition:background .45s,border-color .45s,box-shadow .45s}
+.family-home .directory-card .arrow.orbit-host{--orbit-size:42px}
+.family-home .directory-card .arrow.orbit-host::after{width:27px;height:27px;margin:auto}
+.family-home .directory-card:is(:hover,:focus-visible) .arrow{border-color:rgba(var(--dir-rgb),.6);background:rgba(var(--dir-rgb),.11);box-shadow:0 0 22px rgba(var(--dir-rgb),.09)}
+.directory-visual{position:absolute;right:26px;top:11px;width:226px;height:132px;color:var(--dir-color);pointer-events:none;z-index:1;opacity:.86;transition:opacity .5s;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 94%,transparent)}
+.directory-visual svg{display:block;width:100%;height:100%;overflow:visible;stroke:currentColor;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round}
+.directory-card:is(:hover,:focus-visible) .directory-visual{opacity:1}
+.directory-generated{display:block;width:100%;height:100%;object-fit:contain;background:none;border:0;box-shadow:none;will-change:transform}
+.directory-visual{will-change:transform;transition:opacity .5s,transform .55s cubic-bezier(.2,.7,.2,1);mask-image:none}
+.directory-card:is([data-motion=paused],[data-motion=still]) :is(.directory-visual,.directory-generated){will-change:auto}
+@media(min-width:1000px){.family-home .directory-card:nth-child(odd){padding-right:38px}.family-home .directory-card:nth-child(even){padding-left:38px}}
+@media(max-width:900px){.family-home .directory-card{padding:24px;min-height:282px}.family-home .directory-card .tt{font-size:23px}.directory-visual{width:195px;height:114px;right:18px;top:20px}.family-home .directory-card .ds{font-size:15px}}
+@media(max-width:699px){.family-home .directory-grid{grid-template-columns:1fr;margin-top:0}.directory-grid::before,.directory-grid::after{display:none}.family-home .directory-card{padding:24px 20px 27px;min-height:244px;grid-template-rows:99px auto;gap:4px 15px}.directory-card::before{inset:9px 0}.directory-card::after{left:0;right:0;opacity:.65}.directory-visual{width:183px;height:107px;right:16px;top:13px}.family-home .directory-card .num{font-size:12px}.family-home .directory-card .tt{font-size:23px;line-height:1.4}.family-home .directory-card .ds{font-size:15px;line-height:1.8;margin-top:9px}.family-home .directory-card .arrow.orbit-host{--orbit-size:36px;width:36px;height:36px}.family-home .directory-card .arrow.orbit-host::after{width:25px;height:25px}}
+@media(prefers-reduced-motion:reduce){.directory-card::before,.directory-card::after,.directory-visual,.family-home .directory-card .tt,.family-home .directory-card .ds,.family-home .directory-card .arrow{transition:none}}
+
+.directory-flow{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen}
+.directory-generated{opacity:.92}
+
+.family-home .directory-grid,.family-home .directory-card{isolation:auto}
+.directory-card::before{z-index:0}
+.family-home .directory-card .num{position:relative;z-index:2}
+.directory-visual{mix-blend-mode:screen}

@@ -1,0 +1,5 @@
+
+input[data-maris-secret="true"][data-concealed="true"]:not([data-composing="true"]){-webkit-text-security:disc}
+input[data-maris-secret="true"][data-concealed="false"],
+input[data-maris-secret="true"][data-composing="true"]{-webkit-text-security:none}
+input[data-maris-secret="true"]::placeholder{-webkit-text-security:none}

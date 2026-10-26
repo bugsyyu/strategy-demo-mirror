@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-team-state="checking">
+<head><script src="./assets/demo/demo-data.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Maris · 合作伙伴中心</title>
+<style>
+:root{--tx:#eef2f7;--dim:#b0c0d4;--faint:#8b9cb2;--acc:#5eead4;--acc2:#7dd3fc;--warn:#fda4af;--ok:#6ee7b7;--gold:#fcd34d;
+--glass1:rgba(20,30,52,.42);--glass2:rgba(12,18,32,.32);--bd:rgba(126,176,238,.22)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:linear-gradient(180deg,#05070d 0%,#081019 55%,#04121a 100%);color:var(--tx);font:15px/1.75 -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC",sans-serif;min-height:100vh;overflow-x:hidden}
+#water{display:none} 
+.scrim{position:fixed;top:-12%;left:0;right:0;bottom:-12%;z-index:-2;background:linear-gradient(180deg,rgba(7,11,18,.46) 0%,rgba(7,11,18,.34) 40%,rgba(7,11,18,.56) 100%)}
+.wrap{max-width:720px;margin:0 auto;padding:40px 18px 90px}
+.crest{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#5eead4,#2c8fa3 60%,#1e5a8a);box-shadow:0 8px 24px rgba(94,234,212,.22),inset 0 1px 0 rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:800;color:#04211d;font-size:21px}
+.t1{font-weight:800;letter-spacing:2.5px;font-size:15px}
+.t2{font-size:10.5px;color:var(--faint);letter-spacing:2px}
+h1{font-size:30px;font-weight:800;letter-spacing:-.4px;line-height:1.3;margin-bottom:8px}
+.lead{color:var(--dim);font-size:14px;margin-bottom:24px;max-width:600px}
+.glass{background:linear-gradient(165deg,var(--glass1),var(--glass2));backdrop-filter:blur(26px) saturate(1.5);-webkit-backdrop-filter:blur(26px) saturate(1.5);border:1px solid var(--bd);border-radius:20px;box-shadow:0 18px 50px rgba(2,6,14,.5),inset 0 1px 0 rgba(255,255,255,.07)}
+.card{padding:24px 22px;margin-bottom:16px}
+.ct{font-size:14px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.ct .dot{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 12px var(--acc)}
+label{display:block;font-size:12.5px;color:#c3d2e4;font-weight:600;margin:12px 0 6px;letter-spacing:.5px}
+input[type=text]{width:100%;padding:13px 15px;border:1px solid var(--bd);border-radius:13px;background:rgba(8,14,24,.55);color:var(--tx);font-size:15px}
+input[type=text]:focus{outline:none;border-color:rgba(94,234,212,.6);box-shadow:0 0 0 3px rgba(94,234,212,.12)}
+.btn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(135deg,#5eead4,#38b2a4 65%,#2c8fa3);color:#03211d;font-weight:700;font-size:15px;letter-spacing:1px;cursor:pointer;box-shadow:0 10px 30px rgba(94,234,212,.25);margin-top:14px}
+.btn:disabled{opacity:.4;cursor:default}
+.err{color:var(--warn);font-size:13px;margin-top:10px;display:none}
+.linkbox{margin-top:12px;padding:14px 16px;border-radius:13px;border:1.5px solid rgba(252,211,77,.55);background:rgba(252,211,77,.08)}
+.linkbox .lk{font:13px ui-monospace,Menlo,monospace;color:var(--gold);word-break:break-all;line-height:1.7}
+.copybtn{margin-top:10px;padding:8px 18px;border:1px solid rgba(252,211,77,.5);border-radius:10px;background:transparent;color:var(--gold);font-size:13px;cursor:pointer}
+.tokbox{margin-top:12px;padding:13px 15px;border-radius:13px;border:1px solid rgba(126,176,238,.4);background:rgba(10,16,28,.4)}
+.tokbox .lk{font:13px ui-monospace,Menlo,monospace;color:var(--acc2);word-break:break-all}
+.warnline{margin-top:10px;font-size:12.5px;color:var(--warn);line-height:1.8}
+.alert{display:none;margin-bottom:16px;padding:16px 18px;border-radius:16px;border:1.5px solid rgba(253,164,175,.65);background:rgba(253,164,175,.12);font-size:14px;line-height:1.9;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(253,164,175,.25)}50%{box-shadow:0 0 24px 4px rgba(253,164,175,.18)}}
+.alert b{color:#ff8fa0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:2px;border-radius:16px;overflow:hidden;background:rgba(126,176,238,.08);margin-bottom:16px}
+.st{background:rgba(11,17,29,.72);padding:14px 15px}
+.st .k{font-size:10.5px;color:var(--faint);letter-spacing:.6px;margin-bottom:3px}
+.st .v{font-size:20px;font-weight:750;font-variant-numeric:tabular-nums}
+.st .v.gold{color:var(--gold)}.st .v.ok{color:var(--ok)}.st .v.warn{color:var(--warn)}
+.urow{display:flex;align-items:center;gap:10px;padding:12px 4px;border-top:1px solid rgba(126,176,238,.12);font-size:13.5px;flex-wrap:wrap}
+.urow:first-child{border-top:none}
+.urow .nm{font-weight:700;min-width:90px}
+.urow .stt{font-size:11px;padding:2px 10px;border-radius:99px;border:1px solid var(--bd);color:var(--dim)}
+.urow .stt.active{color:var(--ok);border-color:rgba(110,231,183,.45)}
+.urow .stt.exited,.urow .stt.revoked{color:var(--warn);border-color:rgba(253,164,175,.4)}
+.urow .kv{color:var(--dim);font-size:12.5px}.urow .kv b{color:var(--tx);font-variant-numeric:tabular-nums}
+.ucard{flex-basis:100%;margin-top:4px}.ubig{margin-left:auto;font-weight:800;font-size:20px;color:var(--tx);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}.ubig.up{color:var(--ok)}.ubig.dn{color:var(--warn)}.ubig small{display:block;font-size:11px;font-weight:500;color:var(--dim)}
+.ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}.ukv{background:rgba(9,17,31,.45);border:1px solid rgba(126,176,238,.16);border-radius:10px;padding:8px 10px;min-width:0}.ukv .k{font-size:11px;color:var(--dim)}.ukv .v{font-size:14.5px;font-weight:700;color:var(--tx);font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ukv .v small{font-size:10px;font-weight:400;color:var(--faint);margin-left:3px}.ukv.gold .v{color:var(--gold)}.ukv.ok .v{color:var(--ok)}.ukv.ac .v{color:var(--acc)}.ukv.dn .v{color:var(--warn)}
+.umeta{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:8px;flex-basis:100%}
+.light{width:10px;height:10px;border-radius:50%;flex:0 0 10px}
+.light.green{background:#34d399;box-shadow:0 0 8px rgba(52,211,153,.7)}
+.light.yellow{background:#fbbf24;box-shadow:0 0 8px rgba(251,191,36,.8)}
+.light.red{background:#f43f5e;box-shadow:0 0 8px rgba(244,63,94,.8)}
+.fine{font-size:12px;color:var(--faint);margin-top:12px;line-height:1.8}
+@media(max-width:430px){h1{font-size:26px}.card{padding:20px 17px}}
+.waterfx{position:fixed;top:0;left:0;right:0;bottom:0;z-index:-2;pointer-events:none;display:none;overflow:hidden}
+.waterfx.on{display:none}
+.waterfx i{position:absolute;display:block;border-radius:50%;border:1px solid rgba(150,210,255,.32);box-shadow:inset 0 0 18px rgba(120,200,255,.16);opacity:0;animation:wfx 4.6s linear infinite}
+.waterfx i:nth-child(1){left:16%;top:24%;width:30vmin;height:30vmin}
+.waterfx i:nth-child(2){left:58%;top:50%;width:38vmin;height:38vmin;animation-delay:1.5s}
+.waterfx i:nth-child(3){left:32%;top:70%;width:24vmin;height:24vmin;animation-delay:3s}
+@keyframes wfx{0%{transform:scale(.12);opacity:0}12%{opacity:.5}100%{transform:scale(1);opacity:0}}
+@media (orientation: portrait) and (max-width: 820px){body{background-image:linear-gradient(180deg,#05070d 0%,#081019 55%,#04121a 100%)}}
+
+
+#bgGlow{position:fixed;inset:0;z-index:-4;pointer-events:none;background:radial-gradient(70% 22% at 50% 62%,rgba(46,229,220,.18),transparent 72%)}
+#bgHorizon{position:fixed;left:-30%;right:-30%;bottom:-12%;height:52%;z-index:-3;pointer-events:none;background-image:linear-gradient(rgba(46,229,220,.16) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(46,229,220,.16) 1.5px,transparent 1.5px);background-size:64px 44px;transform:perspective(560px) rotateX(62deg);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 42%,rgba(0,0,0,.5) 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 42%,rgba(0,0,0,.5) 100%)}
+.bgStar{position:fixed;z-index:-3;border-radius:50%;background:#fff;pointer-events:none;box-shadow:0 0 10px rgba(255,255,255,1),0 0 26px rgba(160,230,255,.55);animation:bgTwinkle 2.4s ease-in-out infinite,bgDrift 9s ease-in-out infinite alternate}
+@keyframes bgTwinkle{0%,100%{opacity:.04;transform:scale(.45)}45%,55%{opacity:1;transform:scale(1.35)}}
+@keyframes bgDrift{0%{translate:0 0}100%{translate:0 14px}}
+.bgComet{position:fixed;z-index:-3;width:120px;height:2px;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85));border-radius:2px;opacity:0;transform:rotate(-32deg);animation:bgComet 14s linear infinite}
+.bgComet.c2{animation-delay:7.3s;animation-duration:17s}
+@keyframes bgComet{0%,86%{opacity:0;transform:rotate(-32deg) translateX(0)}88%{opacity:.95}100%{opacity:0;transform:rotate(-32deg) translateX(52vw)}}
+@media (prefers-reduced-motion:reduce){.bgStar,.bgComet{animation:none;opacity:.3}}
+
+
+.glass{background:linear-gradient(165deg,rgba(15,22,34,.44),rgba(10,16,26,.36))!important}
+
+.ro-banner{padding:16px 18px;margin:0 0 16px;border:1px solid rgba(252,211,77,.45);border-radius:16px;background:linear-gradient(165deg,rgba(40,34,18,.55),rgba(20,18,10,.45));backdrop-filter:blur(26px) saturate(1.5);-webkit-backdrop-filter:blur(26px) saturate(1.5)}
+.ro-banner .rt{font-weight:800;color:var(--gold);letter-spacing:.5px;font-size:14px;display:flex;align-items:center;gap:8px}
+.ro-banner .rd{font-size:13px;color:#e6dcc0;line-height:1.8;margin-top:6px}
+.ptbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.ptbl th{text-align:left;color:var(--faint);font-weight:600;padding:6px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}
+.ptbl td{padding:8px 6px;border-bottom:1px dashed rgba(126,176,238,.15);white-space:nowrap;vertical-align:middle}
+.ptbl .up{color:var(--ok)}.ptbl .dn{color:var(--warn)}
+.ptbl .side{display:inline-block;padding:1px 7px;border-radius:7px;font-size:11px;font-weight:700}
+.ptbl .side.l{background:rgba(110,231,183,.14);color:var(--ok)}.ptbl .side.s{background:rgba(253,164,175,.14);color:var(--warn)}
+.xbtn{padding:5px 10px;border-radius:9px;border:1px solid rgba(94,234,212,.45);background:rgba(94,234,212,.08);color:var(--acc);font-size:11.5px;font-weight:700;cursor:pointer}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.pg{border:1px solid var(--bd);border-radius:12px;margin:8px 0;background:rgba(8,14,24,.3)}
+.pg.open{border-color:rgba(94,234,212,.35)}
+.pgh{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;cursor:pointer;user-select:none;font-size:12.5px}
+.pgh .pgu{font-family:ui-monospace,Menlo,monospace;font-weight:700;color:var(--tx);min-width:88px}
+.pgh .pgm{color:var(--dim)}.pgh .pgm.up{color:var(--ok)}.pgh .pgm.dn{color:var(--warn)}
+.pgh .pgt{margin-left:auto;color:var(--acc);font-weight:700}
+.pg .tblwrap{padding:0 8px 8px}
+.opchip{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid var(--bd);border-radius:11px;font-size:12.5px;margin:4px 6px 4px 0;background:rgba(8,14,24,.35)}
+.opchip .rv{padding:3px 9px;border-radius:8px;border:1px solid rgba(253,164,175,.45);color:var(--warn);background:transparent;font-size:11px;font-weight:700;cursor:pointer}
+#explainModal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(3,6,12,.66);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:18px}
+#explainModal .box{max-width:560px;width:100%;max-height:82vh;overflow:auto;padding:22px 22px 18px;border-radius:18px}
+#explainModal .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+#explainModal .hd b{font-size:16px}
+#explainModal .tag{font-size:11px;color:var(--faint);letter-spacing:1px}
+#explainModal p{font-size:13.5px;line-height:1.9;color:#d7e1ee;margin:8px 0}
+#explainModal .sec{font-size:12px;font-weight:800;color:var(--acc);letter-spacing:1px;margin-top:12px}
+#explainModal .dis{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.6}
+.st{background:rgba(11,17,29,.42)!important}
+.navcard{background:linear-gradient(165deg,rgba(15,22,34,.5),rgba(10,16,26,.4))!important}
+.urow,.card{background:rgba(12,18,28,.38)!important}
+</style>
+<style>
+
+:root{--ease:cubic-bezier(.16,1,.3,1);--bd:rgba(167,201,225,.13)}
+body{-webkit-font-smoothing:antialiased}
+.logo{position:relative;flex:none;isolation:isolate;border-radius:50%;color:transparent;background:conic-gradient(from 210deg,#c4f0be,#81d4dd,#a9a0ee,#e4abc5,#c4f0be);border:1px solid #dcf7ed48;box-shadow:0 0 28px #81d4dd2a,inset 0 1px 1px #fff6;transition:rotate 1.2s var(--ease),box-shadow 1.2s var(--ease)}
+.logo::before{content:'';position:absolute;width:56%;height:56%;border-radius:50%;background:#070d15}
+.logo::after{content:'';position:absolute;width:18%;height:18%;border-radius:50%;background:#a4e5c6;box-shadow:0 0 12px #a4e5c65c}
+.crest:hover .logo{rotate:28deg;box-shadow:0 0 36px #81d4dd45,inset 0 1px 1px #fff6}
+.t1{font-weight:650;letter-spacing:3.2px}.t2{letter-spacing:2.1px;color:#a8b8c9}
+h1{font-weight:650}.st .v{font-weight:650;letter-spacing:-.35px}
+.glass,.ro-banner{position:relative;border-color:#badbe91c;background:linear-gradient(155deg,rgba(18,29,39,.49),rgba(10,17,26,.34) 65%)!important;box-shadow:0 18px 50px #02060e42,inset 0 1px 0 #e9f9ff0d;transition:box-shadow .8s var(--ease)}
+.glass::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(460px circle at var(--px,50%) var(--py,0%),#96e5de0a,transparent 75%);opacity:0;transition:opacity .75s var(--ease)}
+.glass[data-lit]::after{opacity:1}
+.ro-banner{background:linear-gradient(155deg,rgba(33,31,24,.71),rgba(20,22,22,.62)) padding-box,linear-gradient(120deg,#dcc48f55,#dcc48f12 48%,#c9bb8f25) border-box!important}
+.ro-banner .rt{font-weight:650;color:#e1cea1}.ro-banner .rd{color:#ccc7b6}
+.ro-banner .rt::before{content:'';width:14px;height:16px;flex:none;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='10' width='14' height='11' rx='3'/%3E%3Cpath d='M8 10V7a4 4 0 0 1 8 0v3m-4 5v2'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
+.ct{font-weight:600}.ct .dot{box-shadow:0 0 9px #80d9da50!important}
+.section-icon{width:14px;height:14px;fill:none;stroke:var(--acc2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#ovCard .section-icon{stroke:#dfcba0}
+.stats{background:rgba(171,209,232,.045);box-shadow:inset 0 1px 0 #cce6fa0c}
+.st{background:linear-gradient(150deg,#aecbe508,#aecbe501)!important}
+.pg{border-color:rgba(167,201,225,.09);background:linear-gradient(105deg,#91bed904,#91bed901);transition:border-color .5s,background .5s,box-shadow .5s}
+.pg.open{border-color:#90cfc822;background:#93bcca06;box-shadow:inset 2px 0 #81d4c975}
+.pgh{transition:background .4s;color:inherit}.pgh:hover{background:#a8d3dd07}
+.pgh:focus-visible,.xbtn:focus-visible,.btn:focus-visible,.copybtn:focus-visible{outline:2px solid #a3ddda;outline-offset:4px}
+.pgh .pgu{font-weight:550}.pgh .pgt{font-weight:500;letter-spacing:.2px;color:#9bcfc8}
+.ptbl td{border-bottom-style:solid;border-color:#b7d2ea0b;font-variant-numeric:tabular-nums}
+.ptbl tbody tr{transition:background .35s}.ptbl tbody tr:hover{background:#a8d3dd06}
+.urow{background:transparent!important;border-color:#aecde410}
+.urow .stt{border-color:#a9cce41c}.urow .stt.active{border-color:#82cfa72a;background:#82cfa705}
+.light.green{box-shadow:0 0 8px #34d39936}.light.yellow{box-shadow:0 0 8px #fbbf2436}.light.red{box-shadow:0 0 8px #f43f5e36}
+.btn{position:relative;overflow:hidden;background:linear-gradient(110deg,#a2e3cf,#6ac8c6 70%,#85d5da);box-shadow:0 8px 24px #6ac8c61a,inset 0 1px #efffffa0;transition:filter .5s,translate .5s var(--ease),box-shadow .5s}
+.btn::after{content:'';position:absolute;inset:-100% -40%;pointer-events:none;background:linear-gradient(110deg,transparent 40%,#fff4 50%,transparent 60%);translate:-60% 0;transition:translate .95s var(--ease)}
+.btn:hover::after{translate:60% 0}.btn:active{translate:0 1px}.btn:hover{box-shadow:0 10px 28px #6ac8c62c}
+.xbtn,.copybtn{transition:background .4s,border-color .4s,color .4s}.xbtn{border-color:#9bdbcc33;background:#9bdbcc07;color:#abddce}.xbtn:hover{border-color:#a9e2d360;background:#9bdbcc12}
+#explainModal .box{animation:modal-enter .55s var(--ease)}
+#explainModal .sec{font-weight:600}#explainModal p{color:#c4d2df}
+@keyframes modal-enter{from{opacity:0;translate:0 14px;scale:.985}to{opacity:1;translate:0 0;scale:1}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.bgComet{opacity:0}.bgCurveFlow{display:none}}
+html[data-background-paused] .bgStar,html[data-background-paused] .bgComet,html[data-background-paused] .bgCurveFlow{animation-play-state:paused}
+
+</style>
+<style>.linkbox{border-color:#dfc89b38;background:linear-gradient(120deg,#d5bb790b,transparent)}
+.tokbox{border-color:#9ec6d62c;background:#9ab9d507}.opchip{border-color:#b0ced81c;background:#9ab9d507}.opchip .rv{border-color:#d89fa72a;color:#d8acb3;transition:background .4s}.opchip .rv:hover{background:#d89fa710}
+.secret-field{position:relative}.secret-field input{padding-right:48px!important}.secret-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;display:grid;place-items:center;border:0;background:transparent;color:#9aafbF;cursor:pointer;border-radius:8px;transition:color .3s,background .3s}.secret-toggle:hover{background:#bad7e00b;color:#c6e7e6}.secret-toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}.secret-toggle[aria-pressed=true] .eye-slash{opacity:1}.eye-slash{opacity:0;transition:opacity .25s}.secret-toggle:focus-visible{outline:1px solid var(--acc);outline-offset:2px}
+input[type=password]{width:100%;padding:13px 15px;border:1px solid var(--bd);border-radius:13px;background:rgba(8,14,24,.55);color:var(--tx);font-size:15px}input[type=password]:focus{outline:none;border-color:rgba(94,234,212,.6);box-shadow:0 0 0 3px rgba(94,234,212,.12)}
+input{transition:border-color .4s,box-shadow .4s,background .4s}.err{line-height:1.65}.status-note{padding:12px 16px;margin-bottom:16px;border:1px solid #d9c39428;border-radius:13px;background:#d9c39409;color:#dccdac;font-size:13px}.status-note[hidden]{display:none}
+.light.gray{background:#7d8a99;box-shadow:none}
+@media(prefers-reduced-motion:reduce){.secret-toggle,.eye-slash,input{transition:none}}
+
+.partner-notice-panel{border-color:#c8d7c52b!important;background:linear-gradient(120deg,#b2d8c70a,transparent)!important;box-shadow:inset 0 1px #e5f8ee09;font-weight:400!important}
+</style><link rel="icon" href="./assets/partner-release-123/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./assets/maris-icon-180.png"><style>
+.partner-scene{position:relative;margin:24px 0 18px;scroll-margin-top:22px}.partner-scene>.card{margin-bottom:0}.motion-frame{display:block;border:0;width:100%;background:transparent;mix-blend-mode:screen}.scene-support{font-size:12px;line-height:1.8;color:#aabccc;margin:8px 0 0}.scene-kicker{font-size:9px;line-height:1.5;letter-spacing:2.2px;color:#a6b2c4;margin-bottom:9px}
+#teamView>.stats{margin-bottom:16px}#roBanner{margin-bottom:0}.card.glass{background:linear-gradient(145deg,rgba(21,34,49,.22),rgba(8,17,28,.17))!important;border-color:#b8d6ef20;box-shadow:0 14px 40px #01060d26,inset 0 1px 0 #eaf6ff0b;backdrop-filter:blur(15px) saturate(1.15);-webkit-backdrop-filter:blur(15px) saturate(1.15)}
+
+.scene-overview{isolation:isolate;margin-top:16px}.galaxy-crown{aspect-ratio:1440/294;width:100%;pointer-events:none}.scene-overview .motion-galaxy{position:absolute;inset:0 auto auto 0;width:100%;height:auto;aspect-ratio:1440/660;z-index:0}.scene-overview #ovCard{position:relative;z-index:1;background:linear-gradient(180deg,rgba(20,23,43,.06),rgba(10,19,31,.24) 64%,rgba(10,19,31,.35))!important;backdrop-filter:blur(13px) saturate(1.12);-webkit-backdrop-filter:blur(13px) saturate(1.12);border-color:#c6b9ef30;box-shadow:inset 0 1px 0 #f2eaff20,0 15px 45px #01040c35;overflow:hidden}.reflective-card::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,#c8a7ff75,#f7edffcc,#c8a7ff75,transparent);pointer-events:none}#ovCard .stats{background:#aab8de03;box-shadow:none}#ovCard .st{background:#9caad103!important}#ovCard .st .k{color:#c2c8dd}#ovCard .st .v{color:#edf2ff;text-shadow:0 1px 10px #01051999}#ovCard .st .v.ok{color:#a1e8c6}#ovCard .st .v.warn{color:#f4b3c3}#ovNote{color:#a8b7ce;text-shadow:0 1px 6px #03071bbb}
+
+.position-masthead{display:grid;grid-template-columns:1fr 1.17fr;align-items:center;gap:6px;min-height:184px;margin:-12px -6px 4px}.position-heading{position:relative;height:184px;isolation:isolate}.position-heading .motion-beam{position:absolute;top:-8px;left:50%;width:238px;height:auto;aspect-ratio:936/650;transform:translateX(-50%);z-index:-1;opacity:.9;mask-image:linear-gradient(180deg,transparent,#000 9%,#000 72%,transparent)}.position-copy{position:absolute;bottom:13px;left:6px;right:0}.position-copy .ct{font-size:19px;font-weight:500;letter-spacing:-.25px;line-height:1.4;margin:0;color:#eef0fa}.position-copy .scene-support{margin-top:6px}.position-map .motion-nodes{aspect-ratio:468/256;height:auto}.scene-network-canvas{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 15px}.scene-account{appearance:none;border:1px solid #b1c7df20;background:#08162330;border-radius:8px;padding:7px 10px;color:#b9cddd;font-size:10.5px;cursor:pointer;transition:border-color .3s,color .3s,background .3s}.scene-account:hover,.scene-account[aria-expanded=true]{color:#eee8fa;border-color:#b7a1d65c;background:#b7a1d60c}.scene-account:focus-visible{outline:2px solid #baa4dd;outline-offset:3px}.scene-network-note{font-size:11px!important;line-height:1.8!important;margin-top:12px;color:#99acc2!important}.scene-network-canvas:empty{display:none}
+
+.scene-authority{padding:20px 22px!important}.scene-access{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);align-items:center;gap:20px;min-height:170px;position:relative}.motion-cipher{aspect-ratio:560/380;height:auto;mask-image:radial-gradient(ellipse at 50% 48%,#000 35%,transparent 74%)}.access-copy h2{font-size:22px;line-height:1.4;font-weight:500;letter-spacing:-.3px;margin:0 0 9px;color:#ebedf7}.access-copy p,.scene-access-description{font-size:12px;color:#aebdd0;line-height:1.85;margin:0}.scene-link{display:inline-flex;gap:10px;align-items:center;color:#b9cbdc;text-decoration:none;font-size:11px;margin-top:12px;padding:4px 0;border-bottom:1px solid #b9cbdc28;transition:gap .4s,color .4s}.scene-link:hover{gap:14px;color:#e4d5fc}.scene-link:focus-visible{outline:2px solid #baa4dd;outline-offset:4px}
+#loginCard{margin-top:22px}.login-access{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px}.login-fields{min-width:0}.login-fields .ct{font-size:16px;line-height:1.6;margin-bottom:8px}.login-fields .scene-access-description{margin:0 0 14px;font-size:11px}.login-fields .btn{margin-top:12px}#accessScene .motion-cipher{max-width:290px;justify-self:center}
+.users-masthead{display:grid;grid-template-columns:1fr 1.04fr;align-items:center;gap:18px;min-height:148px;margin:-9px -4px 10px}.users-heading .ct{font-size:19px;line-height:1.6;font-weight:500;margin-bottom:0}.users-heading .scene-support{font-size:11px}.motion-globe{height:auto;aspect-ratio:1100/520}.scene-globe .fine{font-weight:400!important;font-size:12px!important;color:#aabdd0!important}
+@media(max-width:600px){.partner-scene{margin-block:20px 16px}.scene-overview{margin-top:12px}.card.glass{padding:20px 17px}.scene-overview #ovCard{backdrop-filter:blur(9px) saturate(1.12);-webkit-backdrop-filter:blur(9px) saturate(1.12)}.position-masthead{grid-template-columns:.92fr 1.08fr;min-height:154px;gap:0;margin:-8px -9px 6px}.position-heading{height:154px}.position-heading .motion-beam{width:180px;top:-7px}.position-copy{left:9px;bottom:10px;right:-4px}.position-copy .ct{font-size:15px;gap:6px}.position-copy .section-icon{width:12px;height:12px}.position-copy .scene-support{font-size:10px;line-height:1.7}.position-map .motion-nodes{width:120%;max-width:none;margin-left:-7%}.scene-network-canvas{gap:6px;margin-bottom:13px}.scene-account{font-size:10px;padding:6px 8px}.scene-authority{padding:17px!important}.scene-access{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:6px;min-height:152px}.scene-access .motion-cipher{width:120%;margin-left:-8%;max-width:none}.access-copy h2{font-size:19px}.access-copy p{font-size:11px}.scene-kicker{font-size:8px;letter-spacing:1.5px;margin-bottom:7px}.scene-link{font-size:10px;margin-top:8px}.users-masthead{grid-template-columns:1fr 1fr;min-height:108px;gap:8px;margin:-4px -2px 9px}.users-heading .ct{font-size:15px;gap:6px}.users-heading .scene-support{font-size:10px;line-height:1.7;max-width:145px}.scene-globe .fine{font-size:11px!important}.login-access{display:block;min-height:0}.login-fields>.ct,.login-fields>.scene-access-description{max-width:calc(100% - 112px)}.login-fields>.ct{font-size:14px;align-items:start}.login-fields>.ct .section-icon{margin-top:4px;flex:none}.login-fields .scene-access-description{min-height:42px}.login-access .motion-cipher{position:absolute;right:-16px;top:-6px;width:145px;margin:0}#loginCard{overflow:hidden}.scene-authority{overflow:hidden}}
+@media(prefers-reduced-motion:reduce){.scene-account,.scene-link{transition:none}}
+
+.decode-copy{display:inline-block;overflow-wrap:anywhere}
+
+
+.partner-scene{margin:38px 0 26px}.scene-overview{margin-top:28px;margin-bottom:42px}
+.position-masthead{display:block;margin:-2px 0 18px;min-height:0}.position-heading{height:140px;display:flex;align-items:center}.position-heading .motion-beam{left:auto;right:0;top:-8px;width:206px;transform:none}.position-copy{position:relative;left:auto;right:auto;bottom:auto;max-width:calc(100% - 224px)}.position-copy .ct{font-size:21px}.position-copy .scene-support{font-size:12px;margin-top:11px}.position-map{width:min(100%,468px);margin:4px auto 16px}.position-map .motion-nodes{width:100%;margin:0}.scene-network-canvas{margin-bottom:22px;gap:9px}.scene-account{padding:8px 12px;font-size:11px}.scene-authority{padding:24px 25px!important}.scene-access{min-height:192px;gap:30px}.access-copy p{line-height:1.95}.users-masthead{min-height:166px;margin-bottom:22px;gap:28px}.scene-globe .fine{margin-top:18px;line-height:1.9}#loginCard{margin-top:30px}.login-access{gap:26px}
+@media(max-width:600px){.partner-scene{margin:28px 0 22px}.scene-overview{margin-top:22px;margin-bottom:30px}.position-masthead{margin:0 -2px 16px}.position-heading{height:130px}.position-heading .motion-beam{width:165px;right:-11px;top:-3px}.position-copy{max-width:calc(100% - 139px);left:0}.position-copy .ct{font-size:16px;line-height:1.6}.position-copy .scene-support{font-size:11px;line-height:1.85;margin-top:9px}.position-map{width:100%;margin:6px auto 12px}.position-map .motion-nodes{width:100%;margin:0}.scene-network-canvas{margin-bottom:18px;gap:7px}.scene-account{font-size:10px;padding:7px 9px}.scene-authority{padding:21px 18px!important}.scene-access{min-height:166px;gap:12px}.users-masthead{min-height:122px;gap:12px;margin-bottom:18px}.login-access{min-height:0}.login-fields .scene-access-description{margin-bottom:18px}.scene-globe .fine{font-size:11px!important;line-height:1.9!important}}
+
+
+#authorityScene{padding:0!important;overflow:visible}.authority-visual{position:relative;width:100%;aspect-ratio:936/600;isolation:isolate}.authority-visual .motion-cipher-full{position:absolute;inset:0;width:100%;height:100%;mask-image:none}.authority-visual .access-copy{position:absolute;left:0;right:0;top:36%;text-align:center;z-index:1;pointer-events:none}.authority-visual .access-copy .scene-kicker{display:inline-block;font-size:10px;letter-spacing:1.8px;line-height:1.6;color:#d5c4ee;border:1px solid #c6a8f633;border-radius:99px;background:#160d291a;padding:5px 12px;margin:0 0 15px}.authority-visual .access-copy h2{font-size:34px;line-height:1.3;letter-spacing:-.6px;margin:0 0 14px}.authority-visual .access-copy p{max-width:420px;margin:0 auto;font-size:13px;line-height:1.9;color:#b9c5d5}.authority-visual .scene-link{pointer-events:auto;margin-top:17px}.authority-visual .decode-copy{max-width:100%}
+@media(max-width:600px){.authority-visual{aspect-ratio:936/800}.authority-visual .access-copy{top:40%;left:10px;right:10px}.authority-visual .access-copy .scene-kicker{font-size:9px;padding:4px 10px;margin-bottom:11px}.authority-visual .access-copy h2{font-size:26px;line-height:1.35;margin-bottom:11px}.authority-visual .access-copy p{max-width:300px;font-size:12px;line-height:1.85}.authority-visual .scene-link{margin-top:12px}}
+
+.live-network{display:block;position:relative;width:100%;max-width:none;min-height:120px;margin:0 0 25px;isolation:isolate;background:radial-gradient(ellipse at 50% 46%,#8469be0d,transparent 64%)}
+.network-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}.network-wire,.network-wire-light{fill:none;stroke-width:1}.network-wire{stroke:#a28ab53e}.network-wire-light{stroke:#d7c5f7;stroke-dasharray:2 130;stroke-linecap:round;opacity:.24;animation:wire-flow 10s linear infinite}.network-wire-light.wire-engaged{stroke-width:1.6;filter:drop-shadow(0 0 4px #c4a4f8);opacity:.9}
+.network-hub,.network-account{position:absolute;transform:translate(-50%,-50%);text-align:center}.network-hub{display:grid;justify-items:center;gap:8px;font-size:8px;letter-spacing:2px;color:#a9b0c8}.network-hub .logo{width:37px;height:37px;box-shadow:0 0 35px #b88aed24}.network-account{appearance:none;display:grid;justify-items:center;gap:4px;width:114px;padding:0;border:0;background:none;color:#cbd2e5;cursor:pointer;font-family:inherit;outline-offset:7px}.network-orb{display:block;width:18px;height:18px;margin-bottom:5px;border-radius:50%;border:1px solid rgba(var(--node-rgb),.5);background:radial-gradient(circle at 40% 30%,rgba(var(--node-rgb),.22),rgba(var(--node-rgb),.03) 70%);box-shadow:inset 0 0 8px rgba(var(--node-rgb),.18),0 0 0 4px rgba(var(--node-rgb),.035),0 0 20px rgba(var(--node-rgb),.12)}.network-label{max-width:108px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;letter-spacing:.3px;padding:3px 9px;border:1px solid #b7a2d218;border-radius:99px;background:#08111d60}.network-account small{font-size:9px;color:#8998ae;letter-spacing:.3px}.node-engaged .network-orb{animation:node-signal 1.2s ease-out}.network-account[aria-expanded=true] .network-label{color:#eee4ff;background:#b7a2d218}.network-account:focus-visible{outline:1px solid #bb9fe8;border-radius:10px}.network-paused .network-wire-light{animation-play-state:paused}.position-empty{color:#9baabd;font-size:13px;padding:10px 0}
+@keyframes wire-flow{to{stroke-dashoffset:-264}}@keyframes node-signal{0%,100%{filter:brightness(1);transform:scale(1)}35%{filter:brightness(1.9);transform:scale(1.15);box-shadow:0 0 28px rgba(var(--node-rgb),.42)}}
+
+#authorityScene{margin-top:48px;margin-bottom:32px;position:relative;isolation:isolate}.authority-visual{aspect-ratio:936/210;position:relative;z-index:0;overflow:visible}.authority-visual .motion-cipher-full{inset:0 auto auto 50%;transform:translateX(-50%);width:100%;height:auto;aspect-ratio:936/600;max-width:none}.scene-authority #usersCard{position:relative;z-index:1;margin:0;background:linear-gradient(160deg,#11172947,#07121a85);border:1px solid #c4b7ec20;box-shadow:inset 0 1px 0 #dacef21c,0 18px 60px #03071133;backdrop-filter:blur(9px) saturate(1.15);-webkit-backdrop-filter:blur(9px) saturate(1.15)}.scene-authority #usersCard .ct{font-weight:500;font-size:19px;margin-bottom:22px}.scene-authority #usersCard .urow{background:#08131b20;border-color:#b0bcd419}.scene-authority #usersCard .fine{line-height:1.8}
+
+#explainModal{z-index:100;padding:clamp(20px,5vw,80px);background:rgba(3,8,16,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);overflow:auto;align-items:center;justify-content:flex-start;isolation:isolate}.ex-panorama{position:fixed;inset:0;z-index:-1;pointer-events:none}.ex-panorama canvas{width:100%;height:100%;display:block}#explainModal .box{position:relative;width:min(520px,47vw);max-width:560px;max-height:calc(100dvh - 60px);margin-left:clamp(0px,6vw,100px);padding:32px 34px;border:0;border-radius:0;background:linear-gradient(100deg,#0a172266,#0c1a242b 70%,transparent);box-shadow:none;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);mask-image:linear-gradient(90deg,#000 95%,transparent)}#explainModal .box::before,#explainModal .box::after{display:none}#explainModal .hd{align-items:flex-start;margin-bottom:21px;gap:18px}#explainModal .hd b{font-size:25px;font-weight:500;letter-spacing:-.4px;line-height:1.45}#explainModal .tag{font-size:10px;line-height:1.9;color:#9baec2;letter-spacing:.4px}#explainModal .sec{font-size:11px;font-weight:500;color:#a8c8cc;letter-spacing:1.5px;margin-top:23px}#explainModal p{font-size:13px;line-height:2;color:#d5dee7}#explainModal .dis{margin-top:25px;color:#8e9eb0}#exClose{flex:none;margin-top:4px}#explainModal .box:focus{outline:none}
+@media(max-width:600px){.live-network{margin-top:6px;margin-bottom:23px}.network-account{width:110px}.network-label{font-size:10px}.network-hub .logo{width:31px;height:31px}#authorityScene{margin-top:35px}.authority-visual{aspect-ratio:936/290}.authority-visual .motion-cipher-full{aspect-ratio:936/600}.scene-authority #usersCard .ct{font-size:16px;margin-bottom:19px}#explainModal{padding:24px 18px;align-items:center}#explainModal .box{width:100%;max-height:calc(100dvh - 48px);margin:0;padding:22px 16px;background:linear-gradient(105deg,#07131bc9,#09162372 75%,#09162338);mask-image:none;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}#explainModal .hd b{font-size:23px}#explainModal p{font-size:12px;line-height:1.95}#explainModal .sec{margin-top:19px}}
+@media(prefers-reduced-motion:reduce){.network-wire-light,.node-engaged .network-orb{animation:none}.network-orb{transition:none}}
+#explainModal .box{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;mask-image:none;isolation:isolate}#explainModal .box::before{content:"";display:block;position:absolute;inset:0;z-index:-1;pointer-events:none;border:0;border-radius:0;background:radial-gradient(ellipse at 40% 50%,#0b1825cb 20%,#0b182580 60%,transparent 76%);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);mask-image:radial-gradient(ellipse,#000 45%,transparent 73%)}
+
+#authorityScene #usersCard{padding:0!important;border:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;overflow:visible}
+#authorityScene .authority-visual{aspect-ratio:936/410}
+.users-scene-copy{position:absolute;top:49%;left:20px;right:20px;z-index:1;text-align:center;pointer-events:none}
+#authorityScene .users-scene-copy .ct{display:block;font-size:30px;line-height:1.4;font-weight:500;letter-spacing:-.45px;margin:0;color:#f0edf8}
+.users-scene-copy .section-icon{display:none}.users-scene-description{max-width:420px;margin:13px auto 0;color:#abb8cb;font-size:12px;line-height:1.9}.users-scene-description span{display:block}.users-scene-description span:first-child{color:#c8c9dc;margin-bottom:3px;font-variant-numeric:tabular-nums}
+.users-list-surface{position:relative;padding:20px 22px 26px;background:linear-gradient(180deg,#0b152031,transparent 82%);border:0;box-shadow:none}.users-list-surface::before{content:"";position:absolute;inset:0 22px auto;height:1px;background:linear-gradient(90deg,transparent,#c1b4db42,transparent)}
+#authorityScene .users-list-surface .urow{background:transparent}#authorityScene .users-list-surface .fine{margin-top:22px}
+@media(max-width:600px){#authorityScene .authority-visual{aspect-ratio:936/640}.users-scene-copy{top:42%;left:4px;right:4px}#authorityScene .users-scene-copy .ct{font-size:25px;line-height:1.4}.users-scene-description{font-size:11px;line-height:1.9;max-width:320px;margin-top:12px}.users-list-surface{padding:14px 10px 22px}.users-list-surface::before{left:10px;right:10px}}
+.users-scene-copy{isolation:isolate;text-shadow:0 2px 12px #030711}.users-scene-copy::before{content:"";position:absolute;inset:-12px -6%;z-index:-1;pointer-events:none;background:radial-gradient(ellipse,#070d19b8 12%,#070d1970 48%,transparent 73%);filter:blur(8px)}.users-scene-description{color:#c1c9db}
+
+#positionsScene .position-masthead{margin:0 0 10px}.position-heading{position:relative;overflow:hidden;height:154px}.position-market-field{position:absolute;right:-12px;top:2px;width:53%;height:150px;pointer-events:none;mask-image:linear-gradient(90deg,transparent,#000 22%,#000 80%,transparent)}.position-market-field canvas{width:100%;height:100%;display:block;pointer-events:none}.position-copy{z-index:1;max-width:calc(100% - 245px)}
+.fixed-network{width:min(100%,520px);margin:0 auto 24px}.fixed-network .motion-nodes{width:100%;height:auto;aspect-ratio:468/256;display:block;mask-image:radial-gradient(ellipse at center,#000 60%,transparent 80%)}.network-illustration-label{text-align:center;font-size:9px;color:#7e8aa4;letter-spacing:1px;margin:-2px 0 0;line-height:1.7}
+@media(max-width:600px){.position-heading{height:126px}.position-market-field{right:-12px;top:0;width:56%;height:125px}.position-copy{max-width:calc(100% - 140px)}.fixed-network{width:100%;margin-bottom:20px}.network-illustration-label{font-size:8px}}
+.fixed-network{width:min(100%,340px);margin:0 auto 21px}
+.position-market-field{width:55%;height:160px;top:-3px}.position-market-field canvas,.market-field-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.position-market-field canvas{opacity:0}.position-market-field[data-media=ready] canvas{opacity:1}.position-market-field[data-media=ready] .market-field-poster{opacity:0}
+#authorityScene .authority-visual{aspect-ratio:936/600}.authority-visual .motion-cipher-full{height:100%;aspect-ratio:auto;pointer-events:none}
+.users-scene-copy{top:50%;left:20px;right:20px;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:0;pointer-events:none}
+.users-scene-lock{display:block;position:relative;width:66px;height:85px;margin:0 auto 24px;padding:0;border:0;background:transparent;pointer-events:auto;cursor:pointer;flex:none}.user-lock-body{position:absolute;width:66px;height:auto;bottom:0;left:0}.user-lock-shackle{position:absolute;width:42px;height:auto;top:0;left:12px}.users-scene-lock.lock-active .user-lock-shackle{animation:user-lock-cycle 1.1s cubic-bezier(.6,.6,0,1) both}.users-scene-lock:focus-visible{outline:1px solid #c5a2f9;outline-offset:7px;border-radius:50%}.users-scene-description{margin-top:13px}.users-scene-copy::before{inset:50% -6% -12px}.users-list-surface{margin-top:0}
+@keyframes user-lock-cycle{0%,100%{transform:translateY(0)}28%,65%{transform:translateY(18px)}}
+@media(max-width:600px){.fixed-network{width:min(100%,280px)}#authorityScene .authority-visual{aspect-ratio:936/920}.authority-visual .motion-cipher-full{height:100%;top:0}.users-scene-copy{top:50%;left:4px;right:4px}.users-scene-lock{width:61px;height:79px;margin-bottom:21px}.user-lock-body{width:61px}.user-lock-shackle{width:39px;left:11px}.position-market-field{height:126px;width:55%;top:0}}
+@media(prefers-reduced-motion:reduce){.users-scene-lock.lock-active .user-lock-shackle{animation:none}}
+.position-market-field{mask-image:linear-gradient(90deg,transparent,#000 17%,#000 83%,transparent),linear-gradient(0deg,transparent,#000 15%,#000 85%,transparent);mask-composite:intersect}
+
+#posCard{position:relative;overflow:hidden;isolation:isolate}#posCard>.position-ambient{position:absolute;inset:0;width:100%;height:100%;z-index:-1;mask:none;pointer-events:none}.position-ambient canvas,.position-ambient .market-field-poster{opacity:.64}.position-ambient[data-media=ready] canvas{opacity:.64}.position-ambient::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0b0a10e8 0%,#0b0a10c7 19%,#0b0a1066 58%,#0b0a1022 100%);pointer-events:none}.position-earth-grid{position:absolute;bottom:0;left:-10%;width:120%;height:auto;aspect-ratio:1828/790;mix-blend-mode:overlay;mask-image:linear-gradient(180deg,transparent 50%,#000);pointer-events:none;z-index:1}
+#positionsScene .position-masthead{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:10px;align-items:center;min-height:168px;margin:-5px 0 12px}#positionsScene .position-copy{max-width:none;position:relative;left:auto;right:auto;bottom:auto}#positionsScene .position-copy .ct{font-size:20px;line-height:1.5}#positionsScene .fixed-network{width:300px;max-width:100%;margin:0}.fixed-network .motion-nodes{mix-blend-mode:screen}#posBody{position:relative}#posCard .pg{background:#09131da3;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}#posCard .scene-network-note{position:relative;margin-top:16px!important;font-size:10px!important;color:#a9b5c9!important}
+@media(max-width:600px){#positionsScene .position-masthead{grid-template-columns:minmax(0,1fr) 174px;gap:0;min-height:120px;margin:-7px -8px 9px}#positionsScene .fixed-network{width:174px}#positionsScene .position-copy{padding-left:8px}#positionsScene .position-copy .ct{font-size:15px;gap:5px}#positionsScene .position-copy .scene-support{font-size:10px;line-height:1.8;margin-top:8px}.position-earth-grid{left:-20%;width:140%}}
+#authorityScene .users-list-surface{margin-top:0;isolation:isolate;overflow:hidden;border-radius:0 0 20px 20px;padding-top:18px}
+.users-list-surface>.team-ambient{position:absolute;left:0;right:0;bottom:0;top:auto;width:100%;height:min(390px,100%);pointer-events:none;z-index:-1;mask-image:linear-gradient(180deg,transparent,#000 22%);isolation:isolate}
+.team-ambient canvas,.team-ambient .market-field-poster{opacity:.67}.team-ambient[data-media=ready] canvas{opacity:.67}.team-ambient::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#081019dc,#08101991 48%,#08101938);pointer-events:none}.team-ambient .position-earth-grid{opacity:.85}
+@media(max-width:600px){#authorityScene .users-list-surface{padding-top:13px}.users-list-surface>.team-ambient{height:min(420px,100%)}}
+@font-face{font-family:ReflectAeonik;src:url('./assets/partner-release-123/aeonik-medium.woff2') format('woff2');font-weight:500;font-display:swap}@font-face{font-family:ReflectInter;src:url('./assets/partner-release-123/inter-regular.woff2') format('woff2');font-weight:400;font-display:swap}@font-face{font-family:ReflectInter;src:url('./assets/partner-release-123/inter-medium.woff2') format('woff2');font-weight:500;font-display:swap}
+.ct,#explainModal .hd b{font-family:ReflectAeonik,'PingFang SC','Microsoft YaHei',system-ui,sans-serif!important;font-weight:500!important;font-feature-settings:normal;letter-spacing:-.025em;text-shadow:none;background:linear-gradient(180deg,#fff,rgba(255,255,255,.7));background-clip:text;-webkit-background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent}.ct .section-icon{color:#b7c5d6;-webkit-text-fill-color:initial}.users-scene-copy{text-shadow:none}#authorityScene .users-scene-copy .ct{font-size:40px;line-height:1.143;letter-spacing:-.025em}.scene-support,.users-scene-description,.scene-access-description{font-family:ReflectInter,'PingFang SC',system-ui,sans-serif;font-weight:400;color:#efedfdb3}.users-scene-description span:first-child{color:#efedfdb3}#positionsScene .position-copy .ct{font-size:24px;line-height:1.2}#ovCard .ct{font-size:24px;line-height:1.2}
+#positionsScene .position-masthead{grid-template-columns:minmax(0,1fr) minmax(0,468px);gap:14px;min-height:0;margin:-8px -6px 10px}#positionsScene .fixed-network{width:468px;max-width:100%}#positionsScene .position-copy{min-width:150px}#positionsScene .position-copy .ct{display:block}#positionsScene .position-copy .section-icon{display:inline-block;vertical-align:middle;margin-right:7px;width:16px;height:16px}
+@media(max-width:600px){#authorityScene .users-scene-copy .ct{font-size:32px;line-height:1.2}#positionsScene .position-masthead{grid-template-columns:minmax(0,1fr) minmax(0,54%);gap:0;margin:-7px -8px 8px;min-height:116px}#positionsScene .fixed-network{width:100%}#positionsScene .position-copy{min-width:0}#positionsScene .position-copy .ct{font-size:18px;line-height:1.35}#ovCard .ct{font-size:20px}.users-scene-description{font-size:11px}}
+#positionsScene .position-copy .ct{display:flex;align-items:flex-start;gap:7px}#positionsScene .position-copy .section-icon{margin-right:0;margin-top:5px;flex:none}.position-title-text{display:block;white-space:nowrap}.position-subtitle{display:block;margin-top:9px;font-family:ReflectInter,'PingFang SC',system-ui,sans-serif;font-size:12px;font-weight:400;line-height:1.5;letter-spacing:.06em;-webkit-text-fill-color:#efedfdb3;color:#efedfdb3}
+@media(max-width:600px){#positionsScene .position-copy .ct{gap:5px}.position-subtitle{font-size:10px;margin-top:5px}}
+
+#authorityScene .authority-visual{aspect-ratio:936/776}.users-scene-copy{width:936px;max-width:none;left:50%;right:auto;top:50%;transform:translate(-50%,-50%) scale(var(--reference-scale,1));transform-origin:50% 50%;display:flex;flex-direction:column;align-items:center;gap:0}.users-scene-copy::before{display:none}
+.team-partnership-icon{display:block;width:80px;height:102px;margin:0 auto 48px;padding:0;border:0;background:none;appearance:none;pointer-events:auto;cursor:pointer;flex:none;isolation:isolate}.team-partnership-icon svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 0 11px #8f58de38)}.team-partnership-icon:focus-visible{outline:1px solid #d6bbf5;outline-offset:8px;border-radius:16px}[data-team-member]{transform-origin:0 0}
+.team-scene-badge{isolation:isolate;overflow:hidden;align-items:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:32px;box-shadow:inset 0 -7px 11px #a48fff1f;display:flex;margin:0 auto 12px;padding:6px 14px 6px 15px;position:relative;width:max-content;font-family:ReflectInter,system-ui,sans-serif;font-size:14px;line-height:20px;font-weight:500;font-feature-settings:'ss01' on,'cv10' on,'calt' off,'liga' off;letter-spacing:normal}.team-scene-badge::after{background:linear-gradient(90.01deg,#e59cff3d .01%,#ba9cff3d 50.01%,#9cb2ff3d);border-radius:inherit;content:"";inset:0;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;-webkit-mask-composite:xor;padding:1px;pointer-events:none;position:absolute}.team-scene-badge span{background:linear-gradient(0deg,#ffffff66,#ffffff66),linear-gradient(90.01deg,#e59cff .01%,#ba9cff 50.01%,#9cb2ff);background-blend-mode:normal,screen;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#authorityScene .users-scene-copy .ct{font-family:ReflectAeonik,'PingFang SC',system-ui,sans-serif;font-size:56px;line-height:64px;font-weight:500;letter-spacing:normal;margin:0;padding:0;min-height:64px;display:block}.users-scene-description{font-family:ReflectInter,'PingFang SC',system-ui,sans-serif;font-size:16px;line-height:24px;font-weight:400;letter-spacing:normal;margin:12px auto 0;max-width:455px;width:455px;color:#efedfdb3}.users-scene-description span:first-child{margin:0;color:inherit}.users-scene-description span{line-height:24px}
+@media(max-width:600px){#authorityScene .authority-visual{aspect-ratio:375/520}.users-scene-copy{width:375px;left:50%;right:auto;top:50%}#authorityScene .users-scene-copy .ct{font-size:40px;line-height:48px;min-height:48px}.users-scene-description{font-size:16px;line-height:24px;width:340px;max-width:340px}.team-partnership-icon{width:80px;height:102px;margin-bottom:48px}}
+@media(prefers-reduced-motion:reduce){[data-team-member]{transform:none}}
+.users-scene-description span{text-wrap:balance}
+
+
+.team-partnership-icon{position:relative}.team-partnership-icon canvas.swarm-material{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;pointer-events:none;filter:drop-shadow(0 0 9px #9056e02b)}.team-partnership-icon[data-renderer=webgl] canvas.swarm-material{opacity:1}.team-partnership-icon[data-renderer=webgl]>svg{opacity:0}
+
+
+#positionsScene{margin-bottom:0}#authorityScene{margin-top:18px}
+#authorityScene .authority-visual{width:100%;height:auto;aspect-ratio:936/470;left:0;transform:none;overflow:clip}.users-scene-copy{width:936px}#authorityScene .authority-visual .motion-cipher-full{height:100%;width:100%;aspect-ratio:auto}
+#authorityScene .users-list-surface{margin-top:0}
+@media(max-width:600px){#authorityScene{margin-top:16px}#authorityScene .authority-visual{width:100%;height:auto;aspect-ratio:375/410}.users-scene-copy{width:375px}}
+#authorityScene .motion-cipher-full{mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent),linear-gradient(180deg,transparent,#000 8%,#000 91%,transparent);mask-composite:intersect}
+
+
+#authorityScene,#authorityScene #usersCard,#authorityScene .authority-visual,#authorityScene .users-scene-copy{background:transparent!important}#authorityScene .motion-cipher-full{background:transparent;mix-blend-mode:normal}
+
+
+body .wrap{max-width:1248px;width:100%;padding:30px 40px 58px}
+.crest{display:flex;justify-content:flex-start;align-items:center;gap:14px;margin-bottom:44px!important}
+.partner-chapters{display:flex;align-items:center;gap:28px;margin-left:auto;font-family:ReflectInter,'PingFang SC',sans-serif}
+.partner-chapters a{color:#c1bed4;font-size:12px;text-decoration:none;transition:color .25s;white-space:nowrap}
+.partner-chapters a:hover{color:#fff}.partner-chapters a:focus-visible{outline:1px solid #c4a1ff;outline-offset:7px}
+.partner-guest .partner-chapters{display:none}
+.partner-authenticated #teamView{display:grid!important;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:26px;row-gap:0;align-items:start}
+#teamView>*{grid-column:1/-1;min-width:0}
+#teamView #tvName{font-family:ReflectAeonik,'PingFang SC',sans-serif;font-size:clamp(32px,4.2vw,56px);font-weight:500;line-height:1.15;letter-spacing:-1px;text-align:center;margin:10px 0 18px;color:#f1eff9}
+#teamView>.lead{text-align:center;margin-bottom:36px;font-size:12px;color:#a9a5bb}
+#teamView>#stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin:0 0 24px;padding:20px 0;border-top:1px solid #c9bbec1c;border-bottom:1px solid #c9bbec1c;background:transparent;border-radius:0;box-shadow:none}
+#teamView>#stats .st{background:transparent!important;padding:8px 22px;border:0;border-left:1px solid #c9bbec19;border-radius:0;box-shadow:none;min-width:0}
+#teamView>#stats .st:first-child{border-left:0}
+#teamView>#stats .st .k{font-size:11px;line-height:1.8}#teamView>#stats .st .v{font-size:clamp(22px,2.3vw,32px);margin-top:8px;font-weight:500}
+#roBanner{padding:0 0 18px;border:0!important;border-radius:0;background:none!important;box-shadow:none;max-width:936px;justify-self:center;color:#ada8bf}
+#roBanner .rt{text-align:center;font-size:11px;font-weight:500;letter-spacing:.4px;margin-bottom:6px}#roBanner .rd{font-size:11px;text-align:center;line-height:1.9;color:#918eaa}
+#overviewScene{margin:4px 0 60px;width:100%}.galaxy-crown{aspect-ratio:1440/294}
+#overviewScene #ovCard{padding:32px 36px 26px;border-radius:22px}
+#overviewScene #ovCard>.ct{font-family:ReflectAeonik,'PingFang SC',sans-serif;font-size:22px;font-weight:500;margin-bottom:25px;justify-content:center}
+#ovStats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0}#ovStats .st{border:0;border-left:1px solid #d3c5f719;border-radius:0;box-shadow:none;padding:10px 20px}
+#ovStats .st:first-child{border-left:0}#ovStats .st .v{font-size:clamp(22px,2.4vw,34px);font-weight:500}#ovStats .st .k{font-size:11px}#ovNote{text-align:center;margin-top:24px;font-size:10px}
+#positionsScene{margin:0 0 0}#positionsScene #posCard{padding:26px 36px 30px;border-radius:24px}
+#positionsScene .position-masthead{grid-template-columns:minmax(0,1fr) 468px;gap:36px;margin:0 0 10px}
+#positionsScene .position-copy .ct{font-size:42px;line-height:1.16}#positionsScene .position-copy .section-icon{display:none}#positionsScene .position-copy .scene-support{font-size:13px;margin-top:16px}#positionsScene .position-subtitle{font-size:13px;letter-spacing:1px;margin-top:11px}
+#positionsScene .pgh{padding:18px 0}#positionsScene .pos-group{border-radius:0}
+#teamView>#opCard,#teamView>#promoCard,#teamView>#payCard,#teamView>#commCard{grid-column:span 6;margin-top:28px;margin-bottom:0;padding:28px;align-self:stretch}
+#authorityScene{margin-top:24px;margin-bottom:36px}#authorityScene .authority-visual{height:auto;aspect-ratio:1168/550;min-height:470px}#authorityScene .users-list-surface{margin-top:0;padding:26px 32px 32px}
+#authorityScene .users-scene-copy{width:936px}#authorityScene .users-scene-copy .ct{font-size:56px;line-height:64px}
+#authorityScene .team-partnership-icon{width:100px;height:112px;margin-bottom:34px}
+#authorityScene .users-list-surface .urow{padding:20px 0;font-size:14px;line-height:1.85}
+#authorityScene .users-list-surface>.btn{width:auto;min-width:180px;padding:12px 25px}#authorityScene .users-list-surface>.copybtn{margin-left:16px}
+#authorityScene .users-list-surface .fine{font-size:11px!important;font-weight:400!important;max-width:920px;line-height:1.95}
+.partner-guest #joinView{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+#joinView>*{min-width:0;grid-column:1/-1}#joinView>.card{grid-column:span 1;margin:0}#joinView>#guideCard{grid-column:1/-1}
+.partner-operator #joinView>#loginCard{grid-column:1/-1;width:min(720px,100%);justify-self:center}
+#explainModal{background:rgba(3,3,16,.90)}#explainModal .box::before{background:radial-gradient(ellipse at 40% 50%,#090717c9 20%,#09071770 60%,transparent 76%)}
+@media(min-width:1000px){#explainModal .box{width:440px;margin-left:3vw;padding:28px 20px}.scene-overview #ovCard .st{min-width:0}}
+@media(max-width:900px) and (min-width:601px){body .wrap{padding:24px 28px 42px}.partner-chapters{gap:20px}.crest{margin-bottom:32px!important}#teamView>#stats .st{padding:8px 12px}#ovStats{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}#ovStats .st:nth-child(4){border-left:0}#positionsScene .position-masthead{grid-template-columns:1fr minmax(0,52%);gap:16px}#positionsScene .position-copy .ct{font-size:34px}#authorityScene .authority-visual{min-height:420px}#teamView>#opCard,#teamView>#promoCard,#teamView>#payCard,#teamView>#commCard{grid-column:1/-1}}
+@media(max-width:600px){body .wrap{padding:22px 18px 34px}.crest{margin-bottom:30px!important}.partner-chapters{gap:14px}.partner-chapters a{font-size:10px}.crest .t2{font-size:7px}.crest .t1{font-size:18px}.crest .logo{width:29px;height:29px}.crest{gap:8px}
+#teamView #tvName{font-size:32px;letter-spacing:-.4px;margin:10px 0 14px}#teamView>.lead{font-size:10px;line-height:1.9;margin-bottom:26px}
+#teamView>#stats{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:20px;padding:16px 0;margin-bottom:18px}#teamView>#stats .st{padding:3px 9px}#teamView>#stats .st:nth-child(4){border-left:0;grid-column:span 2}#teamView>#stats .st .k{font-size:9px}#teamView>#stats .st .v{font-size:23px;margin-top:5px}
+#roBanner .rd{font-size:10px;text-align:left}#roBanner .rt{text-align:left}#roBanner{padding-bottom:8px}
+#overviewScene{margin:0 0 30px}.galaxy-crown{aspect-ratio:1440/294}#overviewScene #ovCard{padding:20px 16px;border-radius:17px}#overviewScene #ovCard>.ct{font-size:18px;margin-bottom:16px}#ovStats{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 0}#ovStats .st{padding:7px 12px}#ovStats .st:nth-child(odd){border-left:0}#ovStats .st .v{font-size:24px}#ovNote{font-size:9px;text-align:left;margin-top:16px}
+#positionsScene #posCard{padding:20px 16px 24px;border-radius:18px}#positionsScene .position-masthead{grid-template-columns:minmax(0,1fr) minmax(0,56%);gap:4px;margin:0 0 12px}#positionsScene .position-copy{min-width:0}#positionsScene .position-copy .ct{font-size:24px;line-height:1.25}#positionsScene .position-copy .scene-support{font-size:10px;line-height:1.8;margin-top:11px}#positionsScene .position-subtitle{font-size:10px;margin-top:7px}
+#authorityScene{margin-top:16px}#authorityScene .authority-visual{min-height:0;aspect-ratio:375/410}#authorityScene .users-scene-copy{width:375px}#authorityScene .users-scene-copy .ct{font-size:40px;line-height:48px}#authorityScene .team-partnership-icon{width:100px;height:112px;margin-bottom:34px}#authorityScene .users-list-surface{padding:16px 10px 24px}#authorityScene .users-list-surface .urow{padding:18px 0;font-size:12px}#authorityScene .users-list-surface>.btn{min-width:140px}#authorityScene .users-list-surface>.copybtn{margin-left:8px}
+#teamView>#opCard,#teamView>#promoCard,#teamView>#payCard,#teamView>#commCard{grid-column:1/-1;padding:22px;margin-top:22px}#joinView>.card{grid-column:1/-1}.partner-guest #joinView{gap:20px}
+}
+
+#teamView>.lead{max-width:936px;width:100%;justify-self:center}#positionsScene .pg{border:0;border-bottom:1px solid #c7b9e326;border-radius:0;background:transparent;box-shadow:none;margin:0}#positionsScene .pgh{padding:20px 4px;background:transparent}#positionsScene .pgh:hover{background:#c6a8f908}#roBanner::before,#roBanner::after{display:none}
+
+@media(min-width:901px){#teamView>#stats:has(.st:nth-child(6)){grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(min-width:601px) and (max-width:900px){#teamView>#stats:has(.st:nth-child(6)){grid-template-columns:repeat(3,minmax(0,1fr));row-gap:20px}#teamView>#stats:has(.st:nth-child(6)) .st:nth-child(4){border-left:0}}
+@media(max-width:600px){#teamView>#stats:has(.st:nth-child(6)) .st:nth-child(4){grid-column:span 1}}
+#teamView #lightAlert{border:0;border-left:2px solid #f28cb080;border-radius:0;padding:16px 20px;background:#b9557410;box-shadow:none;margin-bottom:26px}
+
+
+body{--dim:#c4cedf;--faint:#b2bfd3}
+.partner-chapters a{font-size:14px;min-height:40px;display:inline-flex;align-items:center}
+#teamView>.lead{font-size:14px;line-height:1.85;color:#c4c8db}
+#teamView>#stats .st .k,#ovStats .st .k{font-size:14px;line-height:1.7;color:#bdcadd}
+#roBanner .rt{font-size:14px;line-height:1.7;color:#e4d7b4}#roBanner .rd{font-size:14px;line-height:1.85;color:#bcc6d9}
+.wrap .fine,#ovNote,#posNote,#authorityScene .users-list-surface .fine{font-size:14px!important;line-height:1.85!important;color:#bcc9dd!important;font-weight:400!important;letter-spacing:normal}
+#positionsScene .position-copy .scene-support,#positionsScene .position-subtitle{font-size:14px;line-height:1.75;color:#c5cfe0}
+#positionsScene .pgu,#positionsScene .pgm,#positionsScene .pgt{font-size:15px;line-height:1.65}#positionsScene .pgh{gap:10px 16px}
+#posBody th{font-size:14px;color:#bdcadd;line-height:1.65;padding:12px 10px}#posBody td{font-size:15px;line-height:1.7;padding:13px 10px}#posBody button{font-size:14px;line-height:1.5;min-height:38px}
+#authorityScene .users-list-surface .urow{font-size:15px;gap:10px 16px;padding:20px 0}#ulist .nm{font-size:16px;line-height:1.7}#ulist .kv{font-size:15px;line-height:1.7;color:#c2cede}#ulist .kv b{font-size:inherit}#ulist .stt{font-size:14px;line-height:1.5;padding:5px 11px}
+.users-scene-description{font-size:17px;line-height:27px;color:#c9cede}.users-scene-description span{line-height:27px}
+.card label,.opchip,.opchip .rv,.card .copybtn{font-size:14px;line-height:1.7}.opchip .rv{padding:6px 11px}.card .ct{font-size:17px}
+#explainModal .box{width:min(540px,48vw);max-width:580px}#explainModal .tag{font-size:14px;line-height:1.8;color:#becade}#explainModal .sec{font-size:14px;line-height:1.7;color:#c4e3e5;letter-spacing:.6px}#explainModal p{font-size:15px;line-height:1.95;color:#dce4ef}#explainModal .dis{font-size:14px;line-height:1.85;color:#b2bed2}#exClose{font-size:14px;min-width:60px;min-height:40px}
+#explainModal .box::before{background:radial-gradient(ellipse at 40% 50%,#090d18ed 20%,#090d18c4 58%,transparent 78%)}
+@media(max-width:900px) and (min-width:601px){#teamView>#stats{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:20px}#teamView>#stats .st:nth-child(4){border-left:0}#ovStats .st .k{font-size:14px}}
+@media(max-width:600px){.crest{flex-wrap:wrap;row-gap:14px}.partner-chapters{margin-left:0;flex-basis:100%;gap:18px;justify-content:space-between;border-top:1px solid #bdb0dd1f;padding-top:6px}.partner-chapters a{font-size:14px;min-height:38px}.crest .t2{font-size:10px}
+#teamView>.lead{font-size:14px;line-height:1.85}#teamView>#stats .st .k,#ovStats .st .k{font-size:13.5px;line-height:1.65}#roBanner .rt,#roBanner .rd{font-size:14px}
+#positionsScene .position-masthead{grid-template-columns:minmax(0,1fr);gap:6px;margin-bottom:16px}#positionsScene .position-copy .ct{font-size:28px}#positionsScene .position-copy .scene-support{font-size:14px;margin-top:9px}#positionsScene .position-subtitle{font-size:14px;margin-top:5px}#positionsScene .fixed-network{width:100%;max-width:468px;justify-self:center;margin:0}
+#positionsScene .pgu,#positionsScene .pgm,#positionsScene .pgt{font-size:14px}#positionsScene .pgh{gap:8px 12px}#posBody td{font-size:14px}#posBody th{font-size:13.5px}
+#ulist .nm{font-size:15px}#ulist .kv{font-size:14px}#ulist .stt{font-size:13.5px}#authorityScene .users-list-surface .urow{gap:10px 12px}#authorityScene .users-list-surface .fine{font-size:14px!important}
+#explainModal .box{width:100%;max-width:none;padding:22px 16px}#explainModal p{font-size:15px;line-height:1.9}#explainModal .tag,#explainModal .sec,#explainModal .dis{font-size:14px}
+}
+
+
+#marketBackdrop{position:fixed;inset:0;z-index:-3;pointer-events:none;mix-blend-mode:screen;overflow:hidden;mask-image:linear-gradient(180deg,transparent,#000 12%,#000 94%,transparent)}
+#marketBackdrop picture{display:block;width:100%;height:100%}.market-trace-layer{display:block;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.24;transform:translateZ(0) scale(1.025);animation:market-trace-breathe 18s ease-in-out infinite alternate;user-select:none}
+@keyframes market-trace-breathe{from{opacity:.18}to{opacity:.29}}
+@media(orientation:portrait){.market-trace-layer{object-position:50% 50%;opacity:.25}}
+html[data-background-paused] .market-trace-layer{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.market-trace-layer{animation:none!important;opacity:.23}}
+
+#positionsScene #posNote{font-size:14px!important;line-height:1.85!important;color:#bcc9dd!important}
+#promoCard .lk,#authorityScene .users-list-surface>.copybtn{font-size:14px!important;line-height:1.7}
+.wrap .err,.wrap .status-note,.wrap .warnline{font-size:14px;line-height:1.8}
+.wrap input,.wrap select{font-size:16px}
+.team-scene-badge{font-size:15px;line-height:22px}
+#loginCard .scene-access-description{font-size:14px!important;line-height:1.8!important;color:#becbdc!important}
+.wrap .lk{font-size:14px!important;line-height:1.7}
+
+.partner-hero{position:relative;isolation:isolate;height:548px;margin:-34px 0 8px;overflow:visible;background:transparent}
+.hero-cipher-field{position:absolute;top:50%;left:50%;width:max(760px,min(1568px,100vw));aspect-ratio:1568/882;transform:translate(-50%,-50%);pointer-events:none;z-index:-1;background:transparent}
+.hero-cipher-field .motion-cipher-full{position:absolute;inset:0;width:100%;height:100%;display:block;border:0;mask:none;transform:none;background:transparent}
+.hero-scene-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+
+#teamHero .team-partnership-icon{width:190px;height:162px;margin:0 auto 25px;translate:0 22px;touch-action:pan-y;cursor:grab;pointer-events:auto}
+#teamHero .team-partnership-icon>svg{position:absolute;left:50%;top:calc(50% + 12px);width:80px;height:102px;transform:translate(-50%,-50%)}
+#teamHero .team-partnership-icon:active{cursor:grabbing}
+#teamHero #tvName{font-size:56px;line-height:64px;font-weight:500;letter-spacing:-.025em;margin:0 0 12px;max-width:92%;background:linear-gradient(180deg,#fff,#ffffffb3);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#teamHero .lead{font-family:ReflectInter,'PingFang SC',sans-serif;font-size:14px;line-height:24px;font-weight:400;max-width:640px;width:92%;margin:0;color:#c5c4d5;pointer-events:auto;text-wrap:balance}
+#teamHero .team-scene-badge{margin:0 auto 12px;font-size:14px;line-height:20px}
+
+#teamView>#stats,#teamView>#stats:has(.st:nth-child(6)){display:flex;flex-wrap:wrap;justify-content:center;position:relative;gap:0;width:min(100%,1000px);justify-self:center;margin:0 auto 34px;padding:0;border:0;background:none;box-shadow:none;overflow:visible}
+#teamView>#stats::before{content:"";position:absolute;top:164px;left:-2%;width:104%;height:1px;background:linear-gradient(90deg,transparent,#ffffff14 24.33%,#ffffff14 74.78%,transparent)}
+#teamView>#stats .st{flex:0 0 33.3333%;height:164px;min-width:0;position:relative;padding:22px 12px 20px;border:0!important;text-align:center;background:none!important;isolation:isolate;outline:none}
+#teamView>#stats .st::before{content:none;position:absolute;right:0;top:0;width:1px;height:100%;background:linear-gradient(180deg,#ffffff1f,transparent)}
+#teamView>#stats .st:nth-child(1)::before,#teamView>#stats .st:nth-child(4)::before,#teamView>#stats:has(.st:nth-child(6)) .st:nth-child(5)::before{content:""}
+#teamView>#stats .st:nth-child(2)::before{content:"";background:linear-gradient(0deg,#ffffff1f,transparent)}
+#teamView>#stats .st::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent,#ffffff0f);opacity:0;transition:opacity .45s cubic-bezier(.6,.6,0,1);pointer-events:none;z-index:-1;border-radius:0;transform:none}
+#teamView>#stats .st:nth-child(n+4)::after{background:linear-gradient(0deg,transparent,#ffffff0f)}
+#teamView>#stats .st:hover::after,#teamView>#stats .st:focus-visible::after{opacity:1}
+#teamView>#stats .st:focus-visible{outline:1px solid #cabaff66;outline-offset:-5px}
+.metric-icon{display:block;width:30px;height:30px;margin:0 auto 11px;stroke:#e7e1f4;fill:none;stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round;transition:filter .45s,transform .6s cubic-bezier(.2,.7,.2,1)}
+.st:hover .metric-icon,.st:focus-visible .metric-icon{filter:drop-shadow(0 0 5px #aa98ecaa);transform:translateY(-3px)}
+.metric-icon .icon-signal{stroke-dasharray:30;stroke-dashoffset:0}.st:hover .icon-signal{animation:metric-signal 1.8s ease-in-out infinite}
+#teamView>#stats .st .k{font-family:ReflectInter,'PingFang SC',sans-serif;font-size:14px;line-height:22px;color:#c5c2d6}
+#teamView>#stats .st .v{font-family:ReflectAeonik,system-ui,sans-serif;font-size:27px;line-height:36px;margin-top:2px;font-weight:500}
+@keyframes metric-signal{0%,100%{stroke-dashoffset:0;opacity:1}50%{stroke-dashoffset:30;opacity:.35}}
+
+#authorityScene{margin-top:40px;margin-bottom:36px}
+#authorityScene .meetings-heading{position:relative;padding:294px 0 0;text-align:center;isolation:isolate}
+.meetings-arch{position:absolute;left:50%;top:0;width:812px;height:431px;transform:translateX(-50%);z-index:-1;pointer-events:none;mix-blend-mode:screen;mask-image:radial-gradient(ellipse,#000 42%,transparent 73%)}
+.meetings-arch img{display:block;width:100%;height:100%}
+.meetings-copy{position:relative}.meetings-copy .team-scene-badge{font-size:14px;line-height:20px;margin-bottom:20px}
+#authorityScene #usersCard .meetings-copy .ct{display:block;font-size:56px;line-height:64px;letter-spacing:-.025em;min-height:64px;margin:0;font-family:ReflectAeonik,'PingFang SC',sans-serif;font-weight:500}
+.meetings-copy .section-icon,.meetings-copy .dot{display:none}
+#authorityScene .users-scene-description{width:auto;max-width:554px;font-size:16px;line-height:24px;margin:12px auto 0;padding:0 15px;color:#efedfdb3}
+#authorityScene .users-scene-description span{line-height:24px}
+.team-glass-stage{position:relative;margin:56px auto 0;width:100%;isolation:isolate;--glass-progress:1}
+#authorityScene .users-list-surface{margin:0;position:relative;isolation:isolate;padding:30px 30px 34px;overflow:visible;border:0!important;border-radius:28px 28px 0 0!important;background:linear-gradient(180deg,#0c092032,#100d1914 80%,transparent)!important;box-shadow:none!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:1;transition:opacity .12s}
+#authorityScene .users-list-surface::before,#authorityScene .users-list-surface::after{content:"";position:absolute;inset:0;pointer-events:none;border:1px solid #dbd2f924;border-bottom:0;border-radius:inherit;background:none;height:auto;mask-image:linear-gradient(180deg,#000 45%,transparent 100%)}
+#authorityScene .users-list-surface::after{inset:8px 8px 0;border-color:#dbd2f918;border-radius:21px 21px 0 0}
+#authorityScene .users-list-surface .urow{border:0;border-bottom:1px solid #c8bfd414;background:transparent;padding:21px 6px}
+#authorityScene .users-list-surface .urow:last-child{border-bottom:0}
+#authorityScene .users-list-surface>.fine{position:relative;margin:25px 0 17px!important}
+.team-glass-slices{position:absolute;inset:0;pointer-events:none;display:none}
+.team-glass-stage[data-sliced=true]>.users-list-surface{opacity:0}
+.team-glass-stage[data-sliced=true]>.team-glass-slices{display:block}
+.glass-slice{position:absolute;top:-120px;bottom:-90px;width:10%;overflow:hidden;transform:translateY(calc((1 - var(--glass-progress)) * var(--top)));transition:transform 1s ease}
+.glass-slice::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent,#ffffff0a 49.59%,transparent);border-left:1px solid #e1d3ff1e;mask-image:linear-gradient(180deg,transparent,#000 22%,#000 66%,transparent);opacity:calc(1 - var(--glass-progress));transition:opacity 1s ease}
+.glass-slice .slice-content{position:absolute;top:120px;left:0;transform:translateY(calc((1 - var(--glass-progress)) * 119px));transition:transform 1s ease}
+#authorityScene .glass-slice .users-list-surface{opacity:1;backdrop-filter:none;-webkit-backdrop-filter:none}
+#authorityScene .glass-slice .urow .nm{font-size:16px;line-height:1.7}.glass-slice .kv{font-size:15px;line-height:1.7;color:#c2cede}.glass-slice .stt{font-size:14px}
+#marketTraceMotion{position:absolute;inset:0;width:100%;height:100%;opacity:.6}
+.market-trace-layer{animation:none!important;opacity:.19}
+@media(max-width:900px){#teamHero #tvName{font-size:46px;line-height:56px}#teamView>#stats .st{padding-left:6px;padding-right:6px}#teamView>#stats .st .v{font-size:24px}}
+@media(max-width:600px){.partner-hero{height:465px;margin:-22px 0 5px}#teamHero .team-partnership-icon{width:180px;height:152px;margin-bottom:25px;translate:0 19px}#teamHero .team-partnership-icon>svg{top:calc(50% + 10px)}#teamHero #tvName{font-size:40px;line-height:48px;margin-bottom:12px}#teamHero .lead{font-size:14px;line-height:24px}.hero-cipher-field{width:760px}
+#teamView>#stats .st{flex-basis:50%;height:157px;padding:20px 7px 15px}#teamView>#stats .st .k{font-size:13.5px;line-height:22px}#teamView>#stats .st .v{font-size:24px;line-height:34px}.metric-icon{width:27px;height:27px;margin-bottom:9px}#teamView>#stats::before{display:none}#teamView>#stats .st::before{content:none!important}#teamView>#stats .st:nth-child(odd)::before{content:""!important;background:linear-gradient(180deg,#ffffff1f,transparent)}#teamView>#stats .st:nth-child(5):last-child::before{content:none!important}#teamView>#stats .st:nth-child(n+3){border-top:1px solid #e1d2f612!important}#teamView>#stats .st:last-child:nth-child(5){flex-basis:100%;grid-column:auto}
+#authorityScene{margin-top:22px}#authorityScene .meetings-heading{padding-top:215px}.meetings-arch{width:610px;height:324px}#authorityScene #usersCard .meetings-copy .ct{font-size:40px;line-height:48px;min-height:48px}#authorityScene .users-scene-description{font-size:15px;line-height:24px}.team-glass-stage{margin-top:36px}#authorityScene .users-list-surface{padding:23px 17px 26px;border-radius:22px 22px 0 0!important}#authorityScene .users-list-surface::after{inset:6px 6px 0;border-radius:17px 17px 0 0}#authorityScene .users-list-surface .urow{padding:18px 0}.glass-slice{top:-80px}.glass-slice .slice-content{top:80px}.glass-slice .kv{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){.metric-icon,.glass-slice,.glass-slice .slice-content,.glass-slice::before{transition:none!important}.st:hover .icon-signal{animation:none!important}}
+html,body{overflow-x:clip}
+#authorityScene .team-glass-stage[data-sliced=true]>.users-list-surface{opacity:0}
+#authorityScene .glass-slice .users-list-surface .urow{gap:10px 16px;font-size:15px}
+#authorityScene .glass-slice .stt{font-size:14px;line-height:1.5;padding:5px 11px}
+#authorityScene .glass-slice .kv b{font-size:inherit}
+@media(max-width:600px){#authorityScene .glass-slice .users-list-surface .urow{gap:10px 12px}.glass-slice .urow .nm{font-size:15px!important}.glass-slice .stt{font-size:13.5px!important}}
+
+#authorityScene .users-list-surface{background:linear-gradient(180deg,rgba(8,11,21,.76),rgba(8,11,21,.68) 78%,rgba(8,11,21,.18))!important;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);transition:opacity .44s linear}
+#authorityScene .team-glass-slices{opacity:1;transition:opacity .44s linear}
+#authorityScene .team-glass-stage[data-sliced=true]>.users-list-surface{pointer-events:none}
+#authorityScene .team-glass-stage[data-handoff=true]>.users-list-surface{opacity:1;pointer-events:auto}
+#authorityScene .team-glass-stage[data-handoff=true]>.team-glass-slices{opacity:0}
+#authorityScene .glass-slice .users-list-surface>.copybtn{font-size:14px!important;line-height:1.7}
+@media(prefers-reduced-motion:reduce){#authorityScene .users-list-surface,#authorityScene .team-glass-slices{transition:none}}
+
+.partner-guest .partner-chapters{display:flex}.partner-guest .partner-chapters a:not([href="partner_home.html"]){display:none}@media(max-width:600px){.partner-chapters{gap:10px}.partner-chapters a{font-size:13.5px}}
+#authorityScene .glass-slice .users-list-surface.slice-content{transition:transform 1s ease}
+@media(prefers-reduced-motion:reduce){#authorityScene .glass-slice .users-list-surface.slice-content{transition:none}}
+
+
+.team-scene-badge .team-badge-label{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;font-feature-settings:normal}
+
+
+body.partner-authenticated,body.partner-guest{
+  background-image:
+    radial-gradient(ellipse 85% 95% at 50% 120%,rgba(79,149,167,.22) 0%,rgba(32,79,111,.16) 46%,rgba(22,50,78,.06) 70%,transparent 100%),
+    linear-gradient(0deg,rgba(32,73,104,.58) 0%,rgba(23,49,78,.24) 32%,rgba(16,33,54,.07) 62%,transparent 92%),
+    linear-gradient(180deg,#05070d 0%,#081019 55%,#04121a 100%);
+  background-size:100% clamp(260px,40vh,420px),100% clamp(260px,40vh,420px),100% 100%;
+  background-position:center bottom;
+  background-repeat:no-repeat;
+  background-attachment:scroll;
+}
+
+#authorityScene .team-glass-stage{overflow-anchor:none}
+#authorityScene .team-glass-slices{inset:-150px 0 0;overflow:hidden;overflow-anchor:none}
+#authorityScene .glass-slice{top:30px;bottom:0}
+@media(max-width:600px){#authorityScene .glass-slice{top:70px}}
+</style><link rel="stylesheet" href="./assets/partner-release-123/orbit-icons.css"><link rel="preload" as="image" href="./assets/partner-release-123/orbit-arrow.webp"><link rel="stylesheet" href="./assets/partner-release-123/team-entry.css"><link rel="stylesheet" href="./assets/input-release-132/suite-polish.css" data-suite-polish><link rel="stylesheet" href="./assets/partner-release-123/team-overview.css" data-team-overview><link rel="stylesheet" href="./assets/partner-release-123/scrollbars.css" data-maris-scrollbars><link rel="stylesheet" href="./assets/entry-release-126/entry-evidence.css" data-entry-evidence><link rel="stylesheet" href="./assets/input-release-132/input-compat.css" data-input-compat></head>
+<body>
+<div id="bgGlow"></div><div id="bgHorizon"></div><div id="marketBackdrop" aria-hidden="true"><picture><source media="(orientation: portrait)" srcset="./assets/partner-release-123/market-trace-portrait.png"><img class="market-trace-layer" src="./assets/partner-release-123/market-trace-desktop.png" alt="" decoding="async" draggable="false"></picture><canvas id="marketTraceMotion"></canvas></div><span class="bgStar" style="left:62.5%;top:22.4%;width:3px;height:3px;animation-delay:0.5s,0.8s;animation-duration:3.2s,9.3s"></span><span class="bgStar" style="left:61.1%;top:23.4%;width:2px;height:2px;animation-delay:0.9s,1.5s;animation-duration:2.9s,14.3s"></span><span class="bgStar" style="left:58.6%;top:20.3%;width:3px;height:3px;animation-delay:1.1s,1.9s;animation-duration:4.3s,10.1s"></span><span class="bgStar" style="left:15.3%;top:23.8%;width:4px;height:4px;animation-delay:1.7s,2.9s;animation-duration:3.4s,14.9s"></span><span class="bgStar" style="left:68.0%;top:36.9%;width:2px;height:2px;animation-delay:2.2s,3.7s;animation-duration:3.6s,9.4s"></span><span class="bgStar" style="left:29.5%;top:5.6%;width:3px;height:3px;animation-delay:1.2s,2.0s;animation-duration:3.7s,10.4s"></span><span class="bgStar" style="left:59.7%;top:35.0%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:4.0s,12.1s"></span><span class="bgStar" style="left:53.8%;top:33.3%;width:3px;height:3px;animation-delay:2.1s,3.6s;animation-duration:4.3s,11.8s"></span><span class="bgStar" style="left:38.0%;top:29.6%;width:2px;height:2px;animation-delay:1.6s,2.7s;animation-duration:2.9s,11.0s"></span><span class="bgStar" style="left:2.5%;top:28.3%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:3.3s,10.6s"></span><span class="bgStar" style="left:42.7%;top:12.7%;width:3px;height:3px;animation-delay:2.2s,3.7s;animation-duration:3.3s,12.8s"></span><span class="bgStar" style="left:75.6%;top:10.1%;width:2px;height:2px;animation-delay:1.4s,2.4s;animation-duration:2.9s,11.2s"></span><span class="bgStar" style="left:57.3%;top:33.8%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:3.5s,13.9s"></span><span class="bgStar" style="left:19.9%;top:11.0%;width:2px;height:2px;animation-delay:1.1s,1.9s;animation-duration:3.7s,14.2s"></span><span class="bgStar" style="left:50.9%;top:10.6%;width:2px;height:2px;animation-delay:1.6s,2.7s;animation-duration:3.0s,14.4s"></span><span class="bgStar" style="left:32.5%;top:39.3%;width:4px;height:4px;animation-delay:0.3s,0.5s;animation-duration:3.3s,12.0s"></span><span class="bgStar" style="left:28.8%;top:39.5%;width:3px;height:3px;animation-delay:1.2s,2.0s;animation-duration:2.6s,12.2s"></span><span class="bgStar" style="left:53.0%;top:23.0%;width:2px;height:2px;animation-delay:2.0s,3.4s;animation-duration:4.6s,13.0s"></span><span class="bgStar" style="left:90.2%;top:39.4%;width:4px;height:4px;animation-delay:1.7s,2.9s;animation-duration:3.9s,9.9s"></span><span class="bgStar" style="left:49.4%;top:34.2%;width:2px;height:2px;animation-delay:2.8s,4.8s;animation-duration:3.8s,11.9s"></span><span class="bgStar" style="left:18.3%;top:6.0%;width:3px;height:3px;animation-delay:1.4s,2.4s;animation-duration:3.7s,10.3s"></span><span class="bgStar" style="left:49.6%;top:23.2%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:2.9s,11.8s"></span><span class="bgStar" style="left:60.2%;top:30.5%;width:3px;height:3px;animation-delay:3.4s,5.8s;animation-duration:4.0s,10.2s"></span><span class="bgStar" style="left:65.6%;top:32.3%;width:3px;height:3px;animation-delay:0.8s,1.4s;animation-duration:3.1s,13.8s"></span><span class="bgStar" style="left:75.5%;top:19.3%;width:2px;height:2px;animation-delay:0.8s,1.4s;animation-duration:2.7s,12.5s"></span><span class="bgStar" style="left:66.1%;top:35.9%;width:3px;height:3px;animation-delay:3.4s,5.8s;animation-duration:3.9s,12.8s"></span><span class="bgStar" style="left:5.5%;top:40.8%;width:2px;height:2px;animation-delay:1.3s,2.2s;animation-duration:2.8s,13.4s"></span><span class="bgStar" style="left:27.1%;top:41.5%;width:4px;height:4px;animation-delay:3.0s,5.1s;animation-duration:2.6s,12.4s"></span><span class="bgStar" style="left:13.3%;top:25.6%;width:2px;height:2px;animation-delay:2.0s,3.4s;animation-duration:4.2s,12.2s"></span><span class="bgStar" style="left:7.0%;top:16.6%;width:2px;height:2px;animation-delay:3.1s,5.3s;animation-duration:4.3s,9.8s"></span><span class="bgComet" style="top:78%;left:2%"></span><span class="bgComet c2" style="top:64%;left:18%"></span><span class="bgComet c3" style="top:86%;left:38%"></span><span class="bgComet c4" style="top:70%;left:55%"></span><span class="bgComet c5" style="top:82%;left:72%"></span>
+<canvas id="water" aria-hidden="true"></canvas>
+<div class="waterfx" id="waterfx" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="scrim" aria-hidden="true"></div>
+<div class="wrap">
+  <div class="crest"><div class="logo" aria-hidden="true"></div><div><div class="t1">MARIS</div><div class="t2">PARTNER CENTER</div></div><nav class="team-guest-nav" aria-label="合作伙伴导航"><a href="partner_home.html">总览</a><a href="partner_strategy.html">策略</a><a href="partner_portal.html">接入</a><a href="partner_topup.html">账户</a><a href="partner_team.html?op=1&amp;view=login">登录</a></nav><nav class="partner-chapters" aria-label="伙伴页面章节"><a href="partner_home.html">伙伴中心 ↗</a><a href="#overviewScene">整体收益</a><a href="#positionsScene">用户持仓</a><a href="#authorityScene">团队用户</a></nav></div>
+
+  <div id="networkStatus" class="status-note" role="status" hidden></div>
+  <div class="team-session-loading" role="status"><span class="team-session-line" aria-hidden="true"></span>正在读取团队资料…</div><div id="joinView">
+    <h1 id="joinTitle">合作伙伴中心</h1>
+    <div style="margin:0 0 20px;padding:14px 16px;border-radius:13px;border:1px solid rgba(94,234,212,.5);background:rgba(94,234,212,.09);color:#bfeee6;font-size:14px;line-height:1.9;font-weight:600">团队入驻后即可领取<b style="color:var(--acc)">专属推广链接</b>:用户从你的链接接入,自动归入你的团队名下,分红自动核算——归属清清楚楚,结算一目了然。</div>
+
+    <div class="card glass" id="loginCard"><section class="scene-access login-access" id="accessScene" aria-label="合作伙伴登录"><div class="login-fields">
+      <div class="ct"><span class="dot" style="background:var(--acc2);box-shadow:0 0 12px var(--acc2)"></span><span id="loginTitle">已有团队?用口令进入</span></div><p class="scene-access-description">使用口令，进入对应团队。</p>
+      <div class="secret-field"><input type="text" inputmode="text" autocapitalize="off" autocorrect="off" data-concealed="true" data-maris-secret="true" id="tok" autocomplete="off" spellcheck="false" placeholder="粘贴你的团队口令"><button type="button" class="secret-toggle" data-secret-for="tok" aria-label="显示访问口令" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/><path class="eye-slash" d="m4 4 16 16"/></svg></button></div>
+      <button class="btn" onclick="login()">进入团队面板</button>
+      <div class="err" id="lerr"></div><a class="team-entry-secondary" href="partner_team.html?op=0&amp;view=login">团队入驻 / 找回口令</a>
+    </div><iframe class="motion-frame motion-cipher" src="./assets/partner-release-123/cipher.html" title="登录密码锁与字符动画" loading="lazy" referrerpolicy="no-referrer" allow="autoplay"></iframe></section></div>
+
+    <div class="card glass" id="registerCard">
+      <div class="ct"><span class="dot"></span>团队入驻 · 领取专属链接</div>
+      <label>团队名称(2~20 字,注册后不可改)</label>
+      <input type="text" id="tname" autocomplete="off" placeholder="例如:辰星团队">
+      <label>联系方式(必填,便于管理员结算对账联系你)</label>
+      <input type="text" id="tcontact" autocomplete="off" placeholder="微信 / 电话 / 飞书">
+      <label>分红收款地址(USDT · TRC20,T 开头;选填,月度结算前必须补上)</label>
+      <input type="text" id="tpay" autocomplete="off" spellcheck="false" placeholder="T 开头 · 34 位左右 · 从交易所复制">
+      <div style="margin-top:8px;font-size:14px;line-height:2;color:#b9cade">怎么拿地址:打开你的交易所 → 充值/存款 → 选 <b>USDT</b> → 网络选 <b>TRC20(TRON)</b> → 复制那串 <b>T 开头的地址</b>粘贴到这里。格式示例:<b style="color:var(--gold)">TAbC…x9Yz</b>(T 开头 · 共 34 位字母数字)——示例是打码的,<b>务必从你自己的交易所复制</b>,别手打;粘贴后核对首尾各 4 位。</div>
+      <label>资金密码(必填,6–12 位,须同时含字母和数字)</label>
+      <div style="margin:2px 0 8px;padding:13px 15px;border-radius:13px;border:1px solid rgba(252,211,77,.55);background:rgba(252,211,77,.09);color:#f5e6b8;font-size:14px;line-height:1.9;font-weight:600">这个密码管两件大事:<b style="color:var(--gold)">①修改分红收款地址 ②口令遗失时自助找回</b>。请勿用生日、手机号或重复字符,务必牢记;若它也遗失,只能联系管理员核实身份后重置。</div>
+      <div class="secret-field"><input type="text" data-concealed="true" data-maris-secret="true" inputmode="text" id="tpin" autocomplete="off" maxlength="12" placeholder="例如 mx2026t(字母+数字组合)" oninput="pinMeter(this.value)"><button type="button" class="secret-toggle" data-secret-for="tpin" aria-label="显示资金密码" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/><path class="eye-slash" d="m4 4 16 16"/></svg></button></div>
+      <div id="pinMeter" style="display:none;margin-top:8px;font-size:14px"><span id="pmBar" style="display:inline-block;height:8px;border-radius:6px;vertical-align:middle;transition:all .3s"></span> <b id="pmTxt"></b></div>
+      <button class="btn" id="regbtn" onclick="reg()">创建团队,领取专属链接</button>
+      <div class="err" id="rerr"></div>
+      <div id="regResult" style="display:none">
+        <div class="linkbox"><div style="font-size:14px;color:var(--faint);margin-bottom:6px">你的专属推广链接(发给你的用户,从这里进来的都归你团队)</div><div class="lk" id="promoLink"></div><button class="copybtn" onclick="cp('promoLink',this)">复制推广链接</button></div>
+        <div class="tokbox"><div style="font-size:14px;color:var(--faint);margin-bottom:6px">团队口令(查看团队数据用)</div><div class="lk" id="tokText"></div><button class="copybtn" style="border-color:rgba(125,211,252,.5);color:var(--acc2)" onclick="cp('tokText',this)">复制口令</button></div>
+        <div class="warnline">请立即把<b>推广链接</b>和<b>团队口令</b>保存到安全的地方——口令遗失可凭资金密码自助找回；资金密码同时遗失时，请联系管理员核实身份。</div>
+        <button class="btn" onclick="boot(true)">进入我的团队面板 →</button>
+      </div>
+    </div>
+
+    <div class="card glass" id="recoverCard">
+      <div class="ct"><span class="dot" style="background:var(--gold);box-shadow:0 0 12px var(--gold)"></span>忘记口令?自助找回</div>
+      <label>团队名称(注册时填的)</label>
+      <input type="text" id="rname" autocomplete="off" placeholder="团队名称">
+      <label>资金密码(注册时设置的)</label>
+      <div class="secret-field"><input type="text" data-concealed="true" data-maris-secret="true" inputmode="text" id="rpin" autocomplete="off" maxlength="12" placeholder="你的资金密码"><button type="button" class="secret-toggle" data-secret-for="rpin" aria-label="显示资金密码" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/><path class="eye-slash" d="m4 4 16 16"/></svg></button></div>
+      <button class="btn" onclick="recover()">找回口令</button>
+      <div class="err" id="rcerr"></div>
+      <div id="rcResult" style="display:none" class="tokbox"><div style="font-size:14px;color:var(--faint);margin-bottom:6px">新口令(旧口令已失效,请立即保存)</div><div class="lk" id="rcTok"></div><button class="copybtn" style="border-color:rgba(125,211,252,.5);color:var(--acc2)" onclick="cp('rcTok',this)">复制口令</button><button class="btn" type="button" onclick="boot(true)">进入我的团队面板 →</button></div>
+      <div class="fine">资金密码也遗失了?联系你的对接人转达管理员,核实身份后为你重置。</div>
+    </div>
+
+    <div style="margin:2px 0 16px;padding:14px 16px;border-radius:13px;border:1px solid rgba(94,234,212,.5);background:rgba(94,234,212,.09);color:#bfeee6;font-size:14px;line-height:1.85;font-weight:600">温馨提示:自助找回<b style="color:var(--acc)">每天最多尝试 5 次</b>,连续输错会锁到第二天——不确定就先联系你的对接人,别盲试。</div>
+
+    <div class="card glass" id="guideCard">
+      <div class="ct"><span class="dot" style="background:var(--acc2);box-shadow:0 0 12px var(--acc2)"></span>使用说明(给团队的三分钟教程)</div>
+      <div style="font-size:14px;color:var(--dim);line-height:2.1">
+        ① <b style="color:var(--tx)">注册</b>:填团队名+联系方式+设 6–12 位资金密码(须同时含字母和数字) → 系统发你「专属推广链接」和「团队口令」,两样都要保存好<br>
+        ② <b style="color:var(--tx)">推广</b>:把专属推广链接发给你的用户——从你的链接进来接入的用户,自动归你团队,分红自动挂你名下;<b style="color:var(--warn)">别用别人的链接、也别用无尾巴的裸链接</b>,否则归属不算你的<br>
+        ③ <b style="color:var(--tx)">看数据</b>:用团队口令进本页面板,随时看自己团队的用户、本金、分红<br>
+        ④ <b style="color:var(--tx)">催续费</b>:面板顶部出现 🔴🟡 提醒时,尽快联系对应用户续充积分——该用户若被暂停,从暂停那一刻起停止其后续分红收益,其他用户照常<br>
+        ⑤ <b style="color:var(--tx)">收钱</b>:<b>每月 1 号统一结算上月佣金</b>,管理员按你面板里填的 TRC20 收款地址转账;改收款地址要输资金密码<br>
+        ⑥ <b style="color:var(--tx)">凭证遗失</b>:团队口令遗失 → 本页「自助找回」用资金密码找回;资金密码遗失 → 联系你的对接人转达管理员,核实身份后为你重置
+      </div>
+    </div>
+  </div>
+
+  <div id="teamView" style="display:none">
+    <section class="partner-hero" id="teamHero" aria-label="团队概览"><div class="hero-cipher-field"><iframe class="motion-frame motion-cipher-full" src="./assets/partner-release-123/cipher-full.html" title="团队字符场动画" loading="lazy" referrerpolicy="no-referrer" allow="autoplay"></iframe></div><div class="hero-scene-copy"><button class="team-partnership-icon" type="button" aria-label="悬停展开合伙人，移动光标旋转视角" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 255" fill="none" aria-hidden="true"><defs><radialGradient id="people-violet" cx=".32" cy=".15" r=".85"><stop stop-color="#c293f6"/><stop offset=".35" stop-color="#7936c5"/><stop offset="1" stop-color="#321173"/></radialGradient><radialGradient id="people-teal" cx=".32" cy=".15" r=".85"><stop stop-color="#96dfd4"/><stop offset=".35" stop-color="#3b939c"/><stop offset="1" stop-color="#173c5d"/></radialGradient><radialGradient id="people-blue" cx=".32" cy=".15" r=".85"><stop stop-color="#adc6fa"/><stop offset=".35" stop-color="#5268bd"/><stop offset="1" stop-color="#202a67"/></radialGradient><linearGradient id="people-rim" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#f4e0ff" stop-opacity=".6"/><stop offset=".5" stop-color="#d1b2ff" stop-opacity="0"/><stop offset="1" stop-color="#b991e6" stop-opacity=".4"/></linearGradient><path id="people-body" d="M-30 30C-30-14 30-14 30 30Q0 36-30 30Z"/></defs><g data-partner-person="0" transform="translate(61 141) scale(0.92)"><use href="#people-body" fill="url(#people-teal)"/><use href="#people-body" fill="url(#people-rim)"/><circle cy="-31" r="18" fill="url(#people-teal)"/><circle cy="-31" r="18" fill="url(#people-rim)"/></g><g data-partner-person="1" transform="translate(139 141) scale(0.92)"><use href="#people-body" fill="url(#people-blue)"/><use href="#people-body" fill="url(#people-rim)"/><circle cy="-31" r="18" fill="url(#people-blue)"/><circle cy="-31" r="18" fill="url(#people-rim)"/></g><g data-partner-person="2" transform="translate(100 147) scale(1.25)"><use href="#people-body" fill="url(#people-violet)"/><use href="#people-body" fill="url(#people-rim)"/><circle cy="-31" r="18" fill="url(#people-violet)"/><circle cy="-31" r="18" fill="url(#people-rim)"/></g></svg><canvas class="swarm-material" aria-hidden="true"></canvas></button><div class="team-scene-badge" lang="zh-CN" translate="no"><span><span class="team-badge-label">团队编号</span> <span id="heroTeamCode">—</span></span></div><h1 id="tvName">—</h1><div class="lead">团队编号 <b id="tvCode" style="color:var(--acc)">—</b> · 打开时获取最近快照</div></div><div class="stats" id="stats"></div></section>
+    <div class="alert" id="lightAlert"></div>
+    <div id="roBanner" class="ro-banner" style="display:none">
+      <div class="rt">只读权限 · 仅供查看</div>
+      <div class="rd">本账号为合作伙伴只读账号:可以查看团队整体收益与用户持仓,<b>没有任何操作权限</b>——不能退出结算、不能修改收款信息、不能下单或平仓、不能更改任何数据。口令由管理员签发,团队负责人可随时撤销。</div>
+    </div>
+    <section class="partner-scene scene-overview" id="overviewScene" aria-label="团队整体收益与星系倒影"><div class="galaxy-crown" aria-hidden="true"></div><iframe class="motion-frame motion-galaxy" src="./assets/partner-release-123/galaxy.html" title="星系光环 · 倒影进入收益玻璃框" loading="eager" referrerpolicy="no-referrer" allow="autoplay"></iframe><div class="card glass reflective-card" id="ovCard" style="display:none">
+      <div class="ct"><span class="dot" style="background:var(--gold);box-shadow:0 0 12px var(--gold)"></span>团队整体收益</div>
+      <div class="stats" id="ovStats" style="margin-bottom:6px"></div>
+      <div class="fine" id="ovNote"></div>
+    </div></section>
+    <section class="partner-scene scene-network" id="positionsScene" aria-label="账户持仓"><div class="card glass" id="posCard" style="display:none">
+      <div class="position-ambient position-market-field" data-maris-ambient aria-hidden="true"><img class="market-field-poster" src="./assets/partner-release-123/solana-color-field.png" alt=""><canvas id="positionMarketField"></canvas></div><div class="position-masthead"><div class="position-copy"><div class="ct"><span class="dot" style="background:var(--acc2);box-shadow:0 0 12px var(--acc2)"></span><span class="position-title-text">用户持仓<span class="position-subtitle">(策略仓)</span></span></div><p class="scene-support">从团队，到每个账户。</p></div><div class="position-map fixed-network" aria-label="账户连接示意"><iframe class="motion-frame motion-nodes" src="./assets/partner-release-123/nodes.html" title="四个固定账户节点与MARIS中心的连接示意" loading="lazy" referrerpolicy="no-referrer" allow="autoplay"></iframe></div></div>
+      <div class="tblwrap" id="posBody"><div style="color:var(--faint);font-size:14px">加载中…</div></div>
+      <div class="fine scene-network-note" id="posNote"></div>
+    </div></section>
+    <div class="card glass" id="opCard" style="display:none">
+      <div class="ct"><span class="dot" style="background:var(--warn);box-shadow:0 0 12px var(--warn)"></span>只读操作员</div>
+      <div id="opList" style="font-size:14px;color:var(--dim)"></div>
+      <div class="fine">操作员口令由管理员签发;操作员只能查看团队整体收益与用户持仓(用户码脱敏),不能做任何操作。你可以在这里随时撤销。</div>
+    </div>
+    <div class="card glass" id="promoCard">
+      <div class="ct"><span class="dot" style="background:var(--gold);box-shadow:0 0 12px var(--gold)"></span>专属推广链接</div>
+      <div class="linkbox" style="margin-top:0"><div class="lk" id="promoLink2"></div><button class="copybtn" onclick="cp('promoLink2',this)">复制推广链接</button></div>
+      <div class="fine">用户从这条链接打开网站并提交接入,自动归入你的团队。请始终使用你自己的链接推广。</div>
+    </div>
+    <div class="card glass" id="payCard">
+      <div class="ct"><span class="dot" style="background:var(--ok);box-shadow:0 0 12px var(--ok)"></span>结算收款信息</div>
+      <div style="font-size:14px;color:var(--dim)">当前收款地址:<span id="payNow" style="font-family:ui-monospace,Menlo,monospace;color:var(--tx);word-break:break-all">—</span></div>
+      <label>修改收款地址(需资金密码)</label>
+      <input type="text" id="npay" autocomplete="off" spellcheck="false" placeholder="T 开头 · 34 位左右 · 从交易所复制">
+      <div style="margin-top:8px;font-size:14px;line-height:2;color:#b9cade">交易所 → 充值/存款 → USDT → 网络选 TRC20(TRON)→ 复制 T 开头地址(34 位,示例 TAbC…x9Yz);粘贴后核对首尾各 4 位。</div>
+      <label>资金密码(注册时设置的字母+数字组合)</label>
+      <div class="secret-field"><input type="text" data-concealed="true" data-maris-secret="true" inputmode="text" id="npin" autocomplete="off" maxlength="12" placeholder="你的资金密码"><button type="button" class="secret-toggle" data-secret-for="npin" aria-label="显示资金密码" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/><path class="eye-slash" d="m4 4 16 16"/></svg></button></div>
+      <button class="btn" onclick="savePay()">保存收款地址</button>
+      <div class="err" id="perr"></div>
+      <div class="fine">忘记资金密码?联系管理员核实身份后清除,即可重设。</div>
+    </div>
+    <div class="card glass" id="commCard">
+      <div class="ct"><span class="dot" style="background:var(--gold);box-shadow:0 0 12px var(--gold)"></span>月度佣金结算(本团队)</div>
+      <div id="commissionHistory" style="font-size:14px;color:var(--dim)">尚无已发布清单</div>
+      <div class="fine">只显示你自己团队的结算记录;每月 1 日 08:00 SGT 发布上月清单,以管理员实际打款为准。</div>
+    </div>
+    <section class="partner-scene scene-authority" id="authorityScene" aria-label="团队用户"><div class="users-panel" id="usersCard"><div class="meetings-heading"><div class="meetings-arch" aria-hidden="true"><img src="./assets/partner-release-123/meetings-arch.png" alt=""></div><div class="meetings-copy"><div class="team-scene-badge" lang="zh-CN" translate="no"><span class="team-badge-label">团队成员</span></div><div class="ct" role="heading" aria-level="2"><span class="dot"></span><span class="decode-copy" aria-label="我的用户">我的用户</span></div><p class="users-scene-description"><span id="usersSceneCount"></span><span id="usersSceneScope"></span></p></div></div><div class="team-glass-stage"><div class="users-list-surface">
+      
+      <div id="ulist"></div>
+      <div class="fine" style="font-size:14px;color:#c3d2e4;font-weight:600;letter-spacing:.3px">积分灯:<span style="color:#34d399">绿</span>=充足 · <span style="color:#fbbf24">黄</span>=即将不足(请提醒用户续充) · <span style="color:#f43f5e">红</span>=已不足(3 天宽限期,逾期将自动终止跟单)。分红为月度预估,以管理员实际结算为准。</div>
+      <div class="team-users-actions" role="group" aria-label="团队数据操作">
+        <button class="btn" onclick="boot()">刷新数据</button>
+        <button class="copybtn" onclick="logout()">退出登录</button>
+      </div>
+    </div><div class="team-glass-slices" aria-hidden="true" inert></div></div></div></section>
+  </div>
+
+  <div id="explainModal"><div class="ex-panorama" aria-hidden="true"><canvas id="exGlobe"></canvas></div>
+    <div class="box explanation" role="dialog" aria-modal="true" aria-labelledby="exTitle" tabindex="-1">
+      <div class="hd"><b id="exTitle">—</b><button id="exClose" class="xbtn" onclick="hideExplain(event)">关闭</button></div>
+      <div class="tag" id="exMeta">—</div>
+      <div id="exBody"></div>
+      <div class="dis">解读仅依据已提供的记录。没有证据的判断不补写；策略阈值、权重、仓位预算及精确风控参数不在此展示。</div>
+    </div>
+  </div>
+  <div class="team-footer-note" style="text-align:center;color:var(--faint);opacity:.6;font-size:14px;letter-spacing:1px;margin-top:30px">MARIS · 合作伙伴中心</div>
+</div>
+<script>
+function J(u,b){return demoGet(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(function(x){return x.json()})}
+function esc(s){return String(s||'').replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]})}
+function cp(id,btn){try{var t=document.getElementById(id).textContent;navigator.clipboard.writeText(t).then(function(){btn.textContent='✓ 已复制';setTimeout(function(){btn.textContent=btn.textContent.replace('✓ 已复制',id.indexOf('promo')===0?'复制推广链接':'复制口令')},1500)})}catch(e){}}
+(function(){try{var _q=new URLSearchParams(location.search),_k=(_q.get('tk')||'').trim();if(_k){demoMem.marisTeamTk=_k;history.replaceState(null,'',location.pathname);}}catch(e){}})();
+function pinMeter(v){
+  var box=document.getElementById('pinMeter'),bar=document.getElementById('pmBar'),txt=document.getElementById('pmTxt');
+  if(!v){box.style.display='none';return}
+  box.style.display='block';
+  var sc=0;
+  if(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,12}$/.test(v))sc=1;
+  if(sc&&v.length>=8)sc=2;
+  if(sc>=2&&(/[a-z]/.test(v)&&/[A-Z]/.test(v)||v.length>=10))sc=3;
+  var m={0:['#f43f5e','28px','不合格:需 6–12 位且同时含字母和数字'],1:['#fda4af','44px','低:能用,建议再加长'],2:['#fbbf24','76px','中:不错'],3:['#34d399','110px','高:很棒']}[sc];
+  bar.style.background=m[0];bar.style.width=m[1];txt.style.color=m[0];txt.textContent=m[2];
+}
+function reg(){
+  var n=document.getElementById('tname').value.trim(),c=document.getElementById('tcontact').value.trim();
+  var e=document.getElementById('rerr');e.style.display='none';
+  if(n.length<2){e.textContent='团队名称至少 2 个字';e.style.display='block';return}
+  if(c.length<2){e.textContent='联系方式必填(管理员要靠它跟你结算对账)';e.style.display='block';return}
+  var pay=document.getElementById('tpay').value.trim(),pin=document.getElementById('tpin').value.trim();
+  if(!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,12}$/.test(pin)){e.textContent='资金密码需 6–12 位,且同时含字母和数字(勿用纯数字)';e.style.display='block';return}
+  if(pay&&!(pay.charAt(0)==='T'&&pay.length>30&&pay.length<40)){e.textContent='收款地址格式不对(T 开头的 TRC20 地址)';e.style.display='block';return}
+  var b=document.getElementById('regbtn');b.disabled=true;b.textContent='创建中 …';
+  J('demo:s23',{name:n,contact:c,payout_address:pay,pin:pin}).then(function(d){
+    b.disabled=false;b.textContent='创建团队,领取专属链接';
+    if(!d.ok){var m={name_taken:'该团队名已被注册:如果是你的团队,请用下方口令进入',rate_limited:'今日创建次数已达上限,请明天再试',name_too_short:'团队名称至少 2 个字',contact_required:'联系方式必填',bad_pin:'资金密码需 6–12 位且同时含字母和数字,且不要全是重复字符',bad_payout:'收款地址格式不对(T 开头 TRC20)'};e.textContent=m[d.error]||('创建失败:'+(d.hint||d.error));e.style.display='block';return}
+    demoMem.marisTeamTk=d.token;
+    document.getElementById('promoLink').textContent=d.promo_link;
+    document.getElementById('tokText').textContent=d.token;
+    document.getElementById('regResult').style.display='block';
+    try{document.getElementById('regResult').scrollIntoView({behavior:'smooth',block:'center'})}catch(_e){}
+  }).catch(function(){b.disabled=false;b.textContent='创建团队,领取专属链接';e.textContent='网络异常,请重试';e.style.display='block'})
+}
+
+function TK(){var t=demoMem.marisTeamTk||'';try{return /^[\x00-\xff]*$/.test(t)?t:encodeURIComponent(t)}catch(e){return t}}
+var OP_MODE=(function(){try{var q=new URLSearchParams(location.search);if(q.get('op')==='0'){demoMem.marisTeamOp='0';return false}if(q.get('op')==='1'){demoMem.marisTeamOp='1';return true}return demoMem.marisTeamOp==='1'}catch(e){return false}})();
+function applyOpModeJoin(){
+  if(!OP_MODE)return;
+  var t=document.getElementById('joinTitle');if(t)t.textContent='合作伙伴登录';
+  var lt=document.getElementById('loginTitle');if(lt)lt.textContent='合作伙伴登录 · 请输入管理员签发的口令';
+  var tk=document.getElementById('tok');if(tk)tk.placeholder='粘贴管理员签发的操作员口令';
+  var jb=document.querySelector('#loginCard .btn');if(jb)jb.textContent='合作伙伴登录';
+  var jv=document.getElementById('joinView');if(!jv)return;
+  Array.prototype.forEach.call(jv.children,function(el){if(el.id!=='loginCard'&&el.id!=='joinTitle')el.style.display='none'});
+}
+function applyRole(d){
+  var ro=(d.role==='operator');
+  var show=function(id,on){var el=document.getElementById(id);if(el)el.style.display=on?'':'none'};
+  show('roBanner',ro);show('promoCard',!ro);show('payCard',!ro);show('commCard',!ro);show('opCard',!ro);show('ovCard',true);show('posCard',true);
+  var lead=document.querySelector('#teamView .lead');
+  if(lead&&ro)lead.innerHTML='团队编号 <b id="tvCode" style="color:var(--acc)">'+esc(d.team.code)+'</b> · 只读账号'+(d.operator&&d.operator.label?'('+esc(d.operator.label)+')':'')+(d.demo?' · <b style="color:var(--gold)">演示数据(非真实账户)</b>':' · 打开时获取最近快照');
+  var rb=document.querySelector('#roBanner .rt');if(rb)rb.textContent=d.demo?'只读权限 · 仅供查看 · 当前为演示数据':'只读权限 · 仅供查看';
+}
+function roSGT(ts){try{return new Date(Number(ts)*1000).toLocaleString('zh-CN',{timeZone:'Asia/Singapore',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})+' SGT'}catch(e){return '—'}}
+function teamUserArrearsAmount(user){
+  var credit=Number(user&&user.credit);
+  if(user&&user.credit_source==='team_pool')return null;    
+  if(user&&user.credit_source==='t2_member_first')return null;    
+  if(!user||user.light!=='red'||!Number.isFinite(credit)||credit>0)return null;
+  return Math.max(0,-credit);
+}
+function fmtU(v,dp){return (v==null||!isFinite(Number(v)))?'—':Number(v).toFixed(dp==null?2:dp)}
+ 
+function t2Pct(v){return (v==null||!isFinite(Number(v)))?'—':(+(Number(v)*100).toFixed(2))+'%'}
+function t2SplitKv(sp){var m=sp.month||{},t=sp.total||{};var kvs=function(k,v){return '<span class="kv">'+k+' <b>'+v+'</b></span>'};
+  return kvs('本月赚了',(m.earned_complete===false?'≥':'')+fmtU(m.earned)+' U')+kvs('扣费比例',t2Pct(sp.share_rate))+kvs('应收',fmtU(m.due)+' U')+kvs('客户自付',fmtU(m.self_paid)+' U')+kvs('团队代付',fmtU(m.pool_paid)+' U')+kvs('平台分',fmtU(m.platform_part)+' U')+kvs('团队分',fmtU(m.team_part)+' U · '+t2Pct(sp.team_share_pct)+(sp.team_share_pct_source==='member'?'(按户)':''))+
+    (t.n?kvs('累计应收/自付/代付',fmtU(t.due)+' / '+fmtU(t.self_paid)+' / '+fmtU(t.pool_paid)+' U'):'')}
+function t2TotalTiles(s){var tt=s&&s.t2_split_total;if(!tt||!tt.month)return '';var m=tt.month;
+  return '<div class="st"><div class="k">本月应收 = 自付 + 团队代付</div><div class="v gold">'+fmtU(m.due)+' = '+fmtU(m.self_paid)+' + '+fmtU(m.pool_paid)+' U</div></div>'+
+    '<div class="st"><div class="k">本月平台分 / 团队分</div><div class="v ok">'+fmtU(m.platform_part)+' / '+fmtU(m.team_part)+' U</div></div>'}
+ 
+function teamPoolShareNote(s){var src=s&&s.team_share_rate_source,r=s&&s.team_share_rate;if(!src)return '';
+  return '<div class="k" style="margin-top:4px">团队池团长佣金 '+((r==null||!isFinite(Number(r)))?'—':(+(Number(r)*100).toFixed(2))+'%')+' · '+(src==='configured'?'团队池配置':(src==='team_default'?'沿用团队费率':(src==='t2_per_member'?'按户团队分成(混合)':'配置待核')))+'</div>'}
+function fmtPct(v){return (v==null||!isFinite(Number(v)))?'—':((v>=0?'+':'')+Number(v).toFixed(2)+'%')}
+ 
+var PERF_BASIS_NOTE='全账户口径(含出入金与手动仓)';
+function perfBasisTag(){return '<span class="perf-basis" style="display:block;font-size:.82em;opacity:.8;letter-spacing:0">'+PERF_BASIS_NOTE+'</span>'}
+
+
+var POS_SCENE_HIDDEN=false;
+function posSceneHide(){POS_SCENE_HIDDEN=true;['positionsScene','posCard'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none'})}
+function posSceneRestore(){if(!POS_SCENE_HIDDEN)return;POS_SCENE_HIDDEN=false;['positionsScene','posCard'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=''})}
+function renderOverview(d){
+  var o=d.overview||{},el=document.getElementById('ovStats');if(!el)return;
+  var pc=o.profit==null?'':(o.profit>=0?' ok':' warn');
+  el.innerHTML='<div class="st"><div class="k">活跃用户</div><div class="v">'+(o.users_active==null?'—':o.users_active)+'</div></div>'+
+    '<div class="st"><div class="k">团队本金合计</div><div class="v">'+fmtU(o.principal,0)+' U</div></div>'+
+    '<div class="st"><div class="k">团队净值合计</div><div class="v">'+fmtU(o.equity,0)+' U</div></div>'+
+    '<div class="st"><div class="k">累计策略收益</div><div class="v'+pc+'">'+(o.profit==null?'—':((o.profit>=0?'+':'')+fmtU(o.profit,0)+' U'))+'</div></div>'+
+    '<div class="st"><div class="k">收益率(收益/本金)</div><div class="v'+pc+'">'+fmtPct(o.profit_pct)+'</div></div>';
+  var inc=(o.principal_incomplete||0)+(o.equity_incomplete||0)+(o.profit_incomplete||0);
+  var n=document.getElementById('ovNote');if(n)n.textContent='口径: 本金=登记本金 · 净值=最近净值快照 · 收益=策略收益；合计含可用数据'+(inc?' · 有 '+inc+' 项数据暂缺, 合计只含可用项':'')+(o.principal_folded?' · 收益率按折入前本金计 (含 '+fmtU(o.principal_folded,0)+' U 已结利润折入本金)':'');
+}
+function renderOperators(d){
+  var el=document.getElementById('opList');if(!el)return;
+  var ops=(d.operators||[]).filter(function(o){return !o.revoked_ts});
+  if(!ops.length){el.innerHTML='<div style="color:var(--faint)">暂无有效操作员。需要给市场团队开只读账号,请联系管理员签发。</div>';return}
+  el.innerHTML=ops.map(function(o){return '<span class="opchip">'+esc(o.label||o.id)+' <span style="color:var(--faint)">最近查看 '+(o.last_seen_ts?roSGT(o.last_seen_ts):'—')+'</span><button class="rv" data-op-id="'+esc(o.id)+'" data-op-label="'+esc(o.label||o.id)+'">撤销</button></span>'}).join('');
+}
+function revokeOp(id,label){
+  if(!confirm('撤销操作员「'+label+'」的只读口令?撤销后立即失效,如需再开请联系管理员重新签发。'))return;
+  demoGet('demo:s20',{method:'POST',headers:{'Content-Type':'application/json','X-Demo-Session':TK()},body:JSON.stringify({op_id:id})})
+  .then(function(x){return x.json().catch(function(){return {ok:false}})}).then(function(r){if(r.ok){boot()}else{alert('撤销失败: '+(r.error||''))}}).catch(function(){alert('网络异常,请重试')})
+}
+var POS_ROWS=[], POS_DEMO=false,POS_RECEIVED_AT=null;
+var POS_FETCH_SERIAL=0,POS_FETCH_CONTROLLER=null,POS_LAST_CONTEXT=null,POS_LAST_TOKEN='',POS_REFRESH_TIMER=0,POS_SNAPSHOT_TS=null,POS_DATA_STALE=false,POS_RENDER_SIGNATURE='';
+function positionUserKey(r){return 'u:'+String(r.user_key||r.user||'unlabelled')}
+function positionUserLabel(r){var name=String(r.user_masked||r.user||'');if(r.user_masked||/^[•*●]/.test(name))return name;var chars=Array.from(name);return chars.length>1?chars[0]+'••'+chars[chars.length-1]:'匿名用户'}
+function stopPositionRefresh(){clearTimeout(POS_REFRESH_TIMER);POS_REFRESH_TIMER=0;if(POS_FETCH_CONTROLLER)POS_FETCH_CONTROLLER.abort();POS_FETCH_SERIAL++}
+function loadPositions(d){
+ if(d){POS_LAST_CONTEXT=d;POS_LAST_TOKEN=TK()}clearTimeout(POS_REFRESH_TIMER);var token=TK(),body=document.getElementById('posBody'),note=document.getElementById('posNote');if(!d||!token||token!==POS_LAST_TOKEN||!body)return;
+ if(POS_FETCH_CONTROLLER)POS_FETCH_CONTROLLER.abort();var controller=new AbortController();POS_FETCH_CONTROLLER=controller;var serial=++POS_FETCH_SERIAL;
+ function valid(){return serial===POS_FETCH_SERIAL&&token===TK()}
+ function emit(detail){document.dispatchEvent(new CustomEvent('maris:positions',{detail:detail}))}
+ return demoGet('demo:s21',{headers:{'X-Demo-Session':token},signal:controller.signal,cache:'no-store'}).then(function(response){if(!response.ok)throw new Error('positions_'+response.status);return response.json()}).then(function(p){
+  if(!valid())return;
+  
+
+  if(p&&p.ok&&p.positions_hidden){POS_ROWS=[];POS_RENDER_SIGNATURE='';body.innerHTML='';if(note)note.textContent='';posSceneHide();return}
+  if(!p||!p.ok||!Array.isArray(p.rows))throw new Error('positions_invalid');posSceneRestore();POS_ROWS=p.rows;POS_DEMO=!!(p.demo||d.demo);POS_SNAPSHOT_TS=p.snapshot_ts||null;POS_DATA_STALE=!!p.stale;POS_RECEIVED_AT=Date.now()/1000;
+  var signature=JSON.stringify(POS_ROWS);if(signature!==POS_RENDER_SIGNATURE){POS_RENDER_SIGNATURE=signature;if(!POS_ROWS.length)body.innerHTML='<div class="position-empty">当前没有持仓</div>';else renderPosGroups(body)}
+  emit({rows:POS_ROWS.slice(),demo:POS_DEMO,snapshot_ts:POS_SNAPSHOT_TS,stale:POS_DATA_STALE,received_at:Date.now(),source:'execution_snapshot'});
+ }).catch(function(error){if(error.name==='AbortError'||!valid())return;POS_ROWS=[];POS_RENDER_SIGNATURE='';body.innerHTML='<div class="position-empty">持仓数据暂不可用，请刷新重试。</div>';emit({status:'error',received_at:Date.now(),source:'execution_snapshot'});console.warn('Position snapshot unavailable',error.message)}).finally(function(){if(valid()&&!document.hidden)POS_REFRESH_TIMER=setTimeout(function(){if(TK()===POS_LAST_TOKEN&&POS_LAST_CONTEXT&&document.getElementById('teamView').style.display!=='none')loadPositions(POS_LAST_CONTEXT)},15000)});
+}
+document.addEventListener('visibilitychange',function(){if(document.hidden)stopPositionRefresh();else if(TK()===POS_LAST_TOKEN&&POS_LAST_CONTEXT&&document.getElementById('teamView').style.display!=='none')loadPositions(POS_LAST_CONTEXT)});
+var POS_OPEN={};
+function renderPosGroups(body){
+
+  var groups=Object.create(null),order=[];
+  POS_ROWS.forEach(function(r,i){var k=positionUserKey(r);if(!groups[k]){groups[k]={rows:[],upl:0,notional:0,uplBad:false};order.push(k)}var g=groups[k];g.rows.push(i);
+    if(r.upl_usdt==null||!isFinite(Number(r.upl_usdt)))g.uplBad=true;else g.upl+=Number(r.upl_usdt);if(isFinite(Number(r.notional)))g.notional+=Number(r.notional)});
+  body.innerHTML=order.map(function(k){var g=groups[k],open=!!POS_OPEN[k],pc=g.uplBad?'':(g.upl>=0?'up':'dn');
+    var head='<div class="pgh" role="button" tabindex="0" aria-expanded="'+open+'" data-user="'+esc(k)+'"><span class="pgu">'+esc(positionUserLabel(POS_ROWS[g.rows[0]]))+'</span><span class="pgm">'+g.rows.length+' 笔持仓</span><span class="pgm '+pc+'">浮动 '+(g.uplBad?'—':((g.upl>=0?'+':'')+fmtU(g.upl,2)+' U'))+'</span><span class="pgm">名义 '+fmtU(g.notional,0)+' U</span><span class="pgt">'+(open?'收起 ▴':'展开 ▾')+'</span></div>';
+    var detail='';
+    if(open){detail='<div class="tblwrap"><table class="ptbl"><thead><tr><th>标的</th><th>方向</th><th>持仓均价</th><th>现价</th><th>浮动盈亏(U)</th><th>价格变动率</th><th>名义(U)</th><th></th></tr></thead><tbody>'+
+      g.rows.map(function(i){var r=POS_ROWS[i],up=(r.upl_usdt==null)?'':(r.upl_usdt>=0?'up':'dn');
+        return '<tr><td><b>'+esc(String(r.sym||'').replace(/USDT$/,''))+'</b></td><td><span class="side '+(r.side==='空'?'s':'l')+'">'+esc(r.side)+'</span></td><td>'+esc(r.entry==null?'—':r.entry)+'</td><td>'+esc(r.mark==null?'—':r.mark)+'</td>'+
+          '<td class="'+up+'">'+(r.upl_usdt==null?'—':((r.upl_usdt>=0?'+':'')+fmtU(r.upl_usdt,2)))+'</td><td class="'+up+'">'+fmtPct(r.roi_pct)+'</td><td>'+fmtU(r.notional,0)+'</td>'+
+          '<td><button class="xbtn" onclick="showExplain('+i+')">入场解读</button></td></tr>'}).join('')+'</tbody></table></div>'}
+    return '<div class="pg'+(open?' open':'')+'">'+head+detail+'</div>'}).join('');
+}
+function togglePos(k){POS_OPEN[k]=!POS_OPEN[k];var body=document.getElementById('posBody');if(body){renderPosGroups(body);Array.from(body.querySelectorAll('.pgh')).find(function(el){return el.dataset.user===k})?.focus({preventScroll:true})}}
+function renderReadonly(d){
+  var s=d,users=s.users||[];
+  document.getElementById('stats').innerHTML=
+    '<div class="st"><div class="k">团队用户</div><div class="v">'+users.length+'</div></div>'+
+    '<div class="st"><div class="k">运行中</div><div class="v ok">'+users.filter(function(u){return u.status==='active'}).length+'</div></div>'+
+    '<div class="st"><div class="k">黄灯 / 红灯</div><div class="v'+((s.yellow_n||0)||(s.red_n||0)?' warn':'')+'">'+(s.yellow_n||0)+' / '+(s.red_n||0)+'</div></div>'+
+    (function(){var ds=[],ms=[];users.forEach(function(u){if(u.day_pct!=null)ds.push(u.day_pct);if(u.month_pct!=null)ms.push(u.month_pct)});
+     var avg=function(a){if(!a.length)return null;var t=0;a.forEach(function(x){t+=x});return t/a.length};var da=avg(ds),ma=avg(ms);
+     return '<div class="st"><div class="k" title="'+PERF_BASIS_NOTE+'">团队日表现(均值,n='+ds.length+')'+perfBasisTag()+'</div><div class="v'+(da!=null&&da<0?' warn':' ok')+'">'+fmtPct(da)+'</div></div>'+
+            '<div class="st"><div class="k" title="'+PERF_BASIS_NOTE+'">团队月表现(均值,n='+ms.length+')'+perfBasisTag()+'</div><div class="v'+(ma!=null&&ma<0?' warn':' ok')+'">'+fmtPct(ma)+'</div></div>'})();
+  renderOverview(d);loadPositions(d);
+  var ul=document.getElementById('ulist');
+  var uc=document.querySelector('#usersCard .ct');if(uc)uc.innerHTML='<span class="dot"></span><span class="decode-copy" aria-label="团队用户">团队用户</span>';
+  if(!users.length){ul.innerHTML='<div style="color:var(--faint);font-size:14px;padding:8px 0">该团队暂无用户。</div>';return}
+  var stmap={active:'跟单中',pending_verify:'待验证',pending:'待接入',paused:'已暂停',exited:'已退出',exit_pending:'退出中',revoked:'已注销'};
+  ul.innerHTML=users.map(function(u){var pc=(u.profit==null)?'':(u.profit>=0?'color:var(--ok)':'color:var(--warn)');
+    return '<div class="urow"><span class="light '+esc(u.light)+'"></span><span class="nm" style="font-family:ui-monospace,Menlo,monospace">'+esc(u.code_masked)+'</span>'+
+      (u.stale?'<span class="stt" style="color:#fcd34d;border-color:rgba(252,211,77,.5)">⚠数据待更新</span>':'<span class="stt '+esc(u.status)+'">'+esc(stmap[u.status]||u.status)+'</span>')+
+      '<span class="kv">本金 <b>'+fmtU(u.principal,0)+'</b></span><span class="kv">净值 <b>'+fmtU(u.equity,0)+'</b></span><span class="kv">收益 <b style="'+pc+'">'+(u.profit==null?'—':((u.profit>=0?'+':'')+fmtU(u.profit,0)))+'</b></span>'+
+      '<span class="kv">日 <b>'+fmtPct(u.day_pct)+'</b></span><span class="kv">月 <b>'+fmtPct(u.month_pct)+'</b></span></div>'}).join('');
+}
+function explainText(r){
+  return window.MarisEntryEvidence.build(r,{demo:POS_DEMO,snapshot_ts:POS_SNAPSHOT_TS,stale:POS_DATA_STALE,received_at:POS_RECEIVED_AT});
+}
+function showExplain(i){
+  var r=POS_ROWS[i];if(!r)return;
+  
+
+  var x=r.entry_explain;
+  if(x&&typeof x==='object'&&Array.isArray(x.lines)){
+    document.getElementById('exTitle').textContent=String(x.title||'入场解读');
+    document.getElementById('exBody').innerHTML=x.lines.map(function(l){return '<p class="ex-line" style="margin:0 0 8px">'+esc(String(l))+'</p>'}).join('');
+  }else{
+  if(!window.MarisEntryEvidence){console.warn('Entry evidence view unavailable');return}
+  var t=explainText(r);
+  document.getElementById('exTitle').textContent=t.title;
+  document.getElementById('exBody').innerHTML=window.MarisEntryEvidence.render(t);
+  }
+  document.getElementById('exMeta').textContent=(POS_DEMO?'演示持仓':'本队持仓')+' · 可核验事实与证据边界';
+  exReturn=document.activeElement;document.getElementById('explainModal').style.display='flex';document.getElementById('exClose').focus();document.body.style.overflow='hidden';document.querySelector('#teamView').inert=true;document.dispatchEvent(new Event('maris:explain-open'));
+}
+var exReturn=null;
+function hideExplain(e){var m=document.getElementById('explainModal');if(!e||(e.currentTarget&&e.currentTarget.id==='exClose')){m.style.display='none';document.dispatchEvent(new Event('maris:explain-close'));document.body.style.overflow='';document.querySelector('#teamView').inert=false;if(exReturn&&exReturn.isConnected)exReturn.focus({preventScroll:true});}}
+
+function login(){
+  var t=document.getElementById('tok').value.trim();
+  var e=document.getElementById('lerr');e.style.display='none';
+  if(!t){e.textContent='请粘贴团队口令';e.style.display='block';return}
+  demoMem.marisTeamTk=t;boot(true);
+}
+function savePay(){
+  var pay=document.getElementById('npay').value.trim(),pin=document.getElementById('npin').value.trim();
+  var e=document.getElementById('perr');e.style.display='none';
+  if(!(pay.charAt(0)==='T'&&pay.length>30&&pay.length<40)){e.textContent='地址格式不对(T 开头 TRC20)';e.style.display='block';return}
+  demoGet('demo:s24',{method:'POST',headers:{'Content-Type':'application/json','X-Demo-Session':TK()},body:JSON.stringify({payout_address:pay,pin:pin})})
+  .then(function(x){return x.json().catch(function(){return {ok:false,error:'st'+x.status}})}).then(function(d){
+    if(d.ok){document.getElementById('npay').value='';document.getElementById('npin').value='';boot();return}
+    var m={bad_pin_check:'资金密码不对',pin_setup_required:'首次设置需填 6–12 位字母与数字组合',bad_payout:'地址格式不对'};
+    e.textContent=m[d.error]||('保存失败:'+(d.error||''));e.style.display='block';
+  }).catch(function(){e.textContent='网络异常,请重试';e.style.display='block'})
+}
+function recover(){
+  var n=document.getElementById('rname').value.trim(),pin=document.getElementById('rpin').value.trim();
+  var e=document.getElementById('rcerr');e.style.display='none';
+  if(n.length<2||pin.length<6){e.textContent='请填团队名称和资金密码';e.style.display='block';return}
+  J('demo:s22',{name:n,pin:pin}).then(function(d){
+    if(!d.ok){var m={no_match:'团队名或资金密码不对',rate_limited:'尝试次数太多,今天先到这里,明天再试或联系管理员'};e.textContent=m[d.error]||('找回失败:'+(d.error||''));e.style.display='block';return}
+    demoMem.marisTeamTk=d.token;
+    document.getElementById('rcTok').textContent=d.token;
+    document.getElementById('rcResult').style.display='block';
+  }).catch(function(){e.textContent='网络异常,请重试';e.style.display='block'})
+}
+function logout(){stopPositionRefresh();try{delete demoMem.marisTeamTk}catch(e){demoMem.removeItem('marisTeamTk')}location.reload()}
+var HAS_RENDERED=false,TEAM_BOOT_SERIAL=0;
+var TEAM_FORCE_LOGIN=new URLSearchParams(location.search).get('view')==='login';
+function teamEntryState(state){document.documentElement.dataset.teamState=state;document.getElementById('joinView').inert=state!=='guest';document.getElementById('teamView').inert=state!=='member'}
+function boot(fromLogin){stopPositionRefresh();var bootSerial=++TEAM_BOOT_SERIAL;
+  if(window.partnerNotice)partnerNotice('');
+  var tk=demoMem.marisTeamTk;
+  if(!tk||(TEAM_FORCE_LOGIN&&!fromLogin&&!HAS_RENDERED)){document.getElementById('joinView').style.display='block';document.getElementById('teamView').style.display='none';applyOpModeJoin();teamEntryState('guest');return}
+  if(!HAS_RENDERED)teamEntryState('checking');
+  var bootController=new AbortController(),bootTimer=setTimeout(function(){bootController.abort()},12000);
+  demoGet('demo:s19',{headers:{'X-Demo-Session':TK()},signal:bootController.signal}).then(function(x){
+    if(bootSerial!==TEAM_BOOT_SERIAL||demoMem.marisTeamTk!==tk)return null;
+    if(x.status===401||x.status===403){document.getElementById('joinView').style.display='block';document.getElementById('teamView').style.display='none';applyOpModeJoin();teamEntryState('guest');if(fromLogin){var e=document.getElementById('lerr');e.textContent='口令无效,请核对';e.style.display='block'}try{demoMem.removeItem('marisTeamTk')}catch(_e){}return null}
+    if(!x.ok)throw new Error("team_data_unavailable");return x.json()
+  }).then(function(d){
+    if(!d||bootSerial!==TEAM_BOOT_SERIAL||demoMem.marisTeamTk!==tk)return;
+    document.getElementById('joinView').style.display='none';
+    document.getElementById('teamView').style.display='block';requestAnimationFrame(function(){if(bootSerial!==TEAM_BOOT_SERIAL)return;teamEntryState('member');if(!HAS_RENDERED){var anchor=document.getElementById(location.hash.slice(1));if(anchor&&anchor.getBoundingClientRect().height)anchor.scrollIntoView({block:'start',behavior:'instant'});else window.scrollTo({top:0,behavior:'instant'})};document.dispatchEvent(new Event(HAS_RENDERED?'maris:refresh':'maris:arrival'));HAS_RENDERED=true});
+    document.getElementById('tvName').textContent=d.team.name;
+    var codeElement=document.getElementById('tvCode');if(codeElement)codeElement.textContent=d.team.code;
+    document.getElementById('promoLink2').textContent=d.promo_link;
+    document.getElementById('payNow').textContent=(d.team.payout_address||'未填写(结算前请补上)');
+    var cmap={};(d.users||[]).forEach(function(u){if(u.contact)cmap[u.name]=u.contact});
+    var wc=function(n){return esc(n)+(cmap[n]?'('+esc(cmap[n])+')':'')};
+    var yl=d.yellow||[],rl=d.red||[];
+    var al=document.getElementById('lightAlert');
+    var alHtml='';al.dataset.level=rl.length?'critical':'attention';
+    if(rl.length)alHtml+='<br>🔴 <b>'+rl.map(wc).join('、')+'</b> 积分已不足(3 天宽限期,逾期自动终止跟单)——请立刻提醒续充!';
+    if(yl.length)alHtml+='<br>🟡 '+yl.map(wc).join('、')+' 积分即将不足,请尽快提醒续充。';
+    var TP=(d.team_pool&&typeof d.team_pool==='object')?d.team_pool:null;    
+    if(TP&&TP.entry_ok!==true)alHtml+=(TP.mode==='member_first_pool_backstop'?('<br>团队池(兜底): '+esc(TP.reason_text||'团队池积分不足')+'。本户积分不足的成员已暂停开新仓(已有仓位照常管理); 团队长充值团队池或成员充值本户积分后自动恢复。'):('<br>团队池: '+esc(TP.reason_text||'团队池积分不足')+'。全队已暂停开新仓(已有仓位照常管理), 团队长充值积分后自动恢复。'));    
+    if(TP&&TP.entry_ok===true&&TP.grace_active===true)alHtml+='<br>团队池(首月宽限): '+esc(TP.reason_text||'首月宽限期内, 全队照常开新仓')+'。';    
+    if(alHtml){al.innerHTML='<b>需要你跟进:</b>'+alHtml;al.style.display='block'}
+    else{al.style.display='none'}
+    applyRole(d);
+    if(d.role==='operator'){renderReadonly(d);return}
+    renderOverview(d);renderOperators(d);loadPositions(d);
+    var ch=document.getElementById('commissionHistory'),sett=d.commission_settlements||[];
+    var sm={pending_payment:'待打款',blocked_missing_address:'缺收款地址',zero_amount:'零额',paid:'已结算✓',integrity_error:'数据校验失败'};
+    if(ch)ch.innerHTML=sett.length?sett.map(function(r){return '<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:7px 0;border-bottom:1px dashed rgba(126,176,238,.15)"><span><b style="color:var(--tx)">'+esc(r.month)+'</b> · 上月分红扣款 '+r.share_deduct_total+'U · 比例 '+(Number(r.commission_rate)*100).toFixed(2)+'%</span><span>应得 <b style="color:var(--gold)">'+r.amount+'U</b> · '+esc(sm[r.status]||r.status)+(r.txid?(' · tx '+esc(String(r.txid).slice(0,12))+'…'):'')+(r.paid_at?(' · '+roSGT(r.paid_at)):'')+'</span></div>'}).join(''):'<span style="color:var(--faint)">尚无已发布清单;每月1日08:00 SGT更新。</span>';
+    var s=d;
+    document.getElementById('stats').innerHTML=
+      '<div class="st"><div class="k">团队用户</div><div class="v">'+(s.users||[]).length+'</div></div>'+
+      '<div class="st"><div class="k">本月分红(用户合计)</div><div class="v gold">'+s.month_div_total+' U</div></div>'+
+      '<div class="st"><div class="k">团队应得(预估)</div><div class="v ok">'+(s.team_share_rate_source&&s.team_share_est==null?'—':s.team_share_est)+' U</div>'+teamPoolShareNote(s)+'</div>'+
+      ((s.team_pool&&typeof s.team_pool==='object')?('<div class="st"><div class="k">团队池余额 / 门槛</div><div class="v'+((s.team_pool.entry_ok===true&&s.team_pool.grace_active!==true)?' ok':' warn')+'">'+fmtU(s.team_pool.pool_balance)+' / '+fmtU(s.team_pool.required)+' U</div></div>'):'')+
+      t2TotalTiles(s)+    
+      '<div class="st"><div class="k">黄灯 / 红灯</div><div class="v'+((s.yellow||[]).length||(s.red||[]).length?' warn':'')+'">'+(s.yellow||[]).length+' / '+(s.red||[]).length+'</div></div>'+
+      (function(){var ds=[],ms=[];(s.users||[]).forEach(function(u){if(u.day_pct!=null)ds.push(u.day_pct);if(u.month_pct!=null)ms.push(u.month_pct)});
+       var avg=function(a){if(!a.length)return null;var t=0;a.forEach(function(x){t+=x});return t/a.length};
+       var fp=function(v){return v==null?'—':((v>=0?'+':'')+v.toFixed(2)+'%')};
+       var da=avg(ds),ma=avg(ms);
+       return '<div class="st"><div class="k" title="'+PERF_BASIS_NOTE+'">团队近24小时表现(均值,n='+ds.length+')'+perfBasisTag()+'</div><div class="v'+(da!=null&&da<0?' warn':' ok')+'">'+fp(da)+'</div></div>'})();
+    var ul=document.getElementById('ulist');
+    if(!(s.users||[]).length){ul.innerHTML='<div style="color:var(--faint);font-size:14px;padding:8px 0">还没有用户——把上面的专属推广链接发出去,第一个用户接入后这里就会出现。</div>';return}
+    ul.innerHTML=s.users.map(function(u){
+      var fp=function(v){return v==null?'—':((v>=0?'+':'')+Number(v).toFixed(2)+'%')};
+      var fu=function(v,dp){return (v==null||!isFinite(Number(v)))?'—':Number(v).toLocaleString('en-US',{minimumFractionDigits:dp==null?2:dp,maximumFractionDigits:dp==null?2:dp})};
+      var ageS=function(x){return x==null?'':x<60?(x+'秒前'):x<3600?(Math.floor(x/60)+'分前'):(Math.floor(x/3600)+'小时前')};
+      var kv=function(k,v,cls){return '<div class="ukv'+(cls?' '+cls:'')+'"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>'};
+      var c=u.card||null,ex=!!(c&&c.credit_exempt),exv='豁免<small>不参与分红</small>';
+      var pf=(c&&c.profit_total!=null&&isFinite(Number(c.profit_total)))?Number(c.profit_total):null;
+      var pt=(c&&c.principal_total!=null&&isFinite(Number(c.principal_total)))?Number(c.principal_total):null;
+      var pr=(c&&c.return_chain&&c.return_chain.pct!=null&&isFinite(Number(c.return_chain.pct)))?Number(c.return_chain.pct):((pf!=null&&pt!=null&&pt>0)?(pf/pt*100):null);  
+      var days=(c&&c.created_ts)?Math.max(0,Math.floor((Date.now()/1000-Number(c.created_ts))/86400)):null;
+      var arr=teamUserArrearsAmount(u);
+      var dayLbl=(u.day_covered_h!=null&&u.day_covered_h<23)?('近'+Math.max(1,Math.round(u.day_covered_h))+'小时净值'):'近24小时净值';
+      var head='<div class="urow"><span class="light '+u.light+'"></span><span class="nm">'+esc(u.name)+'</span>'+
+        (u.stale?'<span class="stt" style="color:#fcd34d;border-color:rgba(252,211,77,.5)">数据待更新·请核对账户连接</span>':'<span class="stt '+esc(u.status)+'">'+((u.status==='active'&&u.light==='red')?(u.credit_source==='t2_member_first'?'已验证·未开跑(本户积分与团队池均不足)':(u.credit_source==='team_pool'||u.credit_source==='team_pool_leader')?'已验证·未开跑(团队池积分不足)':'已验证·未开跑(积分未达标)'):(u.status==='active'&&u.light==='gray')?'已验证·未开跑':({active:'跟单中',pending_verify:'待验证',exited:'已退出',exit_pending:'退出办理中',revoked:'已停用'}[u.status]||esc(u.status)))+'</span>')+
+        (u.contact?'<span class="kv">'+esc(u.contact)+'</span>':'')+
+        (days!=null?'<span class="kv">入册 <b>'+days+' 天</b> · '+roSGT(c.created_ts).slice(0,5)+' 入册</span>':'')+
+        (c?'<span class="ubig'+(pf==null?'':(pf>=0?' up':' dn'))+'">'+(pf==null?'—':((pf>=0?'+':'')+fu(pf)+' U'))+'<small>累计收益(策略口径)'+(pr==null?'':' · '+(pr>=0?'+':'')+pr.toFixed(1)+'%')+'</small></span>':'');
+      var meta='<span class="kv">交易金额 <b>'+((u.volume!=null&&isFinite(u.volume))?(Math.round(u.volume)+' U'):'—')+'</b></span><span class="kv">本月分红 <b>'+u.month_div+'</b></span><span class="kv">已结算 <b>'+(u.last_settle_amount!=null?(fu(u.last_settle_amount)+' U</b> · '+roSGT(u.last_settle_ts).slice(0,5)+((u.settled_n||0)>1?' · 累计 '+fu(u.settled_total)+' U':'')):'—</b>')+'</span><span class="kv">'+dayLbl+' <b>'+fp(u.day_pct)+'</b></span>'+
+        (arr!==null?'<span class="kv" style="color:var(--warn)">欠费金额 <b>'+arr.toFixed(2)+' U</b></span>':'');
+      if(u.t2_split&&u.t2_split.month)meta+=t2SplitKv(u.t2_split);    
+      var body;
+      if(c){
+        body='<div class="ucard"><div class="ugrid">'+
+          kv('入册本金',fu(c.principal_total)+'<small>U</small>')+
+          kv('当前净值',fu(c.equity)+'<small>U'+(c.equity_age_s!=null?' · '+ageS(c.equity_age_s):'')+'</small>','ac')+
+          kv('累计收益',(pf==null?'—':((pf>=0?'+':'')+fu(pf)))+'<small>U · 策略口径</small>',pf==null?'':(pf>=0?'ok':'dn'))+
+          kv('高水位线',fu(c.hwm)+'<small>U · 净值口径</small>')+
+          kv('水位上利润',(c.profit_above_hwm==null&&ex)?exv:(fu(c.profit_above_hwm)+'<small>U · 策略口径·分红用</small>'),'gold')+
+          kv('正式分红(应计)',c.accrued_share!=null?(fu(c.accrued_share)+'<small>U · 水位上×费率</small>'):(ex?exv:'待净值<small>验证后自动算</small>'),'gold')+
+          kv('预估分红(含浮盈)',ex?exv:(c.accrued_share_mtm!=null?(fu(c.accrued_share_mtm)+'<small>U · 仅预估</small>'):'待数据<small>策略浮盈缺失</small>'),'gold')+
+          kv('结算应扣',ex?exv:(c.settlement_deduct!=null?(fu(c.settlement_deduct)+'<small>U · 30天结账扣</small>'):'—'),'gold')+
+          (u.credit_source==='t2_member_first'?kv('预存积分',fu(c.credit)+'<small>U · 本户先扣, 不足由团队池兜底</small>','ac'):u.credit_source==='team_pool'?kv('预存积分','团队池<small>由团队池承担</small>','ac'):u.credit_source==='team_pool_leader'?kv('预存积分(团队池)',fu(c.credit)+'<small>U · 全队共用'+(arr!==null?' · 已欠费':'')+'</small>',arr!==null?'dn':'ac'):kv('预存积分',fu(c.credit)+'<small>U'+(arr!==null?' · 已欠费':'')+'</small>',arr!==null?'dn':'ac'))+
+          '</div><div class="umeta">'+meta+'</div></div>';
+      }else{
+        body='<div class="umeta"><span class="kv">本金 <b>'+u.principal+'</b></span><span class="kv">积分 <b>'+(u.credit_source==='team_pool'?'团队池':u.credit)+'</b></span>'+meta+'<span class="kv" style="color:var(--faint)">收益卡待数据(未开跑 / 未验证 / 同步中)</span></div>';
+      }
+      return head+body+'</div>'
+    }).join('');
+  }).catch(function(error){if(bootSerial!==TEAM_BOOT_SERIAL)return;if(!HAS_RENDERED){document.getElementById('joinView').style.display='block';document.getElementById('teamView').style.display='none';applyOpModeJoin();teamEntryState('guest')}if(window.partnerNotice)partnerNotice('数据暂时无法更新，请稍后重试。');console.warn('Team session load failed',error.name)}).finally(function(){clearTimeout(bootTimer)})
+}
+boot();
+</script>
+
+<script>
+
+document.getElementById('posBody').addEventListener('click',function(e){var h=e.target.closest('.pgh');if(h)togglePos(h.dataset.user)});
+document.getElementById('posBody').addEventListener('keydown',function(e){var h=e.target.closest('.pgh');if(h&&(e.key==='Enter'||e.key===' ')){e.preventDefault();togglePos(h.dataset.user)}});
+document.addEventListener('keydown',function(e){var m=document.getElementById('explainModal');if(m.style.display!=='flex')return;if(e.key==='Escape'){e.preventDefault();hideExplain()}if(e.key==='Tab'){var box=m.querySelector('.box'),items=Array.from(box.querySelectorAll('button:not([disabled]),a[href],summary,[tabindex]:not([tabindex="-1"])')).filter(function(el){return el.getClientRects().length}),first=items[0],last=items[items.length-1];if(!first){e.preventDefault();box.focus()}else if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+
+var sectionIcons={"ovCard": "M3 18V9m6 9V5m6 13v-7m6 7V3", "posCard": "M6 3v18m-3-7h6V7H3m15-4v18m-3-4h6V10h-6", "usersCard": "M9 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 9v-2c0-3 3-5 7-5s7 2 7 5v2m1-16a4 4 0 0 1 0 8m2 2c2 1 3 2 3 4v2"};
+function refineIcons(){Object.keys(sectionIcons).forEach(function(id){var dot=document.querySelector('#'+id+' .ct .dot');if(dot){var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('class','section-icon');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');var p=document.createElementNS(svg.namespaceURI,'path');p.setAttribute('d',sectionIcons[id]);svg.appendChild(p);dot.replaceWith(svg)}})}
+var iconObserver=new MutationObserver(refineIcons);iconObserver.observe(document.getElementById('teamView'),{childList:true,subtree:true});refineIcons();
+
+(function(){var reduce=matchMedia('(prefers-reduced-motion: reduce)');document.addEventListener('visibilitychange',function(){document.documentElement.toggleAttribute('data-background-paused',document.hidden)});
+  var glowFrame=0,point=null,previous=null;
+  document.addEventListener('pointermove',function(e){if(reduce.matches||e.pointerType!=='mouse')return;var el=e.target.closest('.glass');if(previous!==el){if(previous)previous.removeAttribute('data-lit');previous=el}if(!el)return;point={el:el,x:e.clientX,y:e.clientY};if(glowFrame)return;glowFrame=requestAnimationFrame(function(){glowFrame=0;if(!point)return;var p=point,r=p.el.getBoundingClientRect();p.el.style.setProperty('--px',(p.x-r.left)+'px');p.el.style.setProperty('--py',(p.y-r.top)+'px');p.el.dataset.lit='true'})},{passive:true});
+  document.documentElement.addEventListener('pointerleave',function(){if(previous)previous.removeAttribute('data-lit');previous=null;point=null});
+})();
+
+</script>
+<script>(function(){
+  function announce(message){var box=document.getElementById('networkStatus');box.textContent=message;box.hidden=!message}
+  window.partnerNotice=announce;
+  document.querySelectorAll('#joinView > div[style*=border],#registerCard > div[style*=border]').forEach(function(el){el.classList.add('partner-notice-panel')});
+  document.querySelectorAll('label').forEach(function(label){var next=label.nextElementSibling;while(next&&next.tagName!=='LABEL'){var input=next.matches('input')?next:next.querySelector('input');if(input){label.htmlFor=input.id;break}next=next.nextElementSibling}});
+  document.querySelectorAll('[data-secret-for]').forEach(function(button){button.addEventListener('click',function(){var input=document.getElementById(button.dataset.secretFor),unicodeToken=input.dataset.marisSecret==='true'||input.id==='tok',show=unicodeToken?input.dataset.concealed==='true':input.type==='password';if(unicodeToken){input.dataset.concealed=String(!show)}else{input.type=show?'text':'password'};button.setAttribute('aria-label',(show?'隐藏':'显示')+(input.id==='tok'?'访问口令':'资金密码'));button.setAttribute('aria-pressed',String(show))})});
+  document.getElementById('opList').addEventListener('click',function(event){var button=event.target.closest('[data-op-id]');if(button)revokeOp(button.dataset.opId,button.dataset.opLabel)});
+})();
+</script><script>Object.assign(sectionIcons,{"registerCard": "M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4", "loginCard": "M14 3h6v18h-6M3 12h12m-4-4 4 4-4 4", "recoverCard": "M4 11a8 8 0 1 1 2 7M3 4v7h7m2-3v5l3 2", "guideCard": "M4 4h7l1 2 1-2h7v16h-7l-1 1-1-1H4ZM12 6v15", "promoCard": "M9 15l6-6m-7 4-2 2a4 4 0 0 0 6 6l3-3m-6-6 3-3a4 4 0 0 1 6 6l-2 2", "payCard": "M3 6h18v14H3Zm0 4h18m-5 5h3", "commCard": "M6 3h12v18l-3-2-3 2-3-2-3 2Zm3 5h6m-6 4h6m-6 4h3", "opCard": "M12 3l8 3v6c0 4-4 7-8 9-4-2-8-5-8-9V6Zm-3 9 2 2 4-4"});refineIcons();</script><script src="./assets/partner-release-123/team-partnership.js"></script><script type="module" src="./assets/partner-release-123/globe-modal.js"></script><script type="module" src="./assets/partner-release-123/market-field.js"></script><script type="module" src="./assets/partner-release-123/solana-grid-motion.js"></script><script src="./assets/partner-release-123/hero-meetings.js"></script><script type="module" src="./assets/partner-release-123/market-trace.js"></script><script>(()=>{
+ 'use strict';
+ function layoutRole(){document.body.classList.toggle('partner-authenticated',document.getElementById('teamView').style.display!=='none');document.body.classList.toggle('partner-guest',document.getElementById('teamView').style.display==='none');document.body.classList.toggle('partner-operator',OP_MODE)};new MutationObserver(layoutRole).observe(document.getElementById('teamView'),{attributes:true,attributeFilter:['style']});layoutRole();
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)'),scene=document.getElementById('positionsScene'),note=scene.querySelector('.scene-network-note');
+ function render(event){const d=event.detail||{};scene.dataset.state=d.status||((d.rows||[]).length?'ready':'empty');const source=d.demo?'演示数据 · 非实时':('执行快照 '+(d.snapshot_ts?roSGT(d.snapshot_ts):'时间未提供')+(d.stale?' · 待更新':''));note.textContent=d.status==='error'?'持仓暂不可用，等待重试；不能据此判断空仓。':d.status==='loading'?'正在读取持仓快照…':source+' · 每15秒检查更新';scene.dataset.snapshot=String(d.snapshot_ts||'')}
+ document.addEventListener('maris:positions',render);
+ document.querySelector('#accessScene .scene-access-description').textContent=OP_MODE?'使用管理员签发的口令，查看已授权团队的数据。':'使用团队口令进入，查看团队资料与结算信息。';
+ function updateUsersCopy(){const users=document.querySelectorAll('#ulist .urow'),count=document.getElementById('usersSceneCount'),scope=document.getElementById('usersSceneScope');count.textContent=users.length?users.length+' 位团队用户':'当前团队暂无用户';scope.textContent=document.getElementById('roBanner').style.display==='none'?'查看本团队各账户的状态、净值与收益。':'用户码已脱敏。查看各账户的状态、净值与收益。'}
+ new MutationObserver(updateUsersCopy).observe(document.getElementById('ulist'),{childList:true,subtree:true});document.addEventListener('maris:refresh',updateUsersCopy);document.addEventListener('maris:arrival',updateUsersCopy);updateUsersCopy();
+ const teamCopy=document.querySelector('.hero-scene-copy');
+
+ let motionObscured=false;const frames=[...document.querySelectorAll('.motion-frame')],visible=new Set();function send(frame,action){frame.contentWindow?.postMessage({type:'maris:motion',action},location.origin)}
+ const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{entry.isIntersecting?visible.add(entry.target):visible.delete(entry.target);send(entry.target,entry.isIntersecting&&!document.hidden&&!motionObscured?'play':'pause')}),{threshold:.06});frames.forEach(frame=>{observer.observe(frame);frame.addEventListener('load',()=>send(frame,visible.has(frame)&&!document.hidden&&!motionObscured?'play':'pause'))});document.addEventListener('visibilitychange',()=>{frames.forEach(frame=>send(frame,visible.has(frame)&&!document.hidden&&!motionObscured?'play':'pause'))});
+
+ document.addEventListener('maris:explain-open',()=>{motionObscured=true;frames.forEach(f=>send(f,'pause'))});document.addEventListener('maris:explain-close',()=>{motionObscured=false;frames.forEach(f=>send(f,visible.has(f)&&!document.hidden?'play':'pause'))});
+ const decoding=new Map(),alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+ function finish(el){const state=decoding.get(el);if(!state)return;clearInterval(state.timer);el.textContent=state.text;el.style.width=state.width;el.style.minHeight=state.height;decoding.delete(el);el.dataset.decoding='false'}
+ function decode(el){if(decoding.has(el)||reduce.matches||document.hidden)return;const text=el.textContent,state={text,width:el.style.width,height:el.style.minHeight,timer:0};el.setAttribute('aria-label',text);el.style.width=el.offsetWidth+'px';el.style.minHeight=el.offsetHeight+'px';el.dataset.decoding='true';decoding.set(el,state);let tick=0;state.timer=setInterval(()=>{if(++tick>=18||reduce.matches||document.hidden){finish(el);return}el.textContent=Array.from(text).map(c=>/\s|[·，。]/.test(c)?c:alphabet[Math.floor(Math.random()*alphabet.length)]).join('')},50)}
+ addEventListener('message',e=>{if(e.origin!==location.origin||e.data?.type!=='maris:motion-engaged')return;const frame=frames.find(f=>f.contentWindow===e.source);if(frame&&visible.has(frame))frame.closest('.login-access')?.querySelectorAll('.decode-copy').forEach(decode)});
+ document.querySelectorAll('.scene-overview,.authority-visual,.login-access').forEach(section=>section.addEventListener('pointerenter',()=>section.querySelectorAll('.motion-frame').forEach(frame=>{if(visible.has(frame)&&!reduce.matches)send(frame,'interact')})));
+ let teamRevealed=false;new IntersectionObserver(entries=>{if(!teamRevealed&&entries[0].isIntersecting){teamRevealed=true;teamCopy.querySelectorAll('.decode-copy').forEach(decode)}},{threshold:.75}).observe(teamCopy);
+ function restoreCopy(){if(document.hidden||reduce.matches)Array.from(decoding.keys()).forEach(finish)}document.addEventListener('visibilitychange',restoreCopy);reduce.addEventListener('change',restoreCopy);render({detail:{status:'loading'}});
+})();
+</script><script src="./assets/partner-release-123/orbit-icons.js"></script><a class="team-login-link" href="partner_team.html?op=1&amp;view=login">合作伙伴登录 / 切换口令</a><script src="./assets/input-release-125/suite-polish.js" data-suite-polish></script><script src="./assets/entry-release-126/entry-evidence.js" data-entry-evidence></script><script src="./assets/input-release-132/input-compat.js" data-input-compat></script></body>
+</html>

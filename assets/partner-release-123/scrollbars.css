@@ -1,0 +1,34 @@
+
+:root{color-scheme:dark;--maris-scroll-node:#d8f4edc2;--maris-scroll-blue:#739da956;--maris-scroll-ice:#9bcad4ac;--maris-scroll-iris:#a597cb93}
+:root:is([data-theme=light],[data-theme=grove],[data-theme=dusk],[data-theme=afterglow]):has(.institutional-landing,.institutional-journal){--maris-scroll-node:#47657fdf;--maris-scroll-blue:#7290a360;--maris-scroll-ice:#597d96b8;--maris-scroll-iris:#8175a6a6}
+@supports selector(::-webkit-scrollbar){
+  
+  *{scrollbar-width:auto!important;scrollbar-color:auto!important}
+}
+@supports not selector(::-webkit-scrollbar){
+  *{scrollbar-width:thin!important;scrollbar-color:#678996 transparent!important}
+}
+*::-webkit-scrollbar{display:block!important;width:10px!important;height:10px!important;background:transparent!important}
+*::-webkit-scrollbar-track,*::-webkit-scrollbar-track-piece{background:transparent!important;border:0!important;box-shadow:none!important}
+*::-webkit-scrollbar-thumb{min-height:28px!important;min-width:28px!important;border:0!important;border-radius:999px!important;box-shadow:none!important;background-color:transparent!important;background-repeat:no-repeat!important;background-position:center!important;background-image:radial-gradient(ellipse,var(--maris-scroll-node),transparent 70%),linear-gradient(transparent,var(--maris-scroll-blue) 18%,var(--maris-scroll-ice) 45%,var(--maris-scroll-iris) 67%,transparent)!important;background-size:4px 9px,3px 76px!important}
+*::-webkit-scrollbar-thumb:vertical{background-image:radial-gradient(ellipse,var(--maris-scroll-node),transparent 70%),linear-gradient(transparent,var(--maris-scroll-blue) 18%,var(--maris-scroll-ice) 45%,var(--maris-scroll-iris) 67%,transparent)!important;background-size:4px 9px,3px 76px!important}
+*::-webkit-scrollbar-thumb:horizontal{background-image:radial-gradient(ellipse,var(--maris-scroll-node),transparent 70%),linear-gradient(90deg,transparent,var(--maris-scroll-blue) 18%,var(--maris-scroll-ice) 45%,var(--maris-scroll-iris) 67%,transparent)!important;background-size:9px 4px,76px 3px!important}
+@media(hover:hover) and (pointer:fine){
+*::-webkit-scrollbar-thumb:vertical:hover{background-size:5px 11px,4px 86px!important}
+*::-webkit-scrollbar-thumb:horizontal:hover{background-size:11px 5px,86px 4px!important}
+}
+*::-webkit-scrollbar-thumb:active{background-color:#94c5d40d!important}
+*::-webkit-scrollbar-corner{background:transparent!important}
+*::-webkit-scrollbar-button{display:none!important}
+@media(pointer:coarse){
+  *::-webkit-scrollbar-thumb{background-size:3px 7px,2px 54px!important}
+  *::-webkit-scrollbar{width:5px!important;height:5px!important}
+  *::-webkit-scrollbar-thumb:vertical{background-size:3px 7px,2px 54px!important}
+  *::-webkit-scrollbar-thumb:horizontal{background-size:7px 3px,54px 2px!important}
+}
+
+@media(forced-colors:active){
+  *{scrollbar-color:auto!important}
+  *::-webkit-scrollbar-thumb{background:ButtonText!important;box-shadow:none!important}
+  *::-webkit-scrollbar-track{background:Canvas!important}
+}

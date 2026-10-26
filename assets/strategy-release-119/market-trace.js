@@ -1,0 +1,13 @@
+import {createTraceRenderer} from './market-trace-core.js';
+let canvas=document.getElementById('marketTraceMotion');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)'),coarse=matchMedia('(pointer:coarse)');
+let worker=null,renderer=null,raf=0,last=0,time=0,obscured=false,frames=0,transferred=false;
+const size=()=>({width:innerWidth,height:innerHeight,dpr:Math.min(devicePixelRatio||1,coarse.matches?1.25:1.5)});
+function fit(){const s=size();if(worker)worker.postMessage({type:'resize',...s});else renderer?.resize(s.width,s.height,s.dpr)}
+function mark(t,head){canvas.dataset.elapsed=t.toFixed(3);canvas.dataset.head=String(head);canvas.dataset.frames=String(frames)}
+function tick(now){raf=0;if(document.hidden||obscured||reduce.matches)return;const delta=last?now-last:1000/30;if(delta>=1000/30-.5){time+=Math.min(delta/1000,.1);last=now;const head=renderer.paint(time);if(++frames%8===1)mark(time,head)}raf=requestAnimationFrame(tick)}
+function sync(){cancelAnimationFrame(raf);raf=0;last=0;const active=!document.hidden&&!obscured;canvas.dataset.motion=active?(reduce.matches?'still':'running'):'paused';if(worker){worker.postMessage({type:'state',active,reduced:reduce.matches});return}if(!renderer||!active)return;if(reduce.matches)mark(time,renderer.paint(time,true));else raf=requestAnimationFrame(tick)}
+function fallback(error){if(error)console.warn('Background trace uses local renderer:',error.message||error);worker?.terminate();worker=null;if(transferred){const replacement=canvas.cloneNode();canvas.replaceWith(replacement);canvas=replacement;transferred=false}frames=0;canvas.dataset.frames='0';renderer=createTraceRenderer(canvas);canvas.dataset.renderThread='main-fallback';fit();sync()}
+canvas.dataset.maxFps='30';
+try{if(!canvas.transferControlToOffscreen||typeof Worker==='undefined')fallback();else{worker=new Worker(new URL('./market-trace-worker.js',import.meta.url),{type:'module'});worker.onmessage=({data})=>{if(data.type==='error')fallback(Error(data.message));if(data.type==='frame'){time=data.time;frames=data.frames;mark(time,data.head)}};worker.onerror=e=>fallback(Error(e.message));const surface=canvas.transferControlToOffscreen();transferred=true;canvas.dataset.renderThread='worker';worker.postMessage({type:'init',canvas:surface,...size()},[surface]);sync()}}catch(e){fallback(e)}
+addEventListener('resize',fit);coarse.addEventListener('change',fit);document.addEventListener('visibilitychange',sync);reduce.addEventListener('change',sync);document.addEventListener('maris:explain-open',()=>{obscured=true;sync()});document.addEventListener('maris:explain-close',()=>{obscured=false;sync()});

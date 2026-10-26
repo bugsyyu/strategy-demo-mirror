@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><script src="./assets/demo/demo-data.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Maris · 特效体检</title>
+<style>
+body{background:#0a1020;color:#e8eef6;font:15px/1.9 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;padding:22px;margin:0}
+h1{font-size:20px;margin-bottom:10px}
+.row{padding:9px 12px;border-radius:10px;background:rgba(255,255,255,.05);margin:7px 0;font-size:14px;word-break:break-all}
+.ok{color:#6ee7b7}.bad{color:#fda4af}.dim{color:#8ea0b5}
+canvas{width:100%;height:160px;border-radius:12px;margin-top:12px;background:#000 url(./assets/partner-assets/bg.jpg) center/cover}
+.note{font-size:12px;color:#8ea0b5;margin-top:12px}
+</style>
+</head>
+<body>
+<h1>特效体检(截图整页发给管理员)</h1>
+<div id="out"></div>
+<canvas id="water"></canvas>
+<div class="note">此页只做检测,不含任何账户信息。build 20260812-1530 SGT</div>
+<script>
+var O=document.getElementById('out');
+function row(k,v,cls){var d=document.createElement('div');d.className='row';d.innerHTML='<b>'+k+':</b> <span class="'+(cls||'dim')+'">'+v+'</span>';O.appendChild(d);return d}
+row('设备',navigator.userAgent.slice(0,90));
+row('屏幕',innerWidth+'×'+innerHeight+' @'+(devicePixelRatio||1)+'x');
+try{row('减弱动态开关',matchMedia('(prefers-reduced-motion: reduce)').matches?'开':'关')}catch(e){row('减弱动态开关','查询失败','bad')}
+var cv=document.getElementById('water');
+var gl=null,ctxKind='无';
+try{gl=cv.getContext('webgl',{alpha:false});if(gl)ctxKind='webgl'}catch(e){}
+if(!gl){try{gl=cv.getContext('experimental-webgl',{alpha:false});if(gl)ctxKind='experimental-webgl'}catch(e){}}
+row('WebGL 上下文',gl?('可用('+ctxKind+')'):'不可用 → 走备用动画路径',gl?'ok':'bad');
+if(gl){
+  var MAXD=24;
+  var VERT='attribute vec2 aPos;varying vec2 vUv;void main(){vUv=aPos*0.5+0.5;gl_Position=vec4(aPos,0.,1.);}';
+  var FRAG='precision mediump float;varying vec2 vUv;uniform sampler2D uTex;uniform vec2 uRes;uniform vec2 uCover;uniform float uTime;uniform float uCount;uniform vec4 uDrops['+MAXD+'];'+
+  'void main(){vec2 px=vUv*uRes;vec2 off=vec2(0.);float glow=0.;'+
+  'for(int i=0;i<'+MAXD+';i++){vec4 d=uDrops[i];float age=uTime-d.z;'+
+  'float on=step(float(i)+0.5,uCount)*step(0.,age)*(1.-step(4.5,age))*step(.001,d.w);'+
+  'vec2 v=px-d.xy;float r=length(v)+1e-4;float band=r-age*190.;'+
+  'float w=exp(-band*band/900.)*exp(-age*.9)*d.w*on;'+
+  'off+=(v/r)*sin(band*.11)*w*13.;glow+=w*.8*exp(-r*.0018);}'+
+  'vec2 uv=(vUv-.5)*uCover+.5+off/uRes;'+
+  'vec3 c=texture2D(uTex,uv).rgb;c+=vec3(.75,.95,1.05)*glow*.3;'+
+  'gl_FragColor=vec4(c,1.);}';
+  function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
+    if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(o)||'compile fail');return o}
+  var okShader=true,pr,U={};
+  try{
+    pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,VERT));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FRAG));
+    gl.linkProgram(pr);
+    if(!gl.getProgramParameter(pr,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(pr)||'link fail');
+    gl.useProgram(pr);
+    row('水波着色器','编译链接通过','ok');
+    var buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+    var aPos=gl.getAttribLocation(pr,'aPos');gl.enableVertexAttribArray(aPos);gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
+    ['uTex','uRes','uCover','uTime','uCount','uDrops'].forEach(function(n){U[n]=gl.getUniformLocation(pr,n)});
+  }catch(e){okShader=false;row('水波着色器','失败: '+String(e.message||e).slice(0,120),'bad')}
+  if(okShader){
+    var texRow=row('背景纹理','加载中…');
+    var frameRow=row('动画帧','统计中…');
+    var tex=gl.createTexture(),texW=1,texH=1,ready=false;
+    var img=new Image();img.crossOrigin='anonymous';
+    img.onload=function(){texW=img.width;texH=img.height;gl.bindTexture(gl.TEXTURE_2D,tex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,1);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+      ready=true;texRow.innerHTML='<b>背景纹理:</b> <span class="ok">已加载 '+texW+'×'+texH+'</span>'};
+    img.onerror=function(){texRow.innerHTML='<b>背景纹理:</b> <span class="bad">加载失败</span>'};
+    img.src='./assets/partner-assets/bg.jpg';
+    var d=Math.min(devicePixelRatio||1,2);cv.width=cv.clientWidth*d;cv.height=160*d;gl.viewport(0,0,cv.width,cv.height);
+    var drops=[],t0=performance.now(),frames=0,firstErr=null;
+    function now(){return (performance.now()-t0)/1000}
+    setInterval(function(){drops.push({x:Math.random()*cv.width,y:Math.random()*cv.height,t:now(),a:.9});if(drops.length>MAXD)drops.shift()},400);
+    (function loop(){requestAnimationFrame(loop);if(!ready)return;frames++;
+      var cw=cv.width/cv.height,tw=texW/texH,cover=cw>tw?[1,tw/cw]:[cw/tw,1];
+      gl.uniform1i(U.uTex,0);gl.uniform2f(U.uRes,cv.width,cv.height);gl.uniform2f(U.uCover,cover[0],cover[1]);
+      gl.uniform1f(U.uTime,now());
+      var t=now();drops=drops.filter(function(x){return t-x.t<4.5});
+      gl.uniform1f(U.uCount,drops.length);
+      var arr=new Float32Array(MAXD*4);
+      drops.forEach(function(x,i){arr[i*4]=x.x;arr[i*4+1]=x.y;arr[i*4+2]=x.t;arr[i*4+3]=x.a});
+      gl.uniform4fv(U.uDrops,arr);
+      gl.drawArrays(gl.TRIANGLES,0,3);
+      if(firstErr===null){firstErr=gl.getError()}})();
+    setTimeout(function(){
+      frameRow.innerHTML='<b>动画帧:</b> <span class="'+(frames>30?'ok':'bad')+'">3 秒内渲染 '+frames+' 帧'+(firstErr?' · GL错误码 '+firstErr:' · 无GL错误')+'</span>'+(frames>30?' <span class="ok">→ 下方小窗应有水波</span>':'');
+    },3000);
+  }
+}
+</script>
+</body>
+</html>

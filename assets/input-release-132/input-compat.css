@@ -1,0 +1,11 @@
+
+.maris-secret-host{position:relative;min-width:0}
+.maris-secret-wrap{width:100%}
+.maris-secret-mask{position:absolute;pointer-events:none;z-index:1;border:0!important;background:none!important;box-shadow:none!important;max-width:none}
+.maris-secret-mask[hidden]{display:none!important}
+input[data-maris-secret="true"]{--secret-ink:#d8e6ec;-webkit-text-security:none!important;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'PingFang SC',monospace!important;font-kerning:none;font-variant-ligatures:none;caret-color:#c6e8dd}
+input[data-maris-secret="true"][data-concealed="true"]{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important}
+input[data-maris-secret="true"][data-concealed="false"]{color:var(--secret-ink)!important;-webkit-text-fill-color:var(--secret-ink)!important}
+input[data-maris-secret="true"]::placeholder{color:#9caebe!important;-webkit-text-fill-color:#9caebe!important;opacity:.75}
+input[data-maris-secret="true"][data-concealed="true"]::selection{color:transparent!important;-webkit-text-fill-color:transparent!important;background:#82cfc13d}
+.maris-secret-host>.family-reveal,.maris-secret-host>.secret-toggle{z-index:2}

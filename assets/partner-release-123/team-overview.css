@@ -1,0 +1,52 @@
+
+#teamHero.partner-hero{display:flex;flex-direction:column;align-items:center;height:auto;min-height:0;padding:32px 0 40px;margin:-12px 0 24px;isolation:isolate;overflow:visible;background:transparent}
+#teamHero .hero-cipher-field{top:50%;width:max(1260px,min(1568px,calc(100vw + 240px)));aspect-ratio:1568/882;opacity:.84}
+#teamHero .hero-scene-copy{position:relative;inset:auto;width:100%;flex:none}
+#teamHero #tvName,#teamHero .hero-scene-copy>.team-scene-badge{pointer-events:auto;cursor:default;touch-action:pan-y}
+#teamHero .team-partnership-icon{width:190px;height:148px;margin:0 auto 8px;translate:none}
+#teamHero .team-scene-badge{margin:0 auto 12px}
+#teamHero #tvName{margin:0 0 12px;line-height:1.14}
+#teamHero .lead{font-size:15px;line-height:25px;max-width:680px}
+#teamHero #stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;width:min(100%,1120px);position:relative;isolation:isolate;flex:none;margin:34px auto 0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible}
+#teamHero #stats:has(.st:nth-child(6)){grid-template-columns:repeat(6,minmax(0,1fr))}
+#teamHero #stats::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,#d0cef226 22%,#d0cef226 78%,transparent);pointer-events:none}
+#teamHero #stats .st{position:relative;display:grid;grid-template-columns:1fr;grid-template-rows:24px minmax(44px,auto) auto;justify-items:center;align-content:start;min-width:0;height:auto;min-height:150px;margin:0;padding:24px 12px 16px;border:0!important;border-radius:0;background:none!important;box-shadow:none;isolation:isolate;text-align:center;outline:none}
+#teamHero #stats .st::before{content:"";position:absolute;right:0;top:18px;bottom:12px;width:1px;height:auto;background:linear-gradient(180deg,transparent,#d7cff128 38%,transparent);pointer-events:none}
+#teamHero #stats .st:last-child::before{content:none}
+#teamHero #stats .st::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 60%,#bcddeb0d,transparent 72%);opacity:0;transition:opacity .4s ease}
+#teamHero #stats .st:hover::after,#teamHero #stats .st:focus-visible::after{opacity:1}
+#teamHero #stats .st:focus-visible{outline:1px solid #ccbcf166;outline-offset:-6px}
+#teamHero #stats .metric-icon{grid-row:1;width:23px;height:23px;margin:0;stroke:#c5c9e0;opacity:.84}
+#teamHero #stats .v{grid-row:2;align-self:center;max-width:100%;margin:7px 0 6px;font-family:ReflectAeonik,system-ui,sans-serif;font-size:clamp(25px,2.65vw,36px);font-weight:500;line-height:1.25;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;text-shadow:0 2px 14px #030811,0 0 28px #030811}
+#teamHero #stats .k{grid-row:3;max-width:100%;margin:0;font-family:ReflectInter,'PingFang SC',sans-serif;font-size:14px;line-height:22px;color:#c5c6d9;text-wrap:balance;text-shadow:0 2px 12px #030811,0 0 24px #030811}
+@media(min-width:1600px){#teamHero.partner-hero{padding-top:44px;padding-bottom:52px}}
+@media(max-width:900px) and (min-width:601px){
+ #teamHero.partner-hero{padding-top:24px}
+ #teamHero #stats{margin-top:30px}
+ #teamHero #stats .st{padding-left:7px;padding-right:7px}
+ #teamHero #stats .v{font-size:28px}
+ #teamHero #stats:has(.st:nth-child(6)){grid-template-columns:repeat(3,minmax(0,1fr))}
+ #teamHero #stats:has(.st:nth-child(6)) .st:nth-child(3)::before{content:none}
+ #teamHero:has(#stats .st:nth-child(6)) .hero-cipher-field{width:1520px}
+}
+@media(max-width:600px){
+ #teamHero.partner-hero{margin:-6px 0 14px;padding:8px 0 20px}
+ #teamHero .hero-cipher-field{width:1760px;opacity:.56}
+ #teamHero .team-partnership-icon{width:180px;height:136px;margin-bottom:8px}
+ #teamHero #tvName{font-size:40px;line-height:48px;margin-bottom:12px}
+ #teamHero .lead{font-size:14px;line-height:24px;width:100%;padding:0 6px}
+ #teamHero #stats{grid-template-columns:repeat(6,minmax(0,1fr));margin-top:28px}
+ #teamHero #stats .st{grid-column:span 2;min-height:136px;padding:18px 6px 14px;grid-template-rows:22px minmax(40px,auto) auto}
+ #teamHero #stats .st:nth-child(n+4){grid-column:span 3;border-top:1px solid #d0cef218!important}
+ #teamHero #stats .st:nth-child(3)::before{content:none}
+ #teamHero #stats .v{font-size:28px;margin-top:6px;margin-bottom:5px}
+ #teamHero #stats .k{font-size:13.5px;line-height:21px}
+ #teamHero #stats .metric-icon{width:22px;height:22px}
+ #teamHero #stats:has(.st:nth-child(6)){grid-template-columns:repeat(2,minmax(0,1fr))}
+ #teamHero #stats:has(.st:nth-child(6)) .st{grid-column:auto}
+ #teamHero #stats:has(.st:nth-child(6)) .st:nth-child(n+3){border-top:1px solid #d0cef218!important}
+ #teamHero #stats:has(.st:nth-child(6)) .st:nth-child(2n)::before{content:none}
+ #teamHero #stats:has(.st:nth-child(6)) .st:nth-child(3)::before{content:""}
+ #teamHero:has(#stats .st:nth-child(6)) .hero-cipher-field{width:2160px;opacity:.48}
+}
+@media(prefers-reduced-motion:reduce){#teamHero #stats .st::after{transition:none}}

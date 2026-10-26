@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>前端演示镜像 · 零接口</title>
+<link rel="icon" href="./assets/maris-icon-180.png">
+<style>
+:root{color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(1200px 600px at 20% -10%,#1e293b 0%,#0b1120 55%,#05070d 100%);color:#e2e8f0;font:15px/1.6 system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+main{max-width:920px;margin:0 auto;padding:48px 20px 64px}
+h1{font-size:26px;margin:0 0 6px;letter-spacing:.02em}
+.lead{color:#94a3b8;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+a.card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(148,163,184,.25);border-radius:14px;padding:16px 18px;background:rgba(15,23,42,.6);transition:border-color .2s,transform .2s}
+a.card:hover{border-color:rgba(125,211,252,.7);transform:translateY(-2px)}
+a.card b{display:block;font-size:16px;margin-bottom:4px;color:#f8fafc}
+a.card span{color:#94a3b8;font-size:13px}
+a.card code{color:#7dd3fc;font-size:12px}
+.note{margin-top:28px;border:1px dashed rgba(148,163,184,.35);border-radius:12px;padding:14px 16px;color:#cbd5e1;font-size:13.5px}
+.note li{margin:4px 0}
+.note code{color:#7dd3fc;font-size:12.5px}
+</style>
+</head>
+<body>
+<main>
+<h1>前端演示镜像（零接口 · 演示数据）</h1>
+<p class="lead">7 个页面的静态副本，仅供参考与复制样式。页面里不连接任何服务，所有动态数字都是本地写死的示例。</p>
+<div class="grid">
+<a class="card" href="partner_home.html"><b>首页</b><span>品牌首页、产品介绍、客服问答</span><br><code>partner_home.html</code></a>
+<a class="card" href="partner_portal.html"><b>接入申请</b><span>新用户提交接入表单</span><br><code>partner_portal.html</code></a>
+<a class="card" href="partner_strategy.html"><b>策略介绍</b><span>策略说明与收益曲线（示例曲线）</span><br><code>partner_strategy.html</code></a>
+<a class="card" href="partner_team.html"><b>团队后台</b><span>团队长视图（示例成员与持仓）</span><br><code>partner_team.html</code></a>
+<a class="card" href="partner_team.html?view=login"><b>团队后台 · 登录页</b><span>团队注册 / 登录表单</span><br><code>partner_team.html?view=login</code></a>
+<a class="card" href="partner_topup.html"><b>我的账户 / 充值</b><span>账户概览与充值流程（自动填入示例账户）</span><br><code>partner_topup.html</code></a>
+<a class="card" href="partner_exit.html"><b>退出申请</b><span>退出流程（自动填入示例账户）</span><br><code>partner_exit.html</code></a>
+<a class="card" href="partner_diag.html"><b>设备诊断</b><span>浏览器与设备信息自检</span><br><code>partner_diag.html</code></a>
+</div>
+<div class="note">
+<ul>
+<li>建议用本地静态服务打开：在本目录运行 <code>python3 -m http.server 8000 --bind 127.0.0.1</code>，再用浏览器打开 127.0.0.1:8000；直接双击打开时，部分动效模块会被浏览器拦截。</li>
+<li>表单提交、充值、退出等按钮只在页面里显示演示结果或提示，不会发送任何数据。</li>
+<li>页面顶部居中的「演示站」标签由演示数据脚本（assets/demo/demo-data.js）加上，正式使用时可删除。</li>
+</ul>
+</div>
+</main>
+</body>
+</html>
